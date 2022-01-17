@@ -4,6 +4,8 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -62,5 +64,17 @@ public class DriveBase {
                 RobotMap.DriveBase.BACK_RIGHT_MODULE_STEERING,
                 RobotMap.DriveBase.BACK_RIGHT_MODULE_ENCODER,
                 Constants.DriveBase.BACK_RIGHT_MODULE_STEER_OFFSET);
+    }
+    
+    public Rotation2d getGyroscopeRotation() {
+        return Rotation2d.fromDegrees(pigeon.getFusedHeading());
+    }
+
+    public void setGyroscopeRotation(double newValue) {
+        pigeon.setFusedHeading(newValue);
+    }
+
+    public void zeroGyroscope() {
+        setGyroscopeRotation(0);
     }
 }
