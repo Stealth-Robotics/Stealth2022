@@ -27,10 +27,9 @@ public final class Constants {
 
         public static final double MAX_VOLTAGE = 12.0;
 
-        // TODO: Fix Module Configuration Based On Production Robot
         public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
-                SdsModuleConfigurations.MK4_L4.getDriveReduction() *
-                SdsModuleConfigurations.MK4_L4.getWheelDiameter() * Math.PI;
+                SdsModuleConfigurations.MK4_L2.getDriveReduction() *
+                SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
 
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
                 Math.hypot(TRACKWIDTH / 2.0, WHEELBASE / 2.0);
