@@ -1,7 +1,7 @@
 package frc.robot;
 
 public final class RobotMap {
-    public final class DriveBase {
+    public static final class DriveBase {
 
         /**
          * TODO: Set CAN IDs Based On Production Robot

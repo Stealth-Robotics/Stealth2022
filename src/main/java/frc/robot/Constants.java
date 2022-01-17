@@ -17,7 +17,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public final class DriveBase {
+    public static final class DriveBase {
         /**
          * TODO: Fix TRACKWIDTH & WHEELBASE Based On Production Robot
          * (In Meters)
