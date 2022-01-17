@@ -35,7 +35,7 @@ public final class Constants {
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
                 Math.hypot(TRACKWIDTH / 2.0, WHEELBASE / 2.0);
 
-        public final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
+        public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
                 // Front left
                 new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0),
                 // Front right
