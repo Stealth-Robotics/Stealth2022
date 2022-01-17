@@ -8,29 +8,52 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import frc.robot.commands.DefaultDrive;
+import frc.robot.subsystems.DriveBase;
+import frc.robot.util.LogitechGamepad;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private final DriveBase driveBase = new DriveBase();
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  LogitechGamepad driveGamepad = new LogitechGamepad(0);
+
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
+    driveBase.setDefaultCommand(new DefaultDrive(
+        driveBase,
+        () -> (driveGamepad.getLeftStickX() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
+        () -> (driveGamepad.getLeftStickY() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
+        () -> (driveGamepad.getRightStickX() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)));
+
     // Configure the button bindings
     configureButtonBindings();
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+   * it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    new Button(() -> driveGamepad.getAButton())
+        .whenPressed(driveBase::zeroGyroscope);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
