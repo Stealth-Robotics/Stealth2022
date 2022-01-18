@@ -30,8 +30,6 @@ public class LogitechGamepad extends Joystick {
         super(port);
     }
 
-    // TODO: Check If Axes Are In The Correct Direction
-
     public double getLeftStickX() {
         return getAxis(leftStickXAxisID);
     }
