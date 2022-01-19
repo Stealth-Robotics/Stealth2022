@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.DriveBase;
-import frc.robot.util.LogitechGamepad;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -26,7 +25,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveBase driveBase = new DriveBase();
 
-  LogitechGamepad driveGamepad = new LogitechGamepad(0);
+  XboxController driveGamepad = new XboxController(0);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -34,9 +33,9 @@ public class RobotContainer {
   public RobotContainer() {
     driveBase.setDefaultCommand(new DefaultDrive(
         driveBase,
-        () -> (driveGamepad.getLeftStickX() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
-        () -> (driveGamepad.getLeftStickY() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
-        () -> (driveGamepad.getRightStickX() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)));
+        () -> (driveGamepad.getLeftX() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
+        () -> (driveGamepad.getLeftY() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
+        () -> (driveGamepad.getRightY() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -51,7 +50,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new Button(() -> driveGamepad.getAButton())
+    new Button(() -> driveGamepad.getAButtonPressed())
         .whenPressed(driveBase::zeroGyroscope);
   }
 

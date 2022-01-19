@@ -29,13 +29,11 @@ public class DriveBase extends SubsystemBase {
     public DriveBase() {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
-        // TODO: Fix Swerve Module Configuration Based On Production Robot
-
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(0, 0),
-                Mk4SwerveModuleHelper.GearRatio.L4,
+                Mk4SwerveModuleHelper.GearRatio.L2,
                 RobotMap.DriveBase.FRONT_LEFT_MODULE_DRIVE,
                 RobotMap.DriveBase.FRONT_LEFT_MODULE_STEERING,
                 RobotMap.DriveBase.FRONT_LEFT_MODULE_ENCODER,
@@ -45,7 +43,7 @@ public class DriveBase extends SubsystemBase {
                 tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(0, 0),
-                Mk4SwerveModuleHelper.GearRatio.L4,
+                Mk4SwerveModuleHelper.GearRatio.L2,
                 RobotMap.DriveBase.FRONT_RIGHT_MODULE_DRIVE,
                 RobotMap.DriveBase.FRONT_RIGHT_MODULE_STEERING,
                 RobotMap.DriveBase.FRONT_RIGHT_MODULE_ENCODER,
@@ -55,7 +53,7 @@ public class DriveBase extends SubsystemBase {
                 tab.getLayout("Back Left Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(0, 0),
-                Mk4SwerveModuleHelper.GearRatio.L4,
+                Mk4SwerveModuleHelper.GearRatio.L2,
                 RobotMap.DriveBase.BACK_LEFT_MODULE_DRIVE,
                 RobotMap.DriveBase.BACK_LEFT_MODULE_STEERING,
                 RobotMap.DriveBase.BACK_LEFT_MODULE_ENCODER,
@@ -65,7 +63,7 @@ public class DriveBase extends SubsystemBase {
                 tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(0, 0),
-                Mk4SwerveModuleHelper.GearRatio.L4,
+                Mk4SwerveModuleHelper.GearRatio.L2,
                 RobotMap.DriveBase.BACK_RIGHT_MODULE_DRIVE,
                 RobotMap.DriveBase.BACK_RIGHT_MODULE_STEERING,
                 RobotMap.DriveBase.BACK_RIGHT_MODULE_ENCODER,
