@@ -24,5 +24,12 @@ public final class RobotMap {
         public static final int BACK_RIGHT_MODULE_ENCODER = 11;
 
         public static final int PIGEON_IMU = 12;
+    
+    }
+    public static final class Subsystems {
+        
+    public static final int SHOOTER_MOTOR = 1; //TODO: This needs to be changed to the actual port
+    public static final int INTAKE_MOTOR  = 1;
+
     }
 }
