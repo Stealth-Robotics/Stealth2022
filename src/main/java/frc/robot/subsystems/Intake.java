@@ -1,5 +1,7 @@
 
 package frc.robot.subsystems;
+import javax.swing.plaf.basic.BasicComboPopup.InvocationKeyHandler;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -8,49 +10,22 @@ import frc.robot.RobotMap;
 
 public class Intake extends SubsystemBase 
 {
-    
 
-   
     TalonFX intake;
-
     /**
      * Creates a new Intake.
      */
     public Intake() 
     {
-         intake = new TalonFX(RobotMap.Subsystems.INTAKE_MOTOR);
+         intake = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
          intake.setInverted(true);
     }
 
-    /**
-     * Sets the intake speed to 1
-     */
-    public void run()
+    public void setSpeed(double speed)
     {
-        intake.set(ControlMode.PercentOutput, 1);    
+        assert(-1 <= speed && speed  <= 1);
+        intake.set(ControlMode.PercentOutput, speed);
     }
 
-    /**
-     * Stops the intake
-     */
-    public void stopIntake()
-    {
-        intake.set(ControlMode.PercentOutput, 0);
         
-    }
-
-    /**
-     * Reverses the intake
-     */
-    public void reverse()
-    {
-        
-        intake.set(ControlMode.PercentOutput, -0.5);
-    }
-
-    /**
-     * Toggles the deployment state of the intake
-     */
-   
-    
 }

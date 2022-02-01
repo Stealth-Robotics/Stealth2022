@@ -4,8 +4,19 @@ import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import frc.robot.subsystems.Shooter;
 
 public final class Constants {
+        public static final class Shooter
+       {
+        public static final double ShooterP = 0;
+        public static final double ShooterI = 0;
+        public static final double ShooterD = 0;
+
+        public static final double HoodP = 0;
+        public static final double HoodI = 0;
+        public static final double HoodD = 0;
+       }
     public static final class DriveBase {
         /**
          * TODO: Fix TRACKWIDTH & WHEELBASE Based On Production Robot
@@ -44,4 +55,5 @@ public final class Constants {
                 // Back right
                 new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
     }
+    
 }
