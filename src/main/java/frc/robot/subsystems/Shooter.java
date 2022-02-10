@@ -22,25 +22,26 @@ public class Shooter extends SubsystemBase {
         shooterMotor1 = new TalonFX(RobotMap.Shooter.SHOOTER_MOTOR_1);
         shooterMotor2 = new TalonFX(RobotMap.Shooter.SHOOTER_MOTOR_2);
         shooterHood = new TalonFX(RobotMap.Shooter.HOOD_MOTOR);
+
         shooterMotor2.setInverted(true);
+
         shooterMotor1.setNeutralMode(NeutralMode.Coast);
         shooterMotor2.setNeutralMode(NeutralMode.Coast);
 
         shootController = new PIDController(
-                Constants.Shooter.ShooterP,
-                Constants.Shooter.ShooterI,
-                Constants.Shooter.ShooterD);
+                Constants.Shooter.SHOOTER_P_COEFF,
+                Constants.Shooter.SHOOTER_I_COEFF,
+                Constants.Shooter.SHOOTER_D_COEFF);
 
         shootController.enableContinuousInput(-1, 1);
 
         hoodController = new PIDController(
-                Constants.Shooter.HoodP,
-                Constants.Shooter.HoodI,
-                Constants.Shooter.HoodD);
+                Constants.Shooter.HOOD_P_COEFF,
+                Constants.Shooter.HOOD_I_COEFF,
+                Constants.Shooter.HOOD_D_COEFF);
     }
 
     public void setSpeed(double speed) {
-        assert (-1 <= speed && speed <= 1);
         shootController.setSetpoint(speed);
     }
 

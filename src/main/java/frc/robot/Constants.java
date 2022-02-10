@@ -4,28 +4,8 @@ import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Shooter;
 
 public final class Constants {
-        public static final class Limelight {
-                public static final double targetHeight = 2.49; // meters
-                public static final double crosshairHeight = 2.27; // meters | old: 2.23, old: 2.3876 | height of center
-                public static final double cameraHeight = 0.65405; // in meters
-                public static final double cameraAngle = 27 * (Math.PI / 180); // in radians
-                                             
-
-        }
-
-        public static final class Shooter {
-                public static final double ShooterP = 0;
-                public static final double ShooterI = 0;
-                public static final double ShooterD = 0;
-
-                public static final double HoodP = 0;
-                public static final double HoodI = 0;
-                public static final double HoodD = 0;
-        }
 
         public static final class DriveBase {
                 /**
@@ -66,4 +46,21 @@ public final class Constants {
                                 new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
         }
 
+        public static final class Limelight {
+                public static final double TARGET_HEIGHT = 2.49; // meters
+                public static final double CROSSHAIR_HEIGHT = 2.27; // meters | old: 2.23, old: 2.3876 | height of center
+                public static final double CAMERA_HEIGHT = 0.65405; // in meters
+                public static final double CAMERA_ANGLE = 27 * (Math.PI / 180); // in radians
+
+        }
+
+        public static final class Shooter {
+                public static final double SHOOTER_P_COEFF = 0;
+                public static final double SHOOTER_I_COEFF = 0;
+                public static final double SHOOTER_D_COEFF = 0;
+
+                public static final double HOOD_P_COEFF = 0;
+                public static final double HOOD_I_COEFF = 0;
+                public static final double HOOD_D_COEFF = 0;
+        }
 }
