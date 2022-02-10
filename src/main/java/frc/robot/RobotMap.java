@@ -1,5 +1,7 @@
 package frc.robot;
 
+import javax.xml.namespace.QName;
+
 public final class RobotMap {
     public static final class DriveBase {
 
@@ -35,6 +37,9 @@ public final class RobotMap {
         public static final int SHOOTER_MOTOR_1 = 2;
         public static final int SHOOTER_MOTOR_2 = 2; // TODO: Need to find the actual port
         public static final int HOOD_MOTOR = 3;
+    }
+    public static final class Belts {
+     public static final int BELT_MOTOR_1 = 4;
     }
 
 }
