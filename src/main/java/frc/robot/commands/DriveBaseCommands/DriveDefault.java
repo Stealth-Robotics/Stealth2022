@@ -6,14 +6,14 @@ import frc.robot.subsystems.DriveBase;
 
 import java.util.function.DoubleSupplier;
 
-public class DefaultDrive extends CommandBase {
+public class DriveDefault extends CommandBase {
     private final DriveBase driveBase;
 
     private final DoubleSupplier translationXSupplier;
     private final DoubleSupplier translationYSupplier;
     private final DoubleSupplier rotationSupplier;
 
-    public DefaultDrive(DriveBase driveBase,
+    public DriveDefault(DriveBase driveBase,
                                DoubleSupplier translationXSupplier,
                                DoubleSupplier translationYSupplier,
                                DoubleSupplier rotationSupplier) {
