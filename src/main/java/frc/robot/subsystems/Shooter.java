@@ -47,15 +47,13 @@ public class Shooter extends SubsystemBase {
                 hoodController.setTolerance(5);
 
                 shooterMotor1.setInverted(TalonFXInvertType.Clockwise);
-                shooterMotor2.setInverted(TalonFXInvertType.CounterClockwise);
 
                 hoodMotor.setInverted(TalonFXInvertType.CounterClockwise);
 
                 setHoodEncoderPos(0);
 
-                shooterMotor2.follow(shooterMotor1); // TODO: CHECK IF IT IS IN
-
-                // TODO: Try inverting after the follow if above invert does not work
+                shooterMotor2.follow(shooterMotor1);
+                shooterMotor2.setInverted(TalonFXInvertType.OpposeMaster);
         }
 
         public void setSpeed(double speed) {
