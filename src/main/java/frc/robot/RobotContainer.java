@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.commands.DefaultDrive;
+import frc.robot.commands.DriveBaseCommands.DefaultDrive;
+import frc.robot.commands.IntakeCommands.IntakeDefault;
 import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -24,6 +26,7 @@ import frc.robot.subsystems.DriveBase;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveBase driveBase = new DriveBase();
+  private final Intake intake = new Intake();
 
   XboxController driveGamepad = new XboxController(0);
 
@@ -37,6 +40,8 @@ public class RobotContainer {
         () -> (driveGamepad.getLeftY() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
         () -> (driveGamepad.getRightY() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)));
 
+    intake.setDefaultCommand(new IntakeDefault(intake,
+        driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
     // Configure the button bindings
     configureButtonBindings();
   }
