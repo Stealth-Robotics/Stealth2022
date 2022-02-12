@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.commands.DriveBaseCommands.DefaultDrive;
+import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -27,6 +28,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveBase driveBase = new DriveBase();
   private final Intake intake = new Intake();
+  private final Shooter shooter = new Shooter();
 
   XboxController driveGamepad = new XboxController(0);
 
@@ -34,7 +36,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    driveBase.setDefaultCommand(new DefaultDrive(
+    driveBase.setDefaultCommand(new DriveDefault(
         driveBase,
         () -> (driveGamepad.getLeftX() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
         () -> (driveGamepad.getLeftY() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
@@ -42,6 +44,7 @@ public class RobotContainer {
 
     intake.setDefaultCommand(new IntakeDefault(intake,
         driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
+
     // Configure the button bindings
     configureButtonBindings();
   }

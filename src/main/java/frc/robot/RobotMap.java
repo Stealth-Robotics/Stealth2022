@@ -47,6 +47,7 @@ public final class RobotMap {
         public static final int SHOOTER_MOTOR_1 = 2;
         public static final int SHOOTER_MOTOR_2 = 2;
         public static final int HOOD_MOTOR = 3;
+        public static final int HOOD_SWITCH = 8;
     }
 
     public static final class Conveyor {

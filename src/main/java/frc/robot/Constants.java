@@ -64,6 +64,10 @@ public final class Constants {
                 public static final int TIMEOUT = 30; // In Milliseconds
 
                 public static final int PID_LOOP_IDX = 0;
+
+                public static final double HOOD_P = 0.1;
+                public static final double HOOD_I = 0.001;
+                public static final double HOOD_D = 5;
         }
 
         public static final class Conveyer {
