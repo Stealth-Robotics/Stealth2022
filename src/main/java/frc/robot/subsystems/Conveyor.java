@@ -8,17 +8,13 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.Constants.Conveyer.*;
 
 public class Conveyor extends SubsystemBase {
     private final TalonFX conveyorMotor;
     private final DigitalInput beamBreak;
 
-    private enum BallColors {
-        RED,
-        BLUE,
-    }
-
-    private Queue<BallColors> currentBalls;
+    private Queue<BALL_COLORS> currentBalls;
 
     public Conveyor() {
         conveyorMotor = new TalonFX(RobotMap.Conveyor.CONVEYER_MOTOR);
@@ -33,7 +29,7 @@ public class Conveyor extends SubsystemBase {
         return beamBreak.get();
     }
 
-    public void addBall(BallColors newColor) {
+    public void addBall(BALL_COLORS newColor) {
         currentBalls.add(newColor);
     }
 
@@ -45,7 +41,7 @@ public class Conveyor extends SubsystemBase {
         currentBalls.remove();
     }
 
-    public BallColors topBall() {
+    public BALL_COLORS topBall() {
         return currentBalls.peek();
     }
 

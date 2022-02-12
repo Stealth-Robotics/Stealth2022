@@ -48,20 +48,28 @@ public final class Constants {
 
         public static final class Limelight {
                 public static final double TARGET_HEIGHT = 2.49; // meters
-                public static final double CROSSHAIR_HEIGHT = 2.27; // meters | old: 2.23, old: 2.3876 | height of center
+                public static final double CROSSHAIR_HEIGHT = 2.27; // meters | old: 2.23, old: 2.3876 | height of
+                                                                    // center
                 public static final double CAMERA_HEIGHT = 0.65405; // in meters
                 public static final double CAMERA_ANGLE = 27 * (Math.PI / 180); // in radians
 
         }
 
         public static final class Shooter {
-                public static final double SHOOTER_F_COEFF = 1023.0/20660.0;
+                public static final double SHOOTER_F_COEFF = 1023.0 / 20660.0;
                 public static final double SHOOTER_P_COEFF = 0.1;
                 public static final double SHOOTER_I_COEFF = 0.001;
                 public static final double SHOOTER_D_COEFF = 5;
 
                 public static final int TIMEOUT = 30; // In Milliseconds
-                
+
                 public static final int PID_LOOP_IDX = 0;
+        }
+
+        public static final class Conveyer {
+                public enum BALL_COLORS {
+                        RED,
+                        BLUE,
+                }
         }
 }
