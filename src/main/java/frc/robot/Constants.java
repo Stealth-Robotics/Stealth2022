@@ -68,6 +68,9 @@ public final class Constants {
                 public static final double HOOD_P = 0.1;
                 public static final double HOOD_I = 0.001;
                 public static final double HOOD_D = 5;
+
+                public static final double HOOD_LOWER_BOUND = 0;
+                public static final double HOOD_UPPER_BOUND = 100;
         }
 
         public static final class Conveyer {

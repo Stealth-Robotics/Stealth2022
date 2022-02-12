@@ -66,7 +66,11 @@ public class Shooter extends SubsystemBase {
         }
 
         public void hoodToPos(double pos) {
-                hoodController.setSetpoint(pos);
+                if (pos >= Constants.Shooter.HOOD_LOWER_BOUND
+                                && pos <= Constants.Shooter.HOOD_UPPER_BOUND) {
+                        hoodController.setSetpoint(pos);
+                        hoodController.reset();
+                }
         }
 
         public void setHoodSpeed(double speed) {
@@ -123,6 +127,8 @@ public class Shooter extends SubsystemBase {
                 System.out.println("Target Velo:" + targetVelo
                                 + ", Shooter 1: " + shooterMotor1.getSelectedSensorVelocity()
                                 + ", Shooter 2: " + shooterMotor2.getSelectedSensorVelocity());
+
+                System.out.println("Current Hood Pos: " + hoodMotor.getSelectedSensorPosition());
 
                 setHoodSpeed(hoodController.calculate(hoodMotor.getSelectedSensorPosition()));
         }

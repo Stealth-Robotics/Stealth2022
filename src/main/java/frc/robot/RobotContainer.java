@@ -60,6 +60,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new Button(() -> driveGamepad.getAButtonPressed())
         .whenPressed(driveBase::zeroGyroscope);
+
+    // TODO: REMOVE AFTER TESTING, THIS IS JUST FOR GETTING HOOD BOUNDS
+    new Button(() -> driveGamepad.getXButtonPressed())
+        .whenPressed(() -> shooter.setHoodSpeed(-0.3));
+
+    // TODO: REMOVE AFTER TESTING, THIS IS JUST FOR GETTING HOOD BOUNDS
+    new Button(() -> driveGamepad.getBButtonPressed())
+        .whenPressed(() -> shooter.setHoodSpeed(0.3));
   }
 
   /**
