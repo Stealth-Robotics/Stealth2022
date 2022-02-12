@@ -46,7 +46,9 @@ public class Shooter extends SubsystemBase {
 
                 hoodController.setTolerance(5);
 
-                shooterMotor2.setInverted(true);
+                shooterMotor1.setInverted(TalonFXInvertType.Clockwise);
+                shooterMotor2.setInverted(TalonFXInvertType.CounterClockwise);
+
                 hoodMotor.setInverted(TalonFXInvertType.CounterClockwise);
 
                 setHoodEncoderPos(0);
