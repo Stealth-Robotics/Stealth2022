@@ -55,12 +55,13 @@ public final class Constants {
         }
 
         public static final class Shooter {
-                public static final double SHOOTER_P_COEFF = 0;
-                public static final double SHOOTER_I_COEFF = 0;
-                public static final double SHOOTER_D_COEFF = 0;
+                public static final double SHOOTER_F_COEFF = 1023.0/20660.0;
+                public static final double SHOOTER_P_COEFF = 0.1;
+                public static final double SHOOTER_I_COEFF = 0.001;
+                public static final double SHOOTER_D_COEFF = 5;
 
-                public static final double HOOD_P_COEFF = 0;
-                public static final double HOOD_I_COEFF = 0;
-                public static final double HOOD_D_COEFF = 0;
+                public static final int TIMEOUT = 30; // In Milliseconds
+                
+                public static final int PID_LOOP_IDX = 0;
         }
 }
