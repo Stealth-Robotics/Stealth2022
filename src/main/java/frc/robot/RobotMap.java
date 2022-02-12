@@ -54,6 +54,7 @@ public final class RobotMap {
          */
 
         public static final int CONVEYER_MOTOR = 4;
+        public static final int BEAM_BREAK = 5;
     }
 
 }
