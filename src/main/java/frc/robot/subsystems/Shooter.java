@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -14,10 +14,10 @@ import frc.robot.RobotMap;
 
 public class Shooter extends SubsystemBase {
 
-        private final TalonFX shooterMotor1;
-        private final TalonFX shooterMotor2;
+        private final WPI_TalonFX shooterMotor1;
+        private final WPI_TalonFX shooterMotor2;
 
-        private final TalonFX hoodMotor;
+        private final WPI_TalonFX hoodMotor;
 
         private final PIDController hoodController;
 
@@ -28,9 +28,9 @@ public class Shooter extends SubsystemBase {
 
         public Shooter() {
 
-                shooterMotor1 = new TalonFX(RobotMap.Shooter.SHOOTER_MOTOR_1);
-                shooterMotor2 = new TalonFX(RobotMap.Shooter.SHOOTER_MOTOR_2);
-                hoodMotor = new TalonFX(RobotMap.Shooter.HOOD_MOTOR);
+                shooterMotor1 = new WPI_TalonFX(RobotMap.Shooter.SHOOTER_MOTOR_1);
+                shooterMotor2 = new WPI_TalonFX(RobotMap.Shooter.SHOOTER_MOTOR_2);
+                hoodMotor = new WPI_TalonFX(RobotMap.Shooter.HOOD_MOTOR);
                 hoodSwitch = new DigitalInput(RobotMap.Shooter.HOOD_SWITCH);
 
                 initMotors();

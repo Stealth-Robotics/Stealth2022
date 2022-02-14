@@ -3,21 +3,21 @@ package frc.robot.subsystems;
 import java.util.Queue;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Conveyer.BALL_COLORS;
 import frc.robot.RobotMap;
-import frc.robot.Constants.Conveyer.*;
 
 public class Conveyor extends SubsystemBase {
-    private final TalonFX conveyorMotor;
+    private final WPI_TalonFX conveyorMotor;
     private final DigitalInput beamBreak;
 
     private Queue<BALL_COLORS> currentBalls;
 
     public Conveyor() {
-        conveyorMotor = new TalonFX(RobotMap.Conveyor.CONVEYER_MOTOR);
+        conveyorMotor = new WPI_TalonFX(RobotMap.Conveyor.CONVEYER_MOTOR);
         beamBreak = new DigitalInput(RobotMap.Conveyor.BEAM_BREAK);
     }
 

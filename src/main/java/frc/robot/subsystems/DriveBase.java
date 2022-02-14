@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
@@ -17,7 +17,7 @@ import frc.robot.RobotMap;
 
 public class DriveBase extends SubsystemBase {
 
-        private final PigeonIMU pigeon = new PigeonIMU(RobotMap.DriveBase.PIGEON_IMU);
+        private final WPI_Pigeon2 pigeon = new WPI_Pigeon2(RobotMap.DriveBase.PIGEON_IMU);
 
         private final SwerveModule frontLeftModule;
         private final SwerveModule frontRightModule;
@@ -71,11 +71,11 @@ public class DriveBase extends SubsystemBase {
         }
 
         public Rotation2d getGyroscopeRotation() {
-                return Rotation2d.fromDegrees(pigeon.getFusedHeading());
+                return Rotation2d.fromDegrees(pigeon.getYaw());
         }
 
         public void setGyroscopeRotation(double newValue) {
-                pigeon.setFusedHeading(newValue);
+                pigeon.setYaw(newValue);
         }
 
         public void zeroGyroscope() {

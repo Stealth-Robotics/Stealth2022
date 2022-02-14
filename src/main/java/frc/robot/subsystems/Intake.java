@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,7 +9,7 @@ import frc.robot.RobotMap;
 
 public class Intake extends SubsystemBase {
 
-    private final TalonFX intake;
+    private final WPI_TalonFX intake;
 
     private final Solenoid deployPistons;
 
@@ -17,7 +17,7 @@ public class Intake extends SubsystemBase {
      * Creates a new Intake.
      */
     public Intake() {
-        intake = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
+        intake = new WPI_TalonFX(RobotMap.Intake.INTAKE_MOTOR);
         intake.setInverted(true);
         deployPistons = new Solenoid(RobotMap.Pneumatics.PCM, RobotMap.Pneumatics.INTAKE_DEPLOY_PCM_CHANNEL);
     }
