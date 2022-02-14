@@ -14,9 +14,9 @@ public class DriveDefault extends CommandBase {
     private final DoubleSupplier rotationSupplier;
 
     public DriveDefault(DriveBase driveBase,
-                               DoubleSupplier translationXSupplier,
-                               DoubleSupplier translationYSupplier,
-                               DoubleSupplier rotationSupplier) {
+            DoubleSupplier translationXSupplier,
+            DoubleSupplier translationYSupplier,
+            DoubleSupplier rotationSupplier) {
         this.driveBase = driveBase;
         this.translationXSupplier = translationXSupplier;
         this.translationYSupplier = translationYSupplier;
@@ -32,9 +32,7 @@ public class DriveDefault extends CommandBase {
                         translationXSupplier.getAsDouble(),
                         translationYSupplier.getAsDouble(),
                         rotationSupplier.getAsDouble(),
-                        driveBase.getGyroscopeRotation()
-                )
-        );
+                        driveBase.getGyroscopeRotation()));
     }
 
     @Override
