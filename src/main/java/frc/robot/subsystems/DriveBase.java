@@ -4,14 +4,20 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
@@ -23,6 +29,12 @@ public class DriveBase extends SubsystemBase {
         private final SwerveModule frontRightModule;
         private final SwerveModule backLeftModule;
         private final SwerveModule backRightModule;
+
+        private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+                        Constants.DriveBase.DRIVE_KINEMATICS,
+                        getGyroscopeRotation());
+
+        ProfiledPIDController thetaController;
 
         private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -68,6 +80,14 @@ public class DriveBase extends SubsystemBase {
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_STEERING,
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_ENCODER,
                                 Constants.DriveBase.BACK_RIGHT_MODULE_STEER_OFFSET);
+
+                thetaController = new ProfiledPIDController(
+                                Constants.DriveBase.THETA_P_CONTROLLER,
+                                Constants.DriveBase.THETA_I_CONTROLLER,
+                                Constants.DriveBase.THETA_D_CONTROLLER,
+                                Constants.DriveBase.THETA_CONTROLLER_CONSTRAINTS);
+
+                thetaController.enableContinuousInput(-Math.PI, Math.PI);
         }
 
         public Rotation2d getGyroscopeRotation() {
@@ -93,26 +113,66 @@ public class DriveBase extends SubsystemBase {
                 this.chassisSpeeds = chassisSpeeds;
         }
 
+        public void resetOdometry(Pose2d pose) {
+                m_odometry.resetPosition(pose, getGyroscopeRotation());
+        }
+
+        public Pose2d getPose() {
+                return m_odometry.getPoseMeters();
+        }
+
+        public SwerveControllerCommand getSwerveControllerCommand(Trajectory trajectory) {
+                return new SwerveControllerCommand(
+                                trajectory,
+                                () -> getPose(),
+                                Constants.DriveBase.DRIVE_KINEMATICS,
+                                new PIDController(Constants.DriveBase.X_P_CONTROLLER,
+                                                Constants.DriveBase.X_I_CONTROLLER,
+                                                Constants.DriveBase.X_D_CONTROLLER),
+                                new PIDController(Constants.DriveBase.Y_P_CONTROLLER,
+                                                Constants.DriveBase.Y_I_CONTROLLER,
+                                                Constants.DriveBase.Y_D_CONTROLLER),
+                                thetaController,
+                                this::setModuleStates,
+                                this);
+        }
+
+        public void setModuleStates(SwerveModuleState[] desiredStates) {
+                SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,
+                                Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND);
+
+                frontLeftModule.set(
+                                desiredStates[0].speedMetersPerSecond
+                                                / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
+                                                * Constants.DriveBase.MAX_VOLTAGE,
+                                desiredStates[0].angle.getRadians());
+                frontRightModule.set(
+                                desiredStates[1].speedMetersPerSecond
+                                                / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
+                                                * Constants.DriveBase.MAX_VOLTAGE,
+                                desiredStates[1].angle.getRadians());
+                backLeftModule.set(
+                                desiredStates[2].speedMetersPerSecond
+                                                / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
+                                                * Constants.DriveBase.MAX_VOLTAGE,
+                                desiredStates[2].angle.getRadians());
+                backRightModule.set(
+                                desiredStates[3].speedMetersPerSecond
+                                                / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
+                                                * Constants.DriveBase.MAX_VOLTAGE,
+                                desiredStates[3].angle.getRadians());
+        }
+
         @Override
         public void periodic() {
                 SwerveModuleState[] states = Constants.DriveBase.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
-                SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND);
+                setModuleStates(states);
 
-                frontLeftModule.set(
-                                states[0].speedMetersPerSecond / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
-                                                * Constants.DriveBase.MAX_VOLTAGE,
-                                states[0].angle.getRadians());
-                frontRightModule.set(
-                                states[1].speedMetersPerSecond / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
-                                                * Constants.DriveBase.MAX_VOLTAGE,
-                                states[1].angle.getRadians());
-                backLeftModule.set(
-                                states[2].speedMetersPerSecond / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
-                                                * Constants.DriveBase.MAX_VOLTAGE,
-                                states[2].angle.getRadians());
-                backRightModule.set(
-                                states[3].speedMetersPerSecond / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
-                                                * Constants.DriveBase.MAX_VOLTAGE,
-                                states[3].angle.getRadians());
+                m_odometry.update(
+                                getGyroscopeRotation(),
+                                states[0],
+                                states[1],
+                                states[2],
+                                states[3]);
         }
 }
