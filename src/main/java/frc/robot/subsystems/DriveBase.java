@@ -113,6 +113,17 @@ public class DriveBase extends SubsystemBase {
                 this.chassisSpeeds = chassisSpeeds;
         }
 
+        /*
+         * TODO: Test To See If Position Is Held When Pushed Around
+         * TODO: Test To See If It Doesn't Interfere With Other Drive Functions
+         */
+        public void lockDriveBase() {
+                frontLeftModule.set(0, 45);
+                frontRightModule.set(0, 135);
+                backLeftModule.set(0, 135);
+                backRightModule.set(0, 45);
+        }
+
         public void resetOdometry(Pose2d pose) {
                 m_odometry.resetPosition(pose, getGyroscopeRotation());
         }
