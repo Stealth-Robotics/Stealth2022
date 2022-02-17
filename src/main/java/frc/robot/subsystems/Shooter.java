@@ -60,9 +60,9 @@ public class Shooter extends SubsystemBase {
                 shooterMotor1.set(ControlMode.PercentOutput, speed);
         }
 
-        public void setVelocity(double proportion) {
-                targetVelo = proportion * 2000.0 * 2048.0 / 600.0;
-                shooterMotor1.set(ControlMode.Velocity, proportion * 2000.0 * 2048.0 / 600.0);
+        public void setVelocity(double rpm) {
+                targetVelo = rpm * 2048.0 / 600.0;
+                shooterMotor1.set(ControlMode.Velocity, rpm * 2048.0 / 600.0);
         }
 
         public void hoodToPos(double pos) {
