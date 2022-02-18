@@ -103,10 +103,22 @@ public final class Constants {
                 public static final double HOOD_UPPER_BOUND = 100;
         }
 
-        public static final class Conveyer {
+        public static final class Conveyor {
                 public enum BALL_COLORS {
                         RED,
                         BLUE,
                 }
+
+                public static final double CONVEYOR_F_COEFF = 0;
+                public static final double CONVEOR_P_COEFF = 0.15;
+                public static final double CONVEYOR_I_COEFF = 0.0;
+                public static final double CONVEYOR_D_COEFF = 1.00;
+
+                public static final double TOLERANCE = 10;
+
+                public static final int TIMEOUT = 30; // In Milliseconds
+
+                public static final int PID_LOOP_IDX = 0;
+
         }
 }
