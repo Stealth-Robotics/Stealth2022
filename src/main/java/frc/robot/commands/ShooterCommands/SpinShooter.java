@@ -27,7 +27,7 @@ public class SpinShooter extends CommandBase {
 
     private double distanceToExitVelo(double distance)
     {
-        return Math.max(0, Math.min(38, 0.172641*Math.pow(distance, 1.45093) + 22.9122));
+        return Math.max(0, Math.min(38, (0.172641*Math.pow(distance, 1.45093)) + 22.9122));
     }
 
 }
