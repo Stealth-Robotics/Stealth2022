@@ -56,8 +56,7 @@ public class Shooter extends SubsystemBase {
         }
 
         public void hoodToPos(double pos) {
-                hoodMotor.set(ControlMode.Position, Math.min(Constants.Shooter.HOOD_UPPER_BOUND,
-                                Math.max(Constants.Shooter.HOOD_LOWER_BOUND, pos)));
+                hoodMotor.set(ControlMode.Position, pos);
         }
 
         public void setHoodSpeed(double speed) {
