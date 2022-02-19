@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 
 public final class Constants {
 
@@ -15,8 +16,10 @@ public final class Constants {
                  * (In Meters)
                  */
 
-                public static final double TRACKWIDTH = 0.0; // Distance From Left Wheel Middle To Right Wheel Middle
-                public static final double WHEELBASE = 0.0; // Distance From Front Wheel Middle To Back Wheel Middle
+                public static final double TRACKWIDTH = Units.inchesToMeters(18.571551); // Distance From Left Wheel
+                                                                                         // Middle To Right Wheel Middle
+                public static final double WHEELBASE = Units.inchesToMeters(25.676786); // Distance From Front Wheel
+                                                                                        // Middle To Back Wheel Middle
 
                 /**
                  * TODO: Fix Module Steer Offsets Based On Production Robot
@@ -74,11 +77,9 @@ public final class Constants {
         }
 
         public static final class Limelight {
-                public static final double TARGET_HEIGHT = 2.49; // meters
-                public static final double CROSSHAIR_HEIGHT = 2.27; // meters | old: 2.23, old: 2.3876 | height of
-                                                                    // center
-                public static final double CAMERA_HEIGHT = 0.65405; // in meters
-                public static final double CAMERA_ANGLE = 27 * (Math.PI / 180); // in radians
+                public static final double MOUNTED_ANGLE = 25; // Degrees - TODO: Check
+                public static final double LENS_HEIGHT = 20; // Inches - TODO: Check
+                public static final double TARGET_HEIGHT = 18.571551; // Inches
 
         }
 
@@ -96,8 +97,8 @@ public final class Constants {
                 public static final double HOOD_I = 0.001;
                 public static final double HOOD_D = 5;
 
-                public static final double HOOD_LOWER_BOUND = 0;
-                public static final double HOOD_UPPER_BOUND = 100;
+                public static final double HOOD_LOWER_BOUND = 82;
+                public static final double HOOD_UPPER_BOUND = 58;
         }
 
         public static final class Conveyer {

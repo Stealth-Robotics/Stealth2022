@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Limelight extends SubsystemBase {
     NetworkTable limelightTableEntry;
@@ -64,16 +63,6 @@ public class Limelight extends SubsystemBase {
      */
     public double getTargetArea() {
         return hasValidTarget() ? limelightTableEntry.getEntry("ta").getDouble(0) : Double.NaN;
-    }
-
-    /**
-     * Gets the distance from the shooter to the power port
-     * 
-     * @return The distance, in meters
-     */
-    public double getTargetDistance() {
-        return (Constants.Limelight.CROSSHAIR_HEIGHT - Constants.Limelight.CAMERA_HEIGHT)
-                / Math.tan(Constants.Limelight.CAMERA_ANGLE + getTargetVerticalOffset());
     }
 
     public void getCamMode(double defaultValue) {

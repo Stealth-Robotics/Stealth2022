@@ -66,11 +66,8 @@ public class Shooter extends SubsystemBase {
         }
 
         public void hoodToPos(double pos) {
-                if (pos >= Constants.Shooter.HOOD_LOWER_BOUND
-                                && pos <= Constants.Shooter.HOOD_UPPER_BOUND) {
-                        hoodController.setSetpoint(pos);
-                        hoodController.reset();
-                }
+                hoodController.reset();
+                hoodController.setSetpoint(pos);
         }
 
         public void setHoodSpeed(double speed) {
