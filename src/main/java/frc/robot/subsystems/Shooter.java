@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,8 +17,6 @@ public class Shooter extends SubsystemBase {
         private final WPI_TalonFX shooterMotor2;
 
         private final WPI_TalonFX hoodMotor;
-
-        private final PIDController hoodController;
 
         private final DigitalInput hoodSwitch;
 
@@ -38,13 +35,6 @@ public class Shooter extends SubsystemBase {
                 shooterMotor1.setNeutralMode(NeutralMode.Coast);
                 shooterMotor2.setNeutralMode(NeutralMode.Coast);
                 hoodMotor.setNeutralMode(NeutralMode.Brake);
-
-                hoodController = new PIDController(
-                                Constants.Shooter.HOOD_P,
-                                Constants.Shooter.HOOD_I,
-                                Constants.Shooter.HOOD_D);
-
-                hoodController.setTolerance(5);
 
                 shooterMotor1.setInverted(TalonFXInvertType.Clockwise);
 
@@ -66,8 +56,8 @@ public class Shooter extends SubsystemBase {
         }
 
         public void hoodToPos(double pos) {
-                hoodController.reset();
-                hoodController.setSetpoint(pos);
+                hoodMotor.set(ControlMode.Position, Math.min(Constants.Shooter.HOOD_UPPER_BOUND,
+                                Math.max(Constants.Shooter.HOOD_LOWER_BOUND, pos)));
         }
 
         public void setHoodSpeed(double speed) {
@@ -88,6 +78,7 @@ public class Shooter extends SubsystemBase {
 
         public void initMotors() {
                 shooterMotor1.configFactoryDefault();
+                hoodMotor.configFactoryDefault();
 
                 shooterMotor1.configNeutralDeadband(0.001);
 
@@ -96,10 +87,6 @@ public class Shooter extends SubsystemBase {
                                 Constants.Shooter.TIMEOUT);
 
                 shooterMotor2.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                                Constants.Shooter.PID_LOOP_IDX,
-                                Constants.Shooter.TIMEOUT);
-
-                hoodMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
                                 Constants.Shooter.PID_LOOP_IDX,
                                 Constants.Shooter.TIMEOUT);
 
@@ -116,6 +103,28 @@ public class Shooter extends SubsystemBase {
                                 Constants.Shooter.TIMEOUT);
                 shooterMotor1.config_kD(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.SHOOTER_D_COEFF,
                                 Constants.Shooter.TIMEOUT);
+
+                hoodMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
+                                Constants.Shooter.PID_LOOP_IDX,
+                                Constants.Shooter.TIMEOUT);
+
+                hoodMotor.configNominalOutputForward(0, Constants.Shooter.TIMEOUT);
+                hoodMotor.configNominalOutputReverse(0, Constants.Shooter.TIMEOUT);
+                hoodMotor.configPeakOutputForward(1, Constants.Shooter.TIMEOUT);
+                hoodMotor.configPeakOutputReverse(-1, Constants.Shooter.TIMEOUT);
+
+                hoodMotor.configAllowableClosedloopError(Constants.Shooter.PID_LOOP_IDX,
+                                Constants.Shooter.HOOD_TOLERANCE, Constants.Shooter.TIMEOUT);
+
+                hoodMotor.config_kF(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_F_COEFF,
+                                Constants.Shooter.TIMEOUT);
+                hoodMotor.config_kP(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_P_COEFF,
+                                Constants.Shooter.TIMEOUT);
+                hoodMotor.config_kI(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_I_COEFF,
+                                Constants.Shooter.TIMEOUT);
+                hoodMotor.config_kD(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_D_COEFF,
+                                Constants.Shooter.TIMEOUT);
+
         }
 
         @Override
@@ -127,6 +136,5 @@ public class Shooter extends SubsystemBase {
 
                 System.out.println("Current Hood Pos: " + hoodMotor.getSelectedSensorPosition());
 
-                setHoodSpeed(hoodController.calculate(hoodMotor.getSelectedSensorPosition()));
         }
 }
