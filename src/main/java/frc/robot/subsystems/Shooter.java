@@ -67,6 +67,11 @@ public class Shooter extends SubsystemBase {
                 return hoodMotor.getSelectedSensorPosition();
         }
 
+        public void hoodToDegree(double degree) {
+                hoodToPos((degree - Constants.Shooter.HOOD_LOWER_BOUND)
+                                * Constants.Shooter.HOOD_DEGREES_TO_TICKS);
+        }
+
         public boolean getHoodSwitchState() {
                 return hoodSwitch.get();
         }
