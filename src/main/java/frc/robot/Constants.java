@@ -110,6 +110,8 @@ public final class Constants {
                 public enum BALL_COLORS {
                         RED,
                         BLUE,
+                        UNKNOWN,
+                        EMPTY
                 }
 
                 public static final double CONVEYOR_F_COEFF = 0;
@@ -123,7 +125,7 @@ public final class Constants {
 
                 public static final int PID_LOOP_IDX = 0;
 
-                public static final double CONVEYOR_STEP = 300; //TODO: This needs to be checked
-
+                public static final double SHOOT_CONVEYOR_STEP = 500;
+                public static final double INTAKE_CONVEYER_STEP = 200;
         }
 }

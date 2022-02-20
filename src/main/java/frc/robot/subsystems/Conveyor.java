@@ -1,22 +1,21 @@
 package frc.robot.subsystems;
 
-import java.util.Queue;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Conveyor.BALL_COLORS;
 import frc.robot.Constants;
+import frc.robot.Constants.Conveyor.BALL_COLORS;
 import frc.robot.RobotMap;
 
 public class Conveyor extends SubsystemBase {
     private final WPI_TalonFX conveyorMotor;
     private final DigitalInput beamBreak;
 
-    private Queue<BALL_COLORS> currentBalls;
+    private BALL_COLORS topBallColor = BALL_COLORS.EMPTY;
+    private BALL_COLORS bottomBallColor = BALL_COLORS.EMPTY;
 
     public Conveyor() {
         conveyorMotor = new WPI_TalonFX(RobotMap.Conveyor.CONVEYER_MOTOR);
@@ -68,20 +67,43 @@ public class Conveyor extends SubsystemBase {
         return beamBreak.get();
     }
 
+    public boolean atPosition() {
+        return conveyorMotor.getClosedLoopError() <= Constants.Conveyor.TOLERANCE;
+    }
+
     public void addBall(BALL_COLORS newColor) {
-        currentBalls.add(newColor);
+        if (bottomBallColor == BALL_COLORS.EMPTY)
+            bottomBallColor = newColor;
+
+        else {
+            topBallColor = bottomBallColor;
+            bottomBallColor = newColor;
+        }
     }
 
     public boolean hasBall() {
-        return currentBalls.isEmpty();
+        return bottomBallColor != BALL_COLORS.EMPTY || topBallColor != BALL_COLORS.EMPTY;
     }
 
-    public void removeBall() {
-        currentBalls.remove();
+    public void removeTopBall() {
+        topBallColor = bottomBallColor;
+        bottomBallColor = BALL_COLORS.EMPTY;
     }
 
-    public BALL_COLORS topBall() {
-        return currentBalls.peek();
+    public void removeBottomBall() {
+        bottomBallColor = topBallColor;
+        topBallColor = BALL_COLORS.EMPTY;
     }
 
+    public BALL_COLORS getTopBall() {
+        return topBallColor;
+    }
+
+    public BALL_COLORS getBottomBall() {
+        return bottomBallColor;
+    }
+
+    public boolean isFull() {
+        return !(bottomBallColor == BALL_COLORS.EMPTY && topBallColor == BALL_COLORS.EMPTY);
+    }
 }
