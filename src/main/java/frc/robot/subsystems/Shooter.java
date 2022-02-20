@@ -55,8 +55,18 @@ public class Shooter extends SubsystemBase {
                 shooterMotor1.set(ControlMode.Velocity, rpm * 2048.0 / 600.0);
         }
 
+        public boolean atVelocity()
+        {
+                return shooterMotor1.getClosedLoopError() <= Constants.Shooter.SHOOTER_VELO_TOLERANCE;
+        }
+
         public void hoodToPos(double pos) {
                 hoodMotor.set(ControlMode.Position, pos);
+        }
+
+        public boolean hoodAtPos()
+        {
+                return hoodMotor.getClosedLoopError() <= Constants.Conveyor.TOLERANCE;
         }
 
         public void setHoodSpeed(double speed) {

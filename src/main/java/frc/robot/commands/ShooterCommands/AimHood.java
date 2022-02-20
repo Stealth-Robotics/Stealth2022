@@ -21,7 +21,7 @@ public class AimHood extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return true;
+        return shooter.hoodAtPos();
     }
 
     private double distanceToDegree(double distance) {

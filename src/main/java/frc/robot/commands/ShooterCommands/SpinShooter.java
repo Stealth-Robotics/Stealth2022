@@ -23,7 +23,7 @@ public class SpinShooter extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return true;
+        return shooter.atVelocity();
     }
 
     private double exitVeloToRPM(double exitVelo) {

@@ -89,6 +89,8 @@ public final class Constants {
                 public static final double SHOOTER_I_COEFF = 0.001;
                 public static final double SHOOTER_D_COEFF = 5;
 
+                public static final double SHOOTER_VELO_TOLERANCE = 5;
+
                 public static final int TIMEOUT = 30; // In Milliseconds
 
                 public static final int PID_LOOP_IDX = 0;
