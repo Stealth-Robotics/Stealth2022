@@ -44,7 +44,7 @@ public class Conveyor extends SubsystemBase {
                 Constants.Conveyor.TIMEOUT);
     }
 
-    public void setSetSpeed(double speed) {
+    public void setSpeed(double speed) {
         conveyorMotor.set(ControlMode.PercentOutput, speed);
     }
 

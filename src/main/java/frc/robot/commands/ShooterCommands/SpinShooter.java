@@ -21,6 +21,11 @@ public class SpinShooter extends CommandBase {
 
     }
 
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
+
     private double exitVeloToRPM(double exitVelo) {
         return exitVelo * 91.673;
     }
