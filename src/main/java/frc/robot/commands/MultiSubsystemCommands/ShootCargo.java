@@ -1,6 +1,5 @@
 package frc.robot.commands.MultiSubsystemCommands;
 
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Conveyor;
@@ -18,8 +17,7 @@ public class ShootCargo extends SequentialCommandGroup {
                 // TODO: Align to Target Goes Here
                 new FireShooter(shooter, 12),
                 new WaitCommand(2),
-                new MoveConveyor(conveyor),
-                new RunCommand(() -> conveyor.removeBall())
+                new MoveConveyor(conveyor)
         );
     }
 

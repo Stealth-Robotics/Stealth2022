@@ -56,13 +56,13 @@ public final class RobotMap {
          * TODO: Set CAN IDs Based On Production Robot
          */
 
-        public static final int CONVEYER_MOTOR = 4;
-        public static final int BEAM_BREAK = 5;
+        public static final int CONVEYER_MOTOR = 2;
+        public static final int BEAM_BREAK = 0;
     }
 
     public static final class Pneumatics {
         public static final PneumaticsModuleType PCM = PneumaticsModuleType.REVPH;
-        public static final int INTAKE_DEPLOY_PCM_CHANNEL = 7;
+        public static final int INTAKE_DEPLOY_PCM_CHANNEL = 0;
     }
 
 }

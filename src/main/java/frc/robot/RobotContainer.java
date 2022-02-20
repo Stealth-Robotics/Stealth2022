@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
-import frc.robot.commands.ShooterCommands.FireShooter;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
@@ -65,7 +64,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new Button(() -> driveGamepad.getAButtonPressed())
+    new Button(() -> driveGamepad.getBButtonPressed())
         .whenPressed(driveBase::zeroGyroscope);
 
     new Button(() -> driveGamepad.getAButtonPressed())
