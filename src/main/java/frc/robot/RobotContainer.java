@@ -9,11 +9,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
+import frc.robot.commands.ShooterCommands.FireShooter;
+import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Conveyor;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -29,6 +33,7 @@ public class RobotContainer {
   private final DriveBase driveBase = new DriveBase();
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
+  private final Conveyor conveyor = new Conveyor();
 
   XboxController driveGamepad = new XboxController(0);
 
@@ -44,6 +49,8 @@ public class RobotContainer {
 
     intake.setDefaultCommand(new IntakeDefault(intake,
         driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
+
+    conveyor.setDefaultCommand(new ConveyorDefault(conveyor));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -61,13 +68,9 @@ public class RobotContainer {
     new Button(() -> driveGamepad.getAButtonPressed())
         .whenPressed(driveBase::zeroGyroscope);
 
-    // TODO: REMOVE AFTER TESTING, THIS IS JUST FOR GETTING HOOD BOUNDS
-    new Button(() -> driveGamepad.getXButtonPressed())
-        .whenPressed(() -> shooter.setHoodSpeed(-0.3));
+    new Button(() -> driveGamepad.getAButtonPressed())
+        .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
 
-    // TODO: REMOVE AFTER TESTING, THIS IS JUST FOR GETTING HOOD BOUNDS
-    new Button(() -> driveGamepad.getBButtonPressed())
-        .whenPressed(() -> shooter.setHoodSpeed(0.3));
   }
 
   /**

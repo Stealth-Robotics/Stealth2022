@@ -102,6 +102,8 @@ public final class Constants {
 
                 public static final double HOOD_LOWER_BOUND = 82;
                 public static final double HOOD_UPPER_BOUND = 58;
+
+                public static final double HOOD_DEGREES_TO_TICKS = 2184.533;
         }
 
         public static final class Conveyor {
@@ -120,6 +122,8 @@ public final class Constants {
                 public static final int TIMEOUT = 30; // In Milliseconds
 
                 public static final int PID_LOOP_IDX = 0;
+
+                public static final double CONVEYOR_STEP = 300; //TODO: This needs to be checked
 
         }
 }
