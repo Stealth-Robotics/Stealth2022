@@ -57,7 +57,7 @@ public class DriveBase extends SubsystemBase {
                 frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
-                                                .withPosition(0, 0),
+                                                .withPosition(2, 0),
                                 Mk4SwerveModuleHelper.GearRatio.L2,
                                 RobotMap.DriveBase.FRONT_RIGHT_MODULE_DRIVE,
                                 RobotMap.DriveBase.FRONT_RIGHT_MODULE_STEERING,
@@ -67,7 +67,7 @@ public class DriveBase extends SubsystemBase {
                 backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Back Left Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
-                                                .withPosition(0, 0),
+                                                .withPosition(4, 0),
                                 Mk4SwerveModuleHelper.GearRatio.L2,
                                 RobotMap.DriveBase.BACK_LEFT_MODULE_DRIVE,
                                 RobotMap.DriveBase.BACK_LEFT_MODULE_STEERING,
@@ -77,7 +77,7 @@ public class DriveBase extends SubsystemBase {
                 backRightModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
-                                                .withPosition(0, 0),
+                                                .withPosition(6, 0),
                                 Mk4SwerveModuleHelper.GearRatio.L2,
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_DRIVE,
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_STEERING,
