@@ -34,7 +34,7 @@ public class ShootCargo extends SequentialCommandGroup {
             if (conveyor.getBottomBall() == BALL_COLORS.UNKNOWN) {
                 addCommands(new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2));
                 conveyor.removeTopBall();
-                conveyor.removeTopBall();
+                conveyor.removBottomBall();
             }
 
             if (conveyor.getBottomBall() == BALL_COLORS.EMPTY) {
