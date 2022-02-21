@@ -38,7 +38,7 @@ public class Shooter extends SubsystemBase {
 
                 shooterMotor1.setInverted(TalonFXInvertType.Clockwise);
 
-                hoodMotor.setInverted(TalonFXInvertType.CounterClockwise);
+                hoodMotor.setInverted(TalonFXInvertType.Clockwise);
 
                 setHoodEncoderPos(0);
 
@@ -141,14 +141,14 @@ public class Shooter extends SubsystemBase {
 
         }
 
-        @Override
-        public void periodic() {
-                // TODO: Remove After Testing
-                System.out.println("Target Velo:" + targetVelo
-                                + ", Shooter 1: " + shooterMotor1.getSelectedSensorVelocity()
-                                + ", Shooter 2: " + shooterMotor2.getSelectedSensorVelocity());
+        // @Override
+        // public void periodic() {
+        //         // TODO: Remove After Testing
+        //         System.out.println("Target Velo:" + targetVelo
+        //                         + ", Shooter 1: " + shooterMotor1.getSelectedSensorVelocity()
+        //                         + ", Shooter 2: " + shooterMotor2.getSelectedSensorVelocity());
 
-                System.out.println("Current Hood Pos: " + hoodMotor.getSelectedSensorPosition());
+        //         System.out.println("Current Hood Pos: " + hoodMotor.getSelectedSensorPosition());
 
-        }
+        // }
 }

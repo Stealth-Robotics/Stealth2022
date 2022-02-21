@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
 
-public class AimHood extends CommandBase {
+public class ReadyShooter extends CommandBase {
     private final Shooter shooter;
     private final double distance;
 
-    public AimHood(Shooter shooter, double distance) {
+    public ReadyShooter(Shooter shooter, double distance) {
         this.shooter = shooter;
         this.distance = distance;
         addRequirements(shooter);
@@ -16,17 +16,28 @@ public class AimHood extends CommandBase {
 
     @Override
     public void initialize() {
-        shooter.hoodToDegree(distanceToDegree(distance));
+        //shooter.hoodToDegree(distanceToDegree(distance));
+        shooter.setVelocity(exitVeloToRPM(distanceToExitVelo(distance)));
+
     }
 
     @Override
     public boolean isFinished() {
-        return shooter.hoodAtPos();
+        return (shooter.hoodAtPos() && shooter.atVelocity());
     }
 
     private double distanceToDegree(double distance) {
         return Math.max(Constants.Shooter.HOOD_UPPER_BOUND, Math.min(Constants.Shooter.HOOD_LOWER_BOUND,
                 108.365 - 6.35879 * Math.log(109.988 * distance - 167.543)));
+    }
+
+    private double exitVeloToRPM(double exitVelo) {
+        return exitVelo * 91.673;
+    }
+
+    private double distanceToExitVelo(double distance)
+    {
+        return Math.max(0, Math.min(38, (0.172641*Math.pow(distance, 1.45093)) + 22.9122));
     }
 
 }

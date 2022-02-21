@@ -11,7 +11,7 @@ public class Intake extends SubsystemBase {
 
     private final WPI_TalonFX intake;
 
-    private final Solenoid deployPistons;
+    //private final Solenoid deployPistons;
 
     /**
      * Creates a new Intake.
@@ -19,7 +19,7 @@ public class Intake extends SubsystemBase {
     public Intake() {
         intake = new WPI_TalonFX(RobotMap.Intake.INTAKE_MOTOR);
         intake.setInverted(true);
-        deployPistons = new Solenoid(RobotMap.Pneumatics.PCM, RobotMap.Pneumatics.INTAKE_DEPLOY_PCM_CHANNEL);
+        //deployPistons = new Solenoid(RobotMap.Pneumatics.PCM, RobotMap.Pneumatics.INTAKE_DEPLOY_PCM_CHANNEL);
     }
 
     public void setSpeed(double speed) {
@@ -27,15 +27,15 @@ public class Intake extends SubsystemBase {
     }
 
     public void deploy() {
-        deployPistons.set(true);
+       // deployPistons.set(true);
     }
 
     public void unDeploy() {
-        deployPistons.set(false);
+        //deployPistons.set(false);
     }
 
     public void toggle() {
-        deployPistons.toggle();
+        //deployPistons.toggle();
     }
 
 }

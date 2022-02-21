@@ -9,8 +9,7 @@ public class FireShooter extends ParallelCommandGroup {
         addRequirements(shooter);
 
         addCommands(
-                new AimHood(shooter, distance),
-                new SpinShooter(shooter, distance));
+                new ReadyShooter(shooter, distance));
     }
 
 }

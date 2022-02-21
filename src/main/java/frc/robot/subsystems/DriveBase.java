@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
@@ -40,6 +41,8 @@ public class DriveBase extends SubsystemBase {
 
         public DriveBase() {
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+
+                pigeon.configFactoryDefault();
 
                 frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)
@@ -91,11 +94,11 @@ public class DriveBase extends SubsystemBase {
         }
 
         public Rotation2d getGyroscopeRotation() {
-                return Rotation2d.fromDegrees(pigeon.getYaw());
+                return pigeon.getRotation2d();
         }
 
         public void setGyroscopeRotation(double newValue) {
-                pigeon.setYaw(newValue);
+                pigeon.setYaw(-90);
         }
 
         public void zeroGyroscope() {
@@ -185,5 +188,7 @@ public class DriveBase extends SubsystemBase {
                                 states[1],
                                 states[2],
                                 states[3]);
+
+                System.out.println(getGyroscopeRotation());
         }
 }

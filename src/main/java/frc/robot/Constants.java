@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
+import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -26,10 +28,10 @@ public final class Constants {
                  * (In Degrees)
                  */
 
-                public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
-                public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
-                public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
-                public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0.0);
+                public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(340.6585693359375);
+                public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(350.244140625);
+                public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(196.435546875);
+                public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(332.92694091796875);
 
                 public static final double MAX_VOLTAGE = 12.0;
 
@@ -96,7 +98,7 @@ public final class Constants {
                 public static final int PID_LOOP_IDX = 0;
 
                 public static final double HOOD_F_COEFF = 0;
-                public static final double HOOD_P_COEFF = 0.15;
+                public static final double HOOD_P_COEFF = 0.5;
                 public static final double HOOD_I_COEFF = 0.0;
                 public static final double HOOD_D_COEFF = 1.00;
 

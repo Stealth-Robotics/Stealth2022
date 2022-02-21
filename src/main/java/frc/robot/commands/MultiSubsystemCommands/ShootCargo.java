@@ -6,6 +6,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.Conveyor.BALL_COLORS;
 import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.ShooterCommands.FireShooter;
+import frc.robot.commands.ShooterCommands.ReadyShooter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Shooter;
@@ -26,8 +27,8 @@ public class ShootCargo extends SequentialCommandGroup {
 
         addCommands(
                 // Align With Target
-                new RunCommand(() -> driveBase.lockDriveBase(), driveBase),
-                new FireShooter(shooter, 12));
+                //new RunCommand(() -> driveBase.lockDriveBase(), driveBase),
+                new ReadyShooter(shooter, 12));
 
         if (conveyor.getTopBall() == BALL_COLORS.UNKNOWN) {
             if (conveyor.getBottomBall() == BALL_COLORS.UNKNOWN) {

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
@@ -35,16 +36,17 @@ public class RobotContainer {
   private final Conveyor conveyor = new Conveyor();
 
   XboxController driveGamepad = new XboxController(0);
-
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
     driveBase.setDefaultCommand(new DriveDefault(
         driveBase,
-        () -> (driveGamepad.getLeftX() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
+        () -> -(driveGamepad.getLeftX() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
         () -> (driveGamepad.getLeftY() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
-        () -> (driveGamepad.getRightY() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)));
+        () -> -(driveGamepad.getRightX() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)));
 
     intake.setDefaultCommand(new IntakeDefault(intake,
         driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
@@ -64,11 +66,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new Button(() -> driveGamepad.getBButtonPressed())
-        .whenPressed(driveBase::zeroGyroscope);
+    new JoystickButton(driveGamepad, 1)
+        .whenPressed(() -> driveBase.zeroGyroscope());
 
-    new Button(() -> driveGamepad.getAButtonPressed())
-        .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
+    new JoystickButton(driveGamepad, 2).whenPressed(new ShootCargo(driveBase, shooter, conveyor));
+
+    new JoystickButton(driveGamepad, 3).whileHeld(() -> shooter.setHoodSpeed(-0.7)).whenReleased(() -> shooter.setHoodSpeed(0));
+    new JoystickButton(driveGamepad, 4).whileHeld(() -> shooter.setHoodSpeed(0.7)).whenReleased(() -> shooter.setHoodSpeed(0));
 
   }
 
