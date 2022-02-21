@@ -39,9 +39,9 @@ public class DriveBase extends SubsystemBase {
         private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
         public DriveBase() {
-                ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+                ShuffleboardTab tab = Shuffleboard.getTab("DriveBase");
 
-                //pigeon.configFactoryDefault();
+                // pigeon.configFactoryDefault();
                 zeroGyroscope();
 
                 frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -85,8 +85,24 @@ public class DriveBase extends SubsystemBase {
                                 Constants.DriveBase.BACK_RIGHT_MODULE_STEER_OFFSET);
 
                 tab.getLayout("Pigeon IMU", BuiltInLayouts.kList)
-                                .withSize(2, 2).withPosition(8, 0)
+                                .withSize(2, 2)
+                                .withPosition(8, 0)
                                 .addNumber("Current Heading (Degree)", () -> getGyroscopeRotation().getDegrees());
+
+                tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
+                                .withSize(2, 4)
+                                .withPosition(0, 4)
+                                .addNumber("X", () -> getPose().getX());
+
+                tab.getLayout("Odometry", BuiltInLayouts.kList)
+                                .withSize(2, 4)
+                                .withPosition(0, 4)
+                                .addNumber("Y", () -> getPose().getY());
+
+                tab.getLayout("Odometry", BuiltInLayouts.kList)
+                                .withSize(2, 4)
+                                .withPosition(0, 4)
+                                .addNumber("Theta", () -> getPose().getRotation().getDegrees());
 
                 thetaController = new ProfiledPIDController(
                                 Constants.DriveBase.THETA_P_CONTROLLER,
@@ -192,7 +208,5 @@ public class DriveBase extends SubsystemBase {
                                 states[1],
                                 states[2],
                                 states[3]);
-
-                System.out.println(getGyroscopeRotation());
         }
 }
