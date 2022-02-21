@@ -84,6 +84,10 @@ public class DriveBase extends SubsystemBase {
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_ENCODER,
                                 Constants.DriveBase.BACK_RIGHT_MODULE_STEER_OFFSET);
 
+                tab.getLayout("Pigeon IMU", BuiltInLayouts.kList)
+                                .withSize(2, 2).withPosition(8, 0)
+                                .addNumber("Current Heading (Degree)", () -> getGyroscopeRotation().getDegrees());
+
                 thetaController = new ProfiledPIDController(
                                 Constants.DriveBase.THETA_P_CONTROLLER,
                                 Constants.DriveBase.THETA_I_CONTROLLER,
