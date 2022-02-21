@@ -1,11 +1,9 @@
 package frc.robot.commands.MultiSubsystemCommands;
 
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.Constants.Conveyor.BALL_COLORS;
 import frc.robot.commands.ConveyerCommands.MoveConveyor;
-import frc.robot.commands.ShooterCommands.FireShooter;
 import frc.robot.commands.ShooterCommands.ReadyShooter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
@@ -34,7 +32,7 @@ public class ShootCargo extends SequentialCommandGroup {
             if (conveyor.getBottomBall() == BALL_COLORS.UNKNOWN) {
                 addCommands(new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2));
                 conveyor.removeTopBall();
-                conveyor.removBottomBall();
+                conveyor.removeTopBall();
             }
 
             if (conveyor.getBottomBall() == BALL_COLORS.EMPTY) {
