@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
-import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
@@ -42,7 +41,8 @@ public class DriveBase extends SubsystemBase {
         public DriveBase() {
                 ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
-                pigeon.configFactoryDefault();
+                //pigeon.configFactoryDefault();
+                zeroGyroscope();
 
                 frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)

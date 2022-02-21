@@ -8,16 +8,15 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
+import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Conveyor;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -44,9 +43,9 @@ public class RobotContainer {
 
     driveBase.setDefaultCommand(new DriveDefault(
         driveBase,
-        () -> -(driveGamepad.getLeftX() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
-        () -> (driveGamepad.getLeftY() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
-        () -> -(driveGamepad.getRightX() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)));
+        () -> (driveGamepad.getLeftX() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
+        () -> -(driveGamepad.getLeftY() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
+        () -> (driveGamepad.getRightX() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)));
 
     intake.setDefaultCommand(new IntakeDefault(intake,
         driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
