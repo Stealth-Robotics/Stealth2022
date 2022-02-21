@@ -89,17 +89,22 @@ public class DriveBase extends SubsystemBase {
                                 .withPosition(8, 0)
                                 .addNumber("Current Heading (Degree)", () -> getGyroscopeRotation().getDegrees());
 
+                tab.getLayout("Pigeon IMU", BuiltInLayouts.kList)
+                                .withSize(2, 2)
+                                .withPosition(8, 0)
+                                .addNumber("Current Heading (Radian)", () -> getGyroscopeRotation().getRadians());
+
                 tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
                                 .withSize(2, 4)
                                 .withPosition(0, 4)
                                 .addNumber("X", () -> getPose().getX());
 
-                tab.getLayout("Odometry", BuiltInLayouts.kList)
+                tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
                                 .withSize(2, 4)
                                 .withPosition(0, 4)
                                 .addNumber("Y", () -> getPose().getY());
 
-                tab.getLayout("Odometry", BuiltInLayouts.kList)
+                tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
                                 .withSize(2, 4)
                                 .withPosition(0, 4)
                                 .addNumber("Theta", () -> getPose().getRotation().getDegrees());
