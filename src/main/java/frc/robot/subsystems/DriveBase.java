@@ -42,7 +42,7 @@ public class DriveBase extends SubsystemBase {
                 ShuffleboardTab tab = Shuffleboard.getTab("DriveBase");
 
                 // pigeon.configFactoryDefault();
-                zeroGyroscope();
+                setGyroscopeRotation(90);
 
                 frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)
@@ -123,7 +123,7 @@ public class DriveBase extends SubsystemBase {
         }
 
         public void setGyroscopeRotation(double newValue) {
-                pigeon.setYaw(-90);
+                pigeon.setYaw(90);
         }
 
         public void zeroGyroscope() {
