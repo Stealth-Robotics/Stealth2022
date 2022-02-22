@@ -95,8 +95,8 @@ public class DriveBase extends SubsystemBase {
                                 .addNumber("Current Heading (Radian)", () -> getGyroscopeRotation().getRadians());
 
                 tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
-                                .withSize(2, 4)
-                                .withPosition(0, 4)
+                                .withSize(2, 2)
+                                .withPosition(8, 2)
                                 .addNumber("X", () -> getPose().getX());
 
                 tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
