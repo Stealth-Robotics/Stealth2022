@@ -76,7 +76,7 @@ public final class Constants {
                                                 .setKinematics(Constants.DriveBase.DRIVE_KINEMATICS);
         }
 
-        public static final class Limelight {
+        public static final class Limelight_Constants {
                 public static final double MOUNTED_ANGLE = 55; // Degrees - TODO: Check
                 public static final double LENS_HEIGHT = 36.73; // Inches - TODO: Check
                 public static final double TARGET_HEIGHT = 18.571551; // Inches

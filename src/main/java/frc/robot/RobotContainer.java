@@ -21,6 +21,8 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Limelight;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -37,6 +39,7 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
   private final Conveyor conveyor = new Conveyor();
+  private final Limelight limelight = new Limelight();
 
   XboxController driveGamepad = new XboxController(0);
 
@@ -84,7 +87,7 @@ public class RobotContainer {
         new SequentialCommandGroup(
             // new InstantCommand(() -> limelight.setLedMode(3)),
             // add align to targer and ready shooter in a parralel deadline
-            new ReadyShooter(shooter, 5),
+            new ReadyShooter(shooter, 5 /*limelight.getTargetDistance()*/),
             new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
             new RunCommand(() -> shooter.hoodToPos(0))));
   }
