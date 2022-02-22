@@ -13,8 +13,8 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -89,8 +89,8 @@ public class RobotContainer {
             new ReadyShooter(shooter, 12 /* limelight.getTargetDistance() */),
             new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
             new ParallelCommandGroup(
-                new RunCommand(() -> shooter.hoodToPos(0)),
-                new RunCommand(() -> shooter.setVelocity(0)))));
+                new InstantCommand(() -> shooter.hoodToPos(0)),
+                new InstantCommand(() -> shooter.setVelocity(0)))));
   }
 
   SequentialCommandGroup testAutoSPath = new SequentialCommandGroup(
@@ -99,9 +99,9 @@ public class RobotContainer {
           List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
           new Pose2d(3, 0, new Rotation2d(0)),
           Constants.DriveBase.CONFIG)),
-      new RunCommand(() -> intake.setSpeed(0.5), intake),
+      new InstantCommand(() -> intake.setSpeed(0.5), intake),
       new WaitCommand(2),
-      new RunCommand(() -> intake.setSpeed(0), intake));
+      new InstantCommand(() -> intake.setSpeed(0), intake));
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
