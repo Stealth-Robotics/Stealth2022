@@ -44,6 +44,8 @@ public final class Constants {
 
                 public static final double MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = Math.PI;
 
+                public static final double SLOWMODE_MULTIPLIER = 1/4;
+
                 public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
                                 // Front left
                                 new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0),

@@ -9,12 +9,10 @@ import java.util.List;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -58,9 +56,10 @@ public class RobotContainer {
 
     driveBase.setDefaultCommand(new DriveDefault(
         driveBase,
-        () -> (driveGamepad.getLeftX() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
-        () -> -(driveGamepad.getLeftY() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
-        () -> (driveGamepad.getRightX() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)));
+        () -> driveGamepad.getLeftX(),
+        () -> -driveGamepad.getLeftY(),
+        () -> driveGamepad.getRightX(),
+        () -> driveGamepad.getLeftBumper()));
 
     intake.setDefaultCommand(new IntakeDefault(intake,
         driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
