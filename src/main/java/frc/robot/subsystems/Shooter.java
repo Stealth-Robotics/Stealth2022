@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,8 +21,7 @@ public class Shooter extends SubsystemBase {
 
         private final DigitalInput hoodSwitch;
 
-        // TODO: Remove After Testing
-        private double targetVelo = 0;
+        private final PIDController hoodController;
 
         public Shooter() {
 
@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
                 shooterMotor2.setNeutralMode(NeutralMode.Coast);
                 hoodMotor.setNeutralMode(NeutralMode.Brake);
 
-                shooterMotor1.setInverted(TalonFXInvertType.Clockwise);
+                shooterMotor1.setInverted(TalonFXInvertType.CounterClockwise);
 
                 hoodMotor.setInverted(TalonFXInvertType.CounterClockwise);
 
@@ -44,6 +44,13 @@ public class Shooter extends SubsystemBase {
 
                 shooterMotor2.follow(shooterMotor1);
                 shooterMotor2.setInverted(TalonFXInvertType.OpposeMaster);
+
+                hoodController = new PIDController(
+                                Constants.Shooter.HOOD_P_COEFF,
+                                Constants.Shooter.HOOD_I_COEFF,
+                                Constants.Shooter.HOOD_D_COEFF);
+
+                hoodController.setTolerance(Constants.Shooter.HOOD_TOLERANCE);
         }
 
         public void setSpeed(double speed) {
@@ -51,7 +58,6 @@ public class Shooter extends SubsystemBase {
         }
 
         public void setVelocity(double rpm) {
-                targetVelo = rpm * 2048.0 / 600.0;
                 shooterMotor1.set(ControlMode.Velocity, rpm * 2048.0 / 600.0);
         }
 
@@ -60,11 +66,11 @@ public class Shooter extends SubsystemBase {
         }
 
         public void hoodToPos(double pos) {
-                hoodMotor.set(ControlMode.Position, pos);
+                hoodController.setSetpoint(pos);
         }
 
         public boolean hoodAtPos() {
-                return Math.abs(hoodMotor.getClosedLoopError(0)) <= Constants.Shooter.HOOD_TOLERANCE;
+                return hoodController.atSetpoint();
         }
 
         public void setHoodSpeed(double speed) {
@@ -76,7 +82,7 @@ public class Shooter extends SubsystemBase {
         }
 
         public void hoodToDegree(double degree) {
-                hoodToPos((degree - Constants.Shooter.HOOD_LOWER_BOUND)
+                hoodToPos((Constants.Shooter.HOOD_LOWER_BOUND - degree)
                                 * Constants.Shooter.HOOD_DEGREES_TO_TICKS);
         }
 
@@ -124,23 +130,10 @@ public class Shooter extends SubsystemBase {
                 hoodMotor.configNominalOutputReverse(0, Constants.Shooter.TIMEOUT);
                 hoodMotor.configPeakOutputForward(0.1, Constants.Shooter.TIMEOUT);
                 hoodMotor.configPeakOutputReverse(-0.1, Constants.Shooter.TIMEOUT);
-
-                hoodMotor.configAllowableClosedloopError(Constants.Shooter.PID_LOOP_IDX,
-                                Constants.Shooter.HOOD_TOLERANCE, Constants.Shooter.TIMEOUT);
-
-                hoodMotor.config_kF(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_F_COEFF,
-                                Constants.Shooter.TIMEOUT);
-                hoodMotor.config_kP(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_P_COEFF,
-                                Constants.Shooter.TIMEOUT);
-                hoodMotor.config_kI(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_I_COEFF,
-                                Constants.Shooter.TIMEOUT);
-                hoodMotor.config_kD(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_D_COEFF,
-                                Constants.Shooter.TIMEOUT);
-
         }
 
         @Override
         public void periodic() {
-                System.out.println("Hood Pos: " + getHoodPos());
+                hoodToPos(hoodController.calculate(getHoodPos()));
         }
 }

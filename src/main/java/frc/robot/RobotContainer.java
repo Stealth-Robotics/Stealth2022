@@ -16,13 +16,12 @@ import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
-import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.commands.ShooterCommands.ReadyShooter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -75,26 +74,15 @@ public class RobotContainer {
     new JoystickButton(driveGamepad, 1)
         .whenPressed(() -> driveBase.zeroGyroscope());
 
-    // new JoystickButton(driveGamepad, 2).whenPressed(new ShootCargo(driveBase,
-    // shooter, conveyor));
-
-    new JoystickButton(driveGamepad, 3).whileHeld(() -> shooter.setHoodSpeed(-0.3))
-        .whenReleased(() -> shooter.setHoodSpeed(0));
-    new JoystickButton(driveGamepad, 4).whileHeld(() -> shooter.setHoodSpeed(0.3))
-        .whenReleased(() -> shooter.setHoodSpeed(0));
-
     new JoystickButton(driveGamepad, 2).whenPressed(
         new SequentialCommandGroup(
             // new InstantCommand(() -> limelight.setLedMode(3)),
             // add align to targer and ready shooter in a parralel deadline
-            new ReadyShooter(shooter, 5 /* limelight.getTargetDistance() */),
+            new ReadyShooter(shooter, 12 /* limelight.getTargetDistance() */),
             new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
             new ParallelCommandGroup(
                 new RunCommand(() -> shooter.hoodToPos(0)),
-                new RunCommand(() -> shooter.setVelocity(0))
-            )
-        )
-    );
+                new RunCommand(() -> shooter.setVelocity(0)))));
   }
 
   /**
