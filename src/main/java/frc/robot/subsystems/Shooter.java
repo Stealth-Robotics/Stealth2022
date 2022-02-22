@@ -8,6 +8,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -24,6 +27,7 @@ public class Shooter extends SubsystemBase {
         private final PIDController hoodController;
 
         public Shooter() {
+                ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
 
                 shooterMotor1 = new WPI_TalonFX(RobotMap.Shooter.SHOOTER_MOTOR_1);
                 shooterMotor2 = new WPI_TalonFX(RobotMap.Shooter.SHOOTER_MOTOR_2);
@@ -51,6 +55,31 @@ public class Shooter extends SubsystemBase {
                                 Constants.Shooter.HOOD_D_COEFF);
 
                 hoodController.setTolerance(Constants.Shooter.HOOD_TOLERANCE);
+
+                tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
+                                .withSize(2, 2)
+                                .withPosition(0, 0)
+                                .addNumber("Velocity Target", () -> shooterMotor1.getClosedLoopTarget());
+
+                tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
+                                .withSize(2, 2)
+                                .withPosition(0, 0)
+                                .addNumber("Left Shooter Velocity", () -> shooterMotor1.getSelectedSensorVelocity());
+
+                tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
+                                .withSize(2, 2)
+                                .withPosition(0, 0)
+                                .addNumber("Right Shooter Velocity", () -> shooterMotor2.getSelectedSensorVelocity());
+
+                tab.getLayout("Hood", BuiltInLayouts.kList)
+                                .withSize(2, 2)
+                                .withPosition(0, 2)
+                                .addNumber("Position Target", () -> hoodController.getSetpoint());
+
+                tab.getLayout("Hood", BuiltInLayouts.kList)
+                                .withSize(2, 2)
+                                .withPosition(0, 2)
+                                .addNumber("Current Position", () -> hoodMotor.getSelectedSensorPosition());
         }
 
         public void setSpeed(double speed) {
