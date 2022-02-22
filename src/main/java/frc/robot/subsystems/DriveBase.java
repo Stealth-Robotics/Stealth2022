@@ -100,13 +100,13 @@ public class DriveBase extends SubsystemBase {
                                 .addNumber("X", () -> getPose().getX());
 
                 tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
-                                .withSize(2, 4)
-                                .withPosition(0, 4)
+                                .withSize(2, 2)
+                                .withPosition(8, 2)
                                 .addNumber("Y", () -> getPose().getY());
 
                 tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
-                                .withSize(2, 4)
-                                .withPosition(0, 4)
+                                .withSize(2, 2)
+                                .withPosition(8, 2)
                                 .addNumber("Theta", () -> getPose().getRotation().getDegrees());
 
                 thetaController = new ProfiledPIDController(

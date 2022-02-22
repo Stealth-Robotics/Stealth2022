@@ -73,12 +73,12 @@ public class Shooter extends SubsystemBase {
 
                 tab.getLayout("Hood", BuiltInLayouts.kList)
                                 .withSize(2, 2)
-                                .withPosition(0, 2)
+                                .withPosition(2, 0)
                                 .addNumber("Position Target", () -> hoodController.getSetpoint());
 
                 tab.getLayout("Hood", BuiltInLayouts.kList)
                                 .withSize(2, 2)
-                                .withPosition(0, 2)
+                                .withPosition(2, 0)
                                 .addNumber("Current Position", () -> hoodMotor.getSelectedSensorPosition());
         }
 
