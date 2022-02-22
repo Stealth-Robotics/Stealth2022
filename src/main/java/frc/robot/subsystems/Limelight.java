@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -9,66 +12,63 @@ public class Limelight extends SubsystemBase {
     NetworkTable limelightTableEntry;
 
     public Limelight() {
+        ShuffleboardTab tab = Shuffleboard.getTab("Limelight");
+
         limelightTableEntry = NetworkTableInstance.getDefault().getTable("limelight");
 
         intializeLimelight();
+
+        tab.getLayout("Valid Target", BuiltInLayouts.kList)
+                .withPosition(0, 0)
+                .withSize(2, 1)
+                .addBoolean("Valid Target Value", () -> hasValidTarget());
+
+        tab.getLayout("Offset Values", BuiltInLayouts.kList)
+                .withPosition(2, 0)
+                .withSize(2, 3)
+                .addNumber("Horizontal Offset", () -> getTargetHorizontalOffset());
+
+        tab.getLayout("Offset Values", BuiltInLayouts.kList)
+                .withPosition(2, 0)
+                .withSize(2, 3)
+                .addNumber("Vertical Offset", () -> getTargetVerticalOffset());
+
+        tab.getLayout("Target Distance", BuiltInLayouts.kList)
+                .withPosition(0, 1)
+                .withSize(2, 2)
+                .addNumber("Distance", () -> getTargetDistance());
     }
 
-    @Override
-    public void periodic() {
-        // System.out.println(getTargetDistance());
-    }
-
-    /**
-     * Intializes Limelight LED Mode & Camera Mode
-     */
     public void intializeLimelight() {
         setLedMode(3);
         setCamMode(0);
     }
 
-    /**
-     * Checks if Limelight has a valid target
-     * 
-     * @return if the Limelight has a valid target
-     */
     public boolean hasValidTarget() {
         return limelightTableEntry.getEntry("tv").getDouble(0) == 1;
     }
 
-    /**
-     * Returns Horizontal Offset Of The Target From The Crosshair
-     * 
-     * @return If the limelight has a valid target, it will return the horizontal
-     *         offset of the target from the crosshair. If the limelight doesn't
-     *         have a valid target, it will return NaN.
-     */
     public double getTargetHorizontalOffset() {
-        return hasValidTarget() ? limelightTableEntry.getEntry("tx").getDouble(0) : Double.NaN;
+        return limelightTableEntry.getEntry("tx").getDouble(0.0);
     }
 
-    /**
-     * The angle between the camera and the target
-     * 
-     * @return The angle, in radians
-     */
     public double getTargetVerticalOffset() {
-        return hasValidTarget() ? limelightTableEntry.getEntry("ty").getDouble(0) * Math.PI / 180 : Double.NaN;
+        return limelightTableEntry.getEntry("ty").getDouble(0.0);
     }
 
-    /**
-     * Target Area (0% of image to 100% of image)
-     * 
-     * @return Target Size 0% of image to 100% of image, will return NaN if no valid
-     *         target
-     */
     public double getTargetArea() {
-        return hasValidTarget() ? limelightTableEntry.getEntry("ta").getDouble(0) : Double.NaN;
+        return limelightTableEntry.getEntry("ta").getDouble(0.0);
     }
 
-    public double getTargetDistance()
-    {
-        return (Constants.Limelight_Constants.TARGET_HEIGHT - Constants.Limelight_Constants.LENS_HEIGHT) / Math.tan(Constants.Limelight_Constants.MOUNTED_ANGLE + getTargetVerticalOffset());
+    public double getTargetDistance() {
+
+        if(!hasValidTarget())
+            return 0.0;
+
+        double angleToGoalDegrees = Constants.Limelight.MOUNTED_ANGLE + getTargetVerticalOffset();
+        double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+        return (Constants.Limelight.TARGET_HEIGHT - Constants.Limelight.LENS_HEIGHT) / Math.tan(angleToGoalRadians);
     }
 
     public void getCamMode(double defaultValue) {
