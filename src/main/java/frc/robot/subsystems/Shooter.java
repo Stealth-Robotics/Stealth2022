@@ -38,7 +38,7 @@ public class Shooter extends SubsystemBase {
 
                 shooterMotor1.setInverted(TalonFXInvertType.Clockwise);
 
-                hoodMotor.setInverted(TalonFXInvertType.Clockwise);
+                hoodMotor.setInverted(TalonFXInvertType.CounterClockwise);
 
                 setHoodEncoderPos(0);
 
@@ -55,18 +55,16 @@ public class Shooter extends SubsystemBase {
                 shooterMotor1.set(ControlMode.Velocity, rpm * 2048.0 / 600.0);
         }
 
-        public boolean atVelocity()
-        {
-                return shooterMotor1.getClosedLoopError() <= Constants.Shooter.SHOOTER_VELO_TOLERANCE;
+        public boolean atVelocity() {
+                return Math.abs(shooterMotor1.getClosedLoopError()) <= Constants.Shooter.SHOOTER_VELO_TOLERANCE;
         }
 
         public void hoodToPos(double pos) {
                 hoodMotor.set(ControlMode.Position, pos);
         }
 
-        public boolean hoodAtPos()
-        {
-                return hoodMotor.getClosedLoopError() <= Constants.Conveyor.TOLERANCE;
+        public boolean hoodAtPos() {
+                return Math.abs(hoodMotor.getClosedLoopError(0)) <= Constants.Shooter.HOOD_TOLERANCE;
         }
 
         public void setHoodSpeed(double speed) {
@@ -124,8 +122,8 @@ public class Shooter extends SubsystemBase {
 
                 hoodMotor.configNominalOutputForward(0, Constants.Shooter.TIMEOUT);
                 hoodMotor.configNominalOutputReverse(0, Constants.Shooter.TIMEOUT);
-                hoodMotor.configPeakOutputForward(1, Constants.Shooter.TIMEOUT);
-                hoodMotor.configPeakOutputReverse(-1, Constants.Shooter.TIMEOUT);
+                hoodMotor.configPeakOutputForward(0.1, Constants.Shooter.TIMEOUT);
+                hoodMotor.configPeakOutputReverse(-0.1, Constants.Shooter.TIMEOUT);
 
                 hoodMotor.configAllowableClosedloopError(Constants.Shooter.PID_LOOP_IDX,
                                 Constants.Shooter.HOOD_TOLERANCE, Constants.Shooter.TIMEOUT);
@@ -141,14 +139,8 @@ public class Shooter extends SubsystemBase {
 
         }
 
-        // @Override
-        // public void periodic() {
-        //         // TODO: Remove After Testing
-        //         System.out.println("Target Velo:" + targetVelo
-        //                         + ", Shooter 1: " + shooterMotor1.getSelectedSensorVelocity()
-        //                         + ", Shooter 2: " + shooterMotor2.getSelectedSensorVelocity());
-
-        //         System.out.println("Current Hood Pos: " + hoodMotor.getSelectedSensorPosition());
-
-        // }
+        @Override
+        public void periodic() {
+                System.out.println("Hood Pos: " + getHoodPos());
+        }
 }

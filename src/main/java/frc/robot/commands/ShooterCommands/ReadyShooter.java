@@ -14,17 +14,21 @@ public class ReadyShooter extends CommandBase {
         addRequirements(shooter);
     }
 
+
+
     @Override
     public void initialize() {
         //shooter.hoodToDegree(distanceToDegree(distance));
+        shooter.hoodToPos(2048);
         shooter.setVelocity(exitVeloToRPM(distanceToExitVelo(distance)));
 
     }
 
     @Override
     public boolean isFinished() {
-        return (shooter.hoodAtPos() && shooter.atVelocity());
+        return shooter.atVelocity() && shooter.hoodAtPos();
     }
+
 
     private double distanceToDegree(double distance) {
         return Math.max(Constants.Shooter.HOOD_UPPER_BOUND, Math.min(Constants.Shooter.HOOD_LOWER_BOUND,
@@ -40,4 +44,9 @@ public class ReadyShooter extends CommandBase {
         return Math.max(0, Math.min(38, (0.172641*Math.pow(distance, 1.45093)) + 22.9122));
     }
 
+
+    @Override
+    public void end(boolean interrupted) {
+        System.out.println("End Ready Shooteer%");
+    }
 }

@@ -70,8 +70,8 @@ public class RobotContainer {
 
     new JoystickButton(driveGamepad, 2).whenPressed(new ShootCargo(driveBase, shooter, conveyor));
 
-    new JoystickButton(driveGamepad, 3).whileHeld(() -> shooter.setHoodSpeed(-0.7)).whenReleased(() -> shooter.setHoodSpeed(0));
-    new JoystickButton(driveGamepad, 4).whileHeld(() -> shooter.setHoodSpeed(0.7)).whenReleased(() -> shooter.setHoodSpeed(0));
+    new JoystickButton(driveGamepad, 3).whileHeld(() -> shooter.setHoodSpeed(-0.3)).whenReleased(() -> shooter.setHoodSpeed(0));
+    new JoystickButton(driveGamepad, 4).whileHeld(() -> shooter.setHoodSpeed(0.3)).whenReleased(() -> shooter.setHoodSpeed(0));
 
   }
 

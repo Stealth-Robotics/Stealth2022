@@ -22,7 +22,7 @@ public class ConveyorDefault extends CommandBase {
             return;
         }
 
-        conveyor.moveByPosition(Constants.Conveyor.INTAKE_CONVEYER_STEP);
+        //conveyor.moveByPosition(Constants.Conveyor.INTAKE_CONVEYER_STEP);
         conveyor.addBall(BALL_COLORS.UNKNOWN);
     }
 

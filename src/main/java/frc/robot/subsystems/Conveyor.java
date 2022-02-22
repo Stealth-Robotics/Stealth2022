@@ -14,8 +14,8 @@ public class Conveyor extends SubsystemBase {
     private final WPI_TalonFX conveyorMotor;
     private final DigitalInput beamBreak;
 
-    private BALL_COLORS topBallColor = BALL_COLORS.EMPTY;
-    private BALL_COLORS bottomBallColor = BALL_COLORS.EMPTY;
+    private BALL_COLORS topBallColor = BALL_COLORS.UNKNOWN;
+    private BALL_COLORS bottomBallColor = BALL_COLORS.UNKNOWN;
 
     public Conveyor() {
         conveyorMotor = new WPI_TalonFX(RobotMap.Conveyor.CONVEYER_MOTOR);
@@ -27,32 +27,18 @@ public class Conveyor extends SubsystemBase {
 
         conveyorMotor.configNominalOutputForward(0, Constants.Conveyor.TIMEOUT);
         conveyorMotor.configNominalOutputReverse(0, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configPeakOutputForward(1, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configPeakOutputReverse(-1, Constants.Conveyor.TIMEOUT);
+        conveyorMotor.configPeakOutputForward(0.3, Constants.Conveyor.TIMEOUT);
+        conveyorMotor.configPeakOutputReverse(-0.3, Constants.Conveyor.TIMEOUT);
 
         conveyorMotor.configAllowableClosedloopError(Constants.Conveyor.PID_LOOP_IDX,
                 Constants.Conveyor.TOLERANCE, Constants.Conveyor.TIMEOUT);
 
-        conveyorMotor.config_kF(Constants.Conveyor.PID_LOOP_IDX, Constants.Conveyor.CONVEYOR_F_COEFF,
-                Constants.Conveyor.TIMEOUT);
-        conveyorMotor.config_kP(Constants.Conveyor.PID_LOOP_IDX, Constants.Conveyor.CONVEOR_P_COEFF,
-                Constants.Conveyor.TIMEOUT);
-        conveyorMotor.config_kI(Constants.Conveyor.PID_LOOP_IDX, Constants.Conveyor.CONVEYOR_I_COEFF,
-                Constants.Conveyor.TIMEOUT);
-        conveyorMotor.config_kD(Constants.Conveyor.PID_LOOP_IDX, Constants.Conveyor.CONVEYOR_D_COEFF,
-                Constants.Conveyor.TIMEOUT);
+       conveyorMotor.setInverted(true);
+       
     }
 
     public void setSpeed(double speed) {
         conveyorMotor.set(ControlMode.PercentOutput, speed);
-    }
-
-    public void moveToPosition(double pos) {
-        conveyorMotor.set(ControlMode.Position, pos);
-    }
-
-    public void moveByPosition(double amount) {
-        conveyorMotor.set(ControlMode.Position, conveyorMotor.getSelectedSensorPosition() + amount);
     }
 
     public double getConveyorPosition() {
@@ -67,8 +53,8 @@ public class Conveyor extends SubsystemBase {
         return beamBreak.get();
     }
 
-    public boolean atPosition() {
-        return conveyorMotor.getClosedLoopError() <= Constants.Conveyor.TOLERANCE;
+    public boolean atPosition(double pos) {
+        return Math.abs(conveyorMotor.getSelectedSensorPosition()) >= pos;
     }
 
     public void addBall(BALL_COLORS newColor) {

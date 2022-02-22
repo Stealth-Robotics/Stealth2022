@@ -1,7 +1,5 @@
 package frc.robot;
 
-import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
-import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -98,11 +96,11 @@ public final class Constants {
                 public static final int PID_LOOP_IDX = 0;
 
                 public static final double HOOD_F_COEFF = 0;
-                public static final double HOOD_P_COEFF = 0.5;
-                public static final double HOOD_I_COEFF = 0.0;
-                public static final double HOOD_D_COEFF = 1.00;
+                public static final double HOOD_P_COEFF = 0.2;
+                public static final double HOOD_I_COEFF = 0.01;
+                public static final double HOOD_D_COEFF = 0;
 
-                public static final double HOOD_TOLERANCE = 10;
+                public static final double HOOD_TOLERANCE = 5;
 
                 public static final double HOOD_LOWER_BOUND = 82;
                 public static final double HOOD_UPPER_BOUND = 58;
@@ -119,17 +117,17 @@ public final class Constants {
                 }
 
                 public static final double CONVEYOR_F_COEFF = 0;
-                public static final double CONVEOR_P_COEFF = 0.15;
+                public static final double CONVEOR_P_COEFF = 0.5;
                 public static final double CONVEYOR_I_COEFF = 0.0;
                 public static final double CONVEYOR_D_COEFF = 1.00;
 
-                public static final double TOLERANCE = 10;
+                public static final double TOLERANCE = 50;
 
                 public static final int TIMEOUT = 30; // In Milliseconds
 
                 public static final int PID_LOOP_IDX = 0;
 
-                public static final double SHOOT_CONVEYOR_STEP = 500;
+                public static final double SHOOT_CONVEYOR_STEP = 20000;
                 public static final double INTAKE_CONVEYER_STEP = 200;
         }
 }

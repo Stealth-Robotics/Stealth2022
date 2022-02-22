@@ -8,6 +8,7 @@ import frc.robot.commands.ShooterCommands.ReadyShooter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Limelight;
 
 public class ShootCargo extends SequentialCommandGroup {
 
@@ -25,26 +26,15 @@ public class ShootCargo extends SequentialCommandGroup {
 
         addCommands(
                 // Align With Target
-                //new RunCommand(() -> driveBase.lockDriveBase(), driveBase),
-                new ReadyShooter(shooter, 12));
-
-        if (conveyor.getTopBall() == BALL_COLORS.UNKNOWN) {
-            if (conveyor.getBottomBall() == BALL_COLORS.UNKNOWN) {
-                addCommands(new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2));
-                conveyor.removeTopBall();
-                conveyor.removeTopBall();
-            }
-
-            if (conveyor.getBottomBall() == BALL_COLORS.EMPTY) {
-                addCommands(new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP));
-                conveyor.removeTopBall();
-            }
-        }
+                // new RunCommand(() -> driveBase.lockDriveBase(), driveBase),
+                new ReadyShooter(shooter, 5),
+                new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2));
     }
 
     @Override
     public void end(boolean interrupted) {
         driveBase.drive(0, 0, 0);
-        shooter.setSpeed(0);
+        shooter.setVelocity(0);
+        shooter.hoodToPos(0);
     }
 }

@@ -17,12 +17,18 @@ public class MoveConveyor extends CommandBase {
 
     @Override
     public void initialize() {
-        conveyor.moveByPosition(distance);
+        conveyor.setConveyorEncoderPosition(0);
+        conveyor.setSpeed(distance);
     }
 
     @Override
     public boolean isFinished() {
-        return conveyor.atPosition();
+        return conveyor.atPosition(distance);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        conveyor.setSpeed(0);
     }
 
 }
