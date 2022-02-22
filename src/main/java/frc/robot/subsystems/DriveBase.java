@@ -157,7 +157,10 @@ public class DriveBase extends SubsystemBase {
         }
 
         public Pose2d getPose() {
-                return m_odometry.getPoseMeters();
+                return new Pose2d(
+                                -m_odometry.getPoseMeters().getY(),
+                                m_odometry.getPoseMeters().getX(),
+                                m_odometry.getPoseMeters().getRotation().minus(new Rotation2d(Math.toRadians(90))));
         }
 
         public SwerveControllerCommand getSwerveControllerCommand(Trajectory trajectory) {
