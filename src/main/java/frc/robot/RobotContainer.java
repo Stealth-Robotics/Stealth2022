@@ -83,7 +83,7 @@ public class RobotContainer {
     new JoystickButton(driveGamepad, 4).whileHeld(() -> shooter.setHoodSpeed(0.3))
         .whenReleased(() -> shooter.setHoodSpeed(0));
 
-    new JoystickButton(driveGamepad, 2).whenHeld(
+    new JoystickButton(driveGamepad, 2).whenPressed(
         new SequentialCommandGroup(
             // new InstantCommand(() -> limelight.setLedMode(3)),
             // add align to targer and ready shooter in a parralel deadline
