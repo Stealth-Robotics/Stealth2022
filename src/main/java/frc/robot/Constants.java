@@ -16,9 +16,9 @@ public final class Constants {
                  * (In Meters)
                  */
 
-                public static final double TRACKWIDTH = Units.inchesToMeters(18.571551); // Distance From Left Wheel
+                public static final double TRACKWIDTH = Units.inchesToMeters(18.5); // Distance From Left Wheel
                                                                                          // Middle To Right Wheel Middle
-                public static final double WHEELBASE = Units.inchesToMeters(25.676786); // Distance From Front Wheel
+                public static final double WHEELBASE = Units.inchesToMeters(25.5); // Distance From Front Wheel
                                                                                         // Middle To Back Wheel Middle
 
                 /**
