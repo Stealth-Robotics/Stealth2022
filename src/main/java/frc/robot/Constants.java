@@ -77,8 +77,8 @@ public final class Constants {
         }
 
         public static final class Limelight {
-                public static final double MOUNTED_ANGLE = 25; // Degrees - TODO: Check
-                public static final double LENS_HEIGHT = 20; // Inches - TODO: Check
+                public static final double MOUNTED_ANGLE = 55; // Degrees - TODO: Check
+                public static final double LENS_HEIGHT = 36.73; // Inches - TODO: Check
                 public static final double TARGET_HEIGHT = 18.571551; // Inches
 
         }
