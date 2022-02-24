@@ -9,64 +9,82 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class DriveDefault extends CommandBase {
-    private final DriveBase driveBase;
+        private final DriveBase driveBase;
 
-    private final DoubleSupplier translationXSupplier;
-    private final DoubleSupplier translationYSupplier;
-    private final DoubleSupplier rotationSupplier;
+        private final DoubleSupplier translationXSupplier;
+        private final DoubleSupplier translationYSupplier;
+        private final DoubleSupplier rotationSupplier;
 
-    private final BooleanSupplier slowModeSupplier;
+        private final BooleanSupplier slowModeSupplier;
 
-    private double xMetersPerSec = 0;
-    private double yMetersPerSec = 0;
-    private double omegaRadsPerSec = 0;
+        private double xMetersPerSec = 0;
+        private double yMetersPerSec = 0;
+        private double omegaRadsPerSec = 0;
 
-    private boolean slowMode = false;
+        private boolean slowMode = false;
 
-    public DriveDefault(DriveBase driveBase,
-            DoubleSupplier translationXSupplier,
-            DoubleSupplier translationYSupplier,
-            DoubleSupplier rotationSupplier,
-            BooleanSupplier slowModeSupplier) {
-        this.driveBase = driveBase;
-        this.translationXSupplier = translationXSupplier;
-        this.translationYSupplier = translationYSupplier;
-        this.rotationSupplier = rotationSupplier;
-        this.slowModeSupplier = slowModeSupplier;
+        public DriveDefault(DriveBase driveBase,
+                        DoubleSupplier translationXSupplier,
+                        DoubleSupplier translationYSupplier,
+                        DoubleSupplier rotationSupplier,
+                        BooleanSupplier slowModeSupplier) {
+                this.driveBase = driveBase;
+                this.translationXSupplier = translationXSupplier;
+                this.translationYSupplier = translationYSupplier;
+                this.rotationSupplier = rotationSupplier;
+                this.slowModeSupplier = slowModeSupplier;
 
-        addRequirements(driveBase);
-    }
+                addRequirements(driveBase);
+        }
 
-    @Override
-    public void execute() {
+        @Override
+        public void execute() {
 
-        slowMode = slowModeSupplier.getAsBoolean();
+                slowMode = slowModeSupplier.getAsBoolean();
 
-        xMetersPerSec = slowMode
-                ? (translationXSupplier.getAsDouble() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND)
-                        * Constants.DriveBase.SLOWMODE_MULTIPLIER
-                : (translationXSupplier.getAsDouble() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND);
+                xMetersPerSec = slowMode
+                                ? (translationXSupplier.getAsDouble()
+                                                * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND)
+                                                * Constants.DriveBase.SLOWMODE_MULTIPLIER
+                                : (translationXSupplier.getAsDouble()
+                                                * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND);
 
-        yMetersPerSec = slowMode
-                ? (translationYSupplier.getAsDouble() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND)
-                        * Constants.DriveBase.SLOWMODE_MULTIPLIER
-                : (translationYSupplier.getAsDouble() * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND);
+                yMetersPerSec = slowMode
+                                ? (translationYSupplier.getAsDouble()
+                                                * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND)
+                                                * Constants.DriveBase.SLOWMODE_MULTIPLIER
+                                : (translationYSupplier.getAsDouble()
+                                                * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND);
 
-        omegaRadsPerSec = slowMode
-                ? (rotationSupplier.getAsDouble() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
-                        * Constants.DriveBase.SLOWMODE_MULTIPLIER
-                : (rotationSupplier.getAsDouble() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+                omegaRadsPerSec = slowMode
+                                ? (rotationSupplier.getAsDouble()
+                                                * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
+                                                * Constants.DriveBase.SLOWMODE_MULTIPLIER
+                                : (rotationSupplier.getAsDouble()
+                                                * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 
-        driveBase.drive(
-                ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xMetersPerSec,
-                        yMetersPerSec,
-                        omegaRadsPerSec,
-                        driveBase.getGyroscopeRotation()));
-    }
+                if (Math.abs(xMetersPerSec) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
+                        xMetersPerSec = 0;
+                }
 
-    @Override
-    public void end(boolean interrupted) {
-        driveBase.drive(0.0, 0.0, 0.0);
-    }
+                if (Math.abs(yMetersPerSec) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
+                        yMetersPerSec = 0;
+                }
+
+                if (Math.abs(omegaRadsPerSec) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
+                        omegaRadsPerSec = 0;
+                }
+
+                driveBase.drive(
+                                ChassisSpeeds.fromFieldRelativeSpeeds(
+                                                xMetersPerSec,
+                                                yMetersPerSec,
+                                                omegaRadsPerSec,
+                                                driveBase.getGyroscopeRotation()));
+        }
+
+        @Override
+        public void end(boolean interrupted) {
+                driveBase.drive(0.0, 0.0, 0.0);
+        }
 }

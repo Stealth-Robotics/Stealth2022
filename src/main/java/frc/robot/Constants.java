@@ -17,9 +17,9 @@ public final class Constants {
                  */
 
                 public static final double TRACKWIDTH = Units.inchesToMeters(18.5); // Distance From Left Wheel
-                                                                                         // Middle To Right Wheel Middle
+                                                                                    // Middle To Right Wheel Middle
                 public static final double WHEELBASE = Units.inchesToMeters(25.5); // Distance From Front Wheel
-                                                                                        // Middle To Back Wheel Middle
+                                                                                   // Middle To Back Wheel Middle
 
                 /**
                  * TODO: Fix Module Steer Offsets Based On Production Robot
@@ -44,7 +44,7 @@ public final class Constants {
 
                 public static final double MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = Math.PI;
 
-                public static final double SLOWMODE_MULTIPLIER = 1/4;
+                public static final double SLOWMODE_MULTIPLIER = 1 / 4;
 
                 public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
                                 // Front left
@@ -79,8 +79,8 @@ public final class Constants {
         }
 
         public static final class Limelight {
-                public static final double MOUNTED_ANGLE = 55; // Degrees 
-                public static final double LENS_HEIGHT = 36.73; // Inches 
+                public static final double MOUNTED_ANGLE = 55; // Degrees
+                public static final double LENS_HEIGHT = 36.73; // Inches
                 public static final double TARGET_HEIGHT = 103; // Inches
 
         }
@@ -130,5 +130,11 @@ public final class Constants {
 
                 public static final double SHOOT_CONVEYOR_STEP = 20000;
                 public static final double INTAKE_CONVEYER_STEP = 200;
+        }
+
+        public static final class IO {
+                public static final int DRIVE_JOYSTICK_PORT = 0;
+
+                public static final double DRIVE_JOYSTICK_DEADZONE = 0.05;
         }
 }

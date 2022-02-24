@@ -48,7 +48,7 @@ public class RobotContainer {
   private final Conveyor conveyor = new Conveyor();
   private final Limelight limelight = new Limelight();
 
-  XboxController driveGamepad = new XboxController(0);
+  XboxController driveGamepad = new XboxController(Constants.IO.DRIVE_JOYSTICK_PORT);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
