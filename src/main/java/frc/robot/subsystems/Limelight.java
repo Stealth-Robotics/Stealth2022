@@ -68,7 +68,7 @@ public class Limelight extends SubsystemBase {
         double angleToGoalDegrees = Constants.Limelight.MOUNTED_ANGLE + getTargetVerticalOffset();
         double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
 
-        return (Constants.Limelight.TARGET_HEIGHT - Constants.Limelight.LENS_HEIGHT) / Math.tan(angleToGoalRadians);
+        return ((Constants.Limelight.TARGET_HEIGHT - Constants.Limelight.LENS_HEIGHT) / Math.tan(angleToGoalRadians)) + Constants.Limelight.LENS_TO_SHOOTER;
     }
 
     public void getCamMode(double defaultValue) {

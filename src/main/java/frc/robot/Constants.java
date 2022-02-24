@@ -83,6 +83,8 @@ public final class Constants {
                 public static final double LENS_HEIGHT = 36.73; // Inches
                 public static final double TARGET_HEIGHT = 103; // Inches
 
+                public static final double LENS_TO_SHOOTER = 11.78; // Inches
+
         }
 
         public static final class Shooter {
