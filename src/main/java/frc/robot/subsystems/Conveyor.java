@@ -27,8 +27,8 @@ public class Conveyor extends SubsystemBase {
 
         conveyorMotor.configNominalOutputForward(0, Constants.Conveyor.TIMEOUT);
         conveyorMotor.configNominalOutputReverse(0, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configPeakOutputForward(0.3, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configPeakOutputReverse(-0.3, Constants.Conveyor.TIMEOUT);
+        conveyorMotor.configPeakOutputForward(0.4, Constants.Conveyor.TIMEOUT);
+        conveyorMotor.configPeakOutputReverse(-0.4, Constants.Conveyor.TIMEOUT);
 
         conveyorMotor.configAllowableClosedloopError(Constants.Conveyor.PID_LOOP_IDX,
                 Constants.Conveyor.TOLERANCE, Constants.Conveyor.TIMEOUT);

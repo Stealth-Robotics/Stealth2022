@@ -19,13 +19,15 @@ public class ReadyShooter extends CommandBase {
     @Override
     public void initialize() {
         shooter.hoodToDegree(distanceToDegree(distance));
+       // System.out.println(distanceToDegree(distance));
+        //shooter.hoodToPos(2048*16);
         shooter.setVelocity(exitVeloToRPM(distanceToExitVelo(distance)));
 
     }
 
     @Override
     public boolean isFinished() {
-        return shooter.atVelocity() && shooter.hoodAtPos();
+        return shooter.hoodAtPos();
     }
 
 

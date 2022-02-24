@@ -40,9 +40,9 @@ public class Shooter extends SubsystemBase {
                 shooterMotor2.setNeutralMode(NeutralMode.Coast);
                 hoodMotor.setNeutralMode(NeutralMode.Brake);
 
-                shooterMotor1.setInverted(TalonFXInvertType.CounterClockwise);
+                shooterMotor1.setInverted(TalonFXInvertType.Clockwise);
 
-                hoodMotor.setInverted(TalonFXInvertType.CounterClockwise);
+                hoodMotor.setInverted(TalonFXInvertType.Clockwise);
 
                 setHoodEncoderPos(0);
 
@@ -55,11 +55,7 @@ public class Shooter extends SubsystemBase {
                                 Constants.Shooter.HOOD_D_COEFF);
 
                 hoodController.setTolerance(Constants.Shooter.HOOD_TOLERANCE);
-
-                tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
-                                .withSize(2, 2)
-                                .withPosition(0, 0)
-                                .addNumber("Velocity Target", () -> shooterMotor1.getClosedLoopTarget());
+                hoodController.setIntegratorRange(-0.2, 0.2);
 
                 tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
                                 .withSize(2, 2)
@@ -80,6 +76,11 @@ public class Shooter extends SubsystemBase {
                                 .withSize(2, 2)
                                 .withPosition(2, 0)
                                 .addNumber("Current Position", () -> hoodMotor.getSelectedSensorPosition());
+
+                tab.getLayout("Hood", BuiltInLayouts.kList)
+                                .withSize(2, 2)
+                                .withPosition(2, 0)
+                                .addNumber("Current Error", () -> hoodController.getPositionError());
         }
 
         public void setSpeed(double speed) {
@@ -95,6 +96,7 @@ public class Shooter extends SubsystemBase {
         }
 
         public void hoodToPos(double pos) {
+                hoodController.reset();
                 hoodController.setSetpoint(pos);
         }
 
@@ -157,12 +159,12 @@ public class Shooter extends SubsystemBase {
 
                 hoodMotor.configNominalOutputForward(0, Constants.Shooter.TIMEOUT);
                 hoodMotor.configNominalOutputReverse(0, Constants.Shooter.TIMEOUT);
-                hoodMotor.configPeakOutputForward(0.1, Constants.Shooter.TIMEOUT);
-                hoodMotor.configPeakOutputReverse(-0.1, Constants.Shooter.TIMEOUT);
+                hoodMotor.configPeakOutputForward(1, Constants.Shooter.TIMEOUT);
+                hoodMotor.configPeakOutputReverse(-1, Constants.Shooter.TIMEOUT);
         }
 
         @Override
         public void periodic() {
-                hoodToPos(hoodController.calculate(getHoodPos()));
+                setHoodSpeed(hoodController.calculate(getHoodPos()));
         }
 }

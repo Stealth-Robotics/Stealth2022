@@ -56,17 +56,17 @@ public final class Constants {
                                 // Back right
                                 new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
-                public static final double X_P_CONTROLLER = 0.1;
-                public static final double X_I_CONTROLLER = 0.1;
-                public static final double X_D_CONTROLLER = 0.1;
+                public static final double X_P_CONTROLLER = 0.001;
+                public static final double X_I_CONTROLLER = 0.0;
+                public static final double X_D_CONTROLLER = 0.0;
 
-                public static final double Y_P_CONTROLLER = 0.1;
-                public static final double Y_I_CONTROLLER = 0.1;
-                public static final double Y_D_CONTROLLER = 0.1;
+                public static final double Y_P_CONTROLLER = 0.001;
+                public static final double Y_I_CONTROLLER = 0.0;
+                public static final double Y_D_CONTROLLER = 0.0;
 
-                public static final double THETA_P_CONTROLLER = 0.1;
-                public static final double THETA_I_CONTROLLER = 0.1;
-                public static final double THETA_D_CONTROLLER = 0.1;
+                public static final double THETA_P_CONTROLLER = 0.001;
+                public static final double THETA_I_CONTROLLER = 0.0;
+                public static final double THETA_D_CONTROLLER = 0.0;
 
                 public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
                                 MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
@@ -97,11 +97,11 @@ public final class Constants {
 
                 public static final int PID_LOOP_IDX = 0;
 
-                public static final double HOOD_P_COEFF = 0.01;
-                public static final double HOOD_I_COEFF = 0.009;
-                public static final double HOOD_D_COEFF = 0.0001;
+                public static final double HOOD_P_COEFF = 0.0001;
+                public static final double HOOD_I_COEFF = 0.00004;
+                public static final double HOOD_D_COEFF = 0.00000;
 
-                public static final double HOOD_TOLERANCE = 5;
+                public static final double HOOD_TOLERANCE = 8000;
 
                 public static final double HOOD_LOWER_BOUND = 82;
                 public static final double HOOD_UPPER_BOUND = 58;
