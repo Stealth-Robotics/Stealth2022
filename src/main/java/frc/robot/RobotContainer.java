@@ -25,6 +25,7 @@ import frc.robot.commands.DriveBaseCommands.FollowTrajectory;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.commands.ShooterCommands.ReadyShooter;
+import frc.robot.commands.ShooterCommands.ResetShooter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
@@ -88,13 +89,11 @@ public class RobotContainer {
         .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
 
     // new JoystickButton(driveGamepad, 2).whenPressed(
-    // new SequentialCommandGroup(
-    // // add align to targer and ready shooter in a parralel deadline
-    // new ReadyShooter(shooter, 5 /*(limelight.getTargetDistance()/12)*/),
-    // new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
-    // new ParallelCommandGroup(
-    // new InstantCommand(() -> shooter.hoodToPos(0)),
-    // new InstantCommand(() -> shooter.setVelocity(0)))));
+    //     new SequentialCommandGroup(
+    //         // add align to targer and ready shooter in a parralel deadline
+    //         new ReadyShooter(shooter, 5 /* (limelight.getTargetDistance()/12) */),
+    //         new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
+    //         new ResetShooter(shooter)));
   }
 
   SequentialCommandGroup testAutoSPath = new SequentialCommandGroup(

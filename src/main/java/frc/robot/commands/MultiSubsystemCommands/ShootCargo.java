@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.ShooterCommands.ReadyShooter;
+import frc.robot.commands.ShooterCommands.ResetShooter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Shooter;
@@ -25,11 +26,9 @@ public class ShootCargo extends SequentialCommandGroup {
         addRequirements(shooter, conveyor, driveBase);
 
         addCommands(
-                new ReadyShooter(shooter, 5 /*(limelight.getTargetDistance()/12)*/),
+                new ReadyShooter(shooter, 5 /* (limelight.getTargetDistance()/12) */),
                 new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
-                new ParallelCommandGroup(
-                        new InstantCommand(() -> shooter.hoodToPos(0)),
-                        new InstantCommand(() -> shooter.setVelocity(0))));
+                new ResetShooter(shooter));
     }
 
     @Override
