@@ -23,6 +23,7 @@ import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.DriveBaseCommands.FollowTrajectory;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
+import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.commands.ShooterCommands.ReadyShooter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
@@ -82,15 +83,19 @@ public class RobotContainer {
     new JoystickButton(driveGamepad, 1)
         .whenPressed(() -> driveBase.zeroGyroscope());
 
-    new JoystickButton(driveGamepad, 2).whenPressed(
-        new SequentialCommandGroup(
-            // new InstantCommand(() -> limelight.setLedMode(3)),
-            // add align to targer and ready shooter in a parralel deadline
-            new ReadyShooter(shooter, 5 /* limelight.getTargetDistance() */),
-            new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
-            new ParallelCommandGroup(
-                new InstantCommand(() -> shooter.hoodToPos(0)),
-                new InstantCommand(() -> shooter.setVelocity(0)))));
+    // TODO: Test If Sequential Command Group Is Working
+    new JoystickButton(driveGamepad, 2)
+        .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
+
+    // new JoystickButton(driveGamepad, 2).whenPressed(
+    // new SequentialCommandGroup(
+    // // new InstantCommand(() -> limelight.setLedMode(3)),
+    // // add align to targer and ready shooter in a parralel deadline
+    // new ReadyShooter(shooter, 5 /* limelight.getTargetDistance() */),
+    // new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
+    // new ParallelCommandGroup(
+    // new InstantCommand(() -> shooter.hoodToPos(0)),
+    // new InstantCommand(() -> shooter.setVelocity(0)))));
   }
 
   SequentialCommandGroup testAutoSPath = new SequentialCommandGroup(
