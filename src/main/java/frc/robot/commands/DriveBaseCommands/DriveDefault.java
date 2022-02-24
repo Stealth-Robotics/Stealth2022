@@ -63,15 +63,15 @@ public class DriveDefault extends CommandBase {
                                 : (rotationSupplier.getAsDouble()
                                                 * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
 
-                if (Math.abs(xMetersPerSec) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
+                if (Math.abs(translationXSupplier.getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
                         xMetersPerSec = 0;
                 }
 
-                if (Math.abs(yMetersPerSec) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
+                if (Math.abs(translationYSupplier.getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
                         yMetersPerSec = 0;
                 }
 
-                if (Math.abs(omegaRadsPerSec) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
+                if (Math.abs(rotationSupplier.getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
                         omegaRadsPerSec = 0;
                 }
 
