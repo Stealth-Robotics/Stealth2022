@@ -97,10 +97,9 @@ public final class Constants {
 
                 public static final int PID_LOOP_IDX = 0;
 
-                public static final double HOOD_F_COEFF = 0;
-                public static final double HOOD_P_COEFF = 0.2;
-                public static final double HOOD_I_COEFF = 0.01;
-                public static final double HOOD_D_COEFF = 0;
+                public static final double HOOD_P_COEFF = 0.01;
+                public static final double HOOD_I_COEFF = 0.009;
+                public static final double HOOD_D_COEFF = 0.0001;
 
                 public static final double HOOD_TOLERANCE = 5;
 

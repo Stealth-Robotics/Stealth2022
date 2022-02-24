@@ -95,11 +95,11 @@ public class Shooter extends SubsystemBase {
         }
 
         public void hoodToPos(double pos) {
-                hoodMotor.set(ControlMode.Position, pos);
+                hoodController.setSetpoint(pos);
         }
 
         public boolean hoodAtPos() {
-                return Math.abs(hoodMotor.getClosedLoopError(0)) <= Constants.Shooter.HOOD_TOLERANCE;
+                return hoodController.atSetpoint();
         }
 
         public void setHoodSpeed(double speed) {
@@ -155,21 +155,14 @@ public class Shooter extends SubsystemBase {
                                 Constants.Shooter.PID_LOOP_IDX,
                                 Constants.Shooter.TIMEOUT);
 
-                hoodMotor.configAllowableClosedloopError(Constants.Shooter.PID_LOOP_IDX,
-                                Constants.Shooter.HOOD_TOLERANCE, Constants.Shooter.TIMEOUT);
-
-                hoodMotor.config_kF(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_F_COEFF,
-                                Constants.Shooter.TIMEOUT);
-                hoodMotor.config_kP(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_P_COEFF,
-                                Constants.Shooter.TIMEOUT);
-                hoodMotor.config_kI(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_I_COEFF,
-                                Constants.Shooter.TIMEOUT);
-                hoodMotor.config_kD(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.HOOD_D_COEFF,
-                                Constants.Shooter.TIMEOUT);
-
                 hoodMotor.configNominalOutputForward(0, Constants.Shooter.TIMEOUT);
                 hoodMotor.configNominalOutputReverse(0, Constants.Shooter.TIMEOUT);
                 hoodMotor.configPeakOutputForward(0.1, Constants.Shooter.TIMEOUT);
                 hoodMotor.configPeakOutputReverse(-0.1, Constants.Shooter.TIMEOUT);
+        }
+
+        @Override
+        public void periodic() {
+                hoodToPos(hoodController.calculate(getHoodPos()));
         }
 }
