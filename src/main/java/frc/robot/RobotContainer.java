@@ -89,9 +89,8 @@ public class RobotContainer {
 
     // new JoystickButton(driveGamepad, 2).whenPressed(
     // new SequentialCommandGroup(
-    // // new InstantCommand(() -> limelight.setLedMode(3)),
     // // add align to targer and ready shooter in a parralel deadline
-    // new ReadyShooter(shooter, 5 /* limelight.getTargetDistance() */),
+    // new ReadyShooter(shooter, 5 /*(limelight.getTargetDistance()/12)*/),
     // new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
     // new ParallelCommandGroup(
     // new InstantCommand(() -> shooter.hoodToPos(0)),
