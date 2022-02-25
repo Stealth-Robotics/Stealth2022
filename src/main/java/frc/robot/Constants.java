@@ -105,6 +105,9 @@ public final class Constants {
 
                 public static final double HOOD_TOLERANCE = 1000;
 
+                public static final double HOOD_INTEGRAL_MIN = -0.2;
+                public static final double HOOD_INTEGRAL_MAX = 0.2;
+
                 public static final double HOOD_LOWER_BOUND = 82;
                 public static final double HOOD_UPPER_BOUND = 58;
 
@@ -118,6 +121,9 @@ public final class Constants {
                         UNKNOWN,
                         EMPTY
                 }
+
+                public static final double SHOOTING_SPEED = 0.4;
+                public static final double INDEXING_SPEED = 0.4;
 
                 public static final int TIMEOUT = 30; // In Milliseconds
 

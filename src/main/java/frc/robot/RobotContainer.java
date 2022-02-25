@@ -49,7 +49,7 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   private final Conveyor conveyor = new Conveyor();
   private final Limelight limelight = new Limelight();
-  private final Climber climber = new Climber();  
+  private final Climber climber = new Climber();
 
   XboxController driveGamepad = new XboxController(Constants.IO.DRIVE_JOYSTICK_PORT);
 
@@ -94,14 +94,14 @@ public class RobotContainer {
     //     new SequentialCommandGroup(
     //         // add align to targer and ready shooter in a parralel deadline
     //         new ReadyShooter(shooter, 5 /* (limelight.getTargetDistance()/12) */),
-    //         new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
+    //         new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2, Constants.Conveyor.SHOOTING_SPEED),
     //         new ResetShooter(shooter)));
 
     new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.climberControl(0.5)));
     new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.climberControl(0.5)));
 
   }
-   
+
   SequentialCommandGroup testAutoSPath = new SequentialCommandGroup(
       new FollowTrajectory(driveBase, TrajectoryGenerator.generateTrajectory(
           new Pose2d(0, 0, new Rotation2d(0)),

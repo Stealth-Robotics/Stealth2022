@@ -55,7 +55,10 @@ public class Shooter extends SubsystemBase {
                                 Constants.Shooter.HOOD_D_COEFF);
 
                 hoodController.setTolerance(Constants.Shooter.HOOD_TOLERANCE);
-                hoodController.setIntegratorRange(-0.2, 0.2);
+                
+                hoodController.setIntegratorRange(
+                                Constants.Shooter.HOOD_INTEGRAL_MIN,
+                                Constants.Shooter.HOOD_INTEGRAL_MAX);
 
                 tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
                                 .withSize(2, 2)
