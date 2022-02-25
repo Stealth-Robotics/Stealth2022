@@ -50,6 +50,12 @@ public final class RobotMap {
         public static final int HOOD_SWITCH = 4;
     }
 
+    public static final class Climber {
+        public static final int CLIMBER_MOTOR_1 = 5;
+        public static final int CLIMBER_MOTOR_2= 6;
+
+    }
+
     public static final class Conveyor {
 
         /**

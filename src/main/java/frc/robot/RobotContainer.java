@@ -31,6 +31,7 @@ import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Climber;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -48,6 +49,7 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   private final Conveyor conveyor = new Conveyor();
   private final Limelight limelight = new Limelight();
+  private final Climber climber = new Climber();  
 
   XboxController driveGamepad = new XboxController(Constants.IO.DRIVE_JOYSTICK_PORT);
 
@@ -94,8 +96,12 @@ public class RobotContainer {
     //         new ReadyShooter(shooter, 5 /* (limelight.getTargetDistance()/12) */),
     //         new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
     //         new ResetShooter(shooter)));
-  }
 
+    new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.climberControl(0.5)));
+    new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.climberControl(0.5)));
+
+  }
+   
   SequentialCommandGroup testAutoSPath = new SequentialCommandGroup(
       new FollowTrajectory(driveBase, TrajectoryGenerator.generateTrajectory(
           new Pose2d(0, 0, new Rotation2d(0)),
