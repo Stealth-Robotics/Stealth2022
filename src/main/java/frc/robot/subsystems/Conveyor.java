@@ -65,6 +65,11 @@ public class Conveyor extends SubsystemBase {
                 .withSize(2, 1)
                 .withSize(2, 0)
                 .addBoolean("Beam Break Value", () -> getBreak());
+        tab.getLayout("Conveyor", BuiltInLayouts.kList)
+                .withSize(2,0 )
+                .withSize(2, 0)
+                .addNumber("Conveyor Error", () -> conveyorController.getPositionError());
+
     }
 
     public void setSpeed(double speed) {
