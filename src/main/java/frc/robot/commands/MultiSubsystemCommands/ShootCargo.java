@@ -1,14 +1,15 @@
 package frc.robot.commands.MultiSubsystemCommands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.Constants.Conveyor.BALL_COLORS;
 import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.ShooterCommands.ReadyShooter;
+import frc.robot.commands.ShooterCommands.ResetShooter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Limelight;
 
 public class ShootCargo extends SequentialCommandGroup {
 
@@ -25,10 +26,9 @@ public class ShootCargo extends SequentialCommandGroup {
         addRequirements(shooter, conveyor, driveBase);
 
         addCommands(
-                // Align With Target
-                // new RunCommand(() -> driveBase.lockDriveBase(), driveBase),
-                new ReadyShooter(shooter, 5),
-                new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2));
+                new ReadyShooter(shooter, 5 /* (limelight.getTargetDistance()/12) */),
+                new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
+                new ResetShooter(shooter));
     }
 
     @Override

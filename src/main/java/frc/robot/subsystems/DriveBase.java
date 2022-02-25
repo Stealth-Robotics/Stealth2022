@@ -118,18 +118,44 @@ public class DriveBase extends SubsystemBase {
                 thetaController.enableContinuousInput(-Math.PI, Math.PI);
         }
 
+        /**
+         * Gets the rotation of the Pigeon IMU. This rotation is relative to the
+         * rotation the bot was in when the Pigeon IMU booted up.
+         * 
+         * @return The rotation of the Pigeon IMU as a Rotation2d
+         */
         public Rotation2d getGyroscopeRotation() {
                 return pigeon.getRotation2d();
         }
 
+        /**
+         * Sets current Pigeon IMU's rotation yaw value to a given value. All rotation
+         * from then on will be relative to the given position.
+         * 
+         * @param newValue The new yaw value that the Pigeon IMU's rotation yaw value
+         *                 should be set to.
+         */
         public void setGyroscopeRotation(double newValue) {
                 pigeon.setYaw(90);
         }
 
+        /**
+         * Sets the current Pigeon IMU's rotation yaw value to zero
+         */
         public void zeroGyroscope() {
                 setGyroscopeRotation(0);
         }
 
+        /**
+         * Moves the drivebase around by running the swerve modules.
+         * 
+         * @param vxMetersPerSecond     The desired meters per second the drivebase
+         *                              should move in the x-axis direction
+         * @param vyMetersPerSecond     The desired meters per second the drivebase
+         *                              should move in the y-axis direction
+         * @param omegaRadiansPerSecond The desired radians per second the robot should
+         *                              rotate in a unit circle
+         */
         public void drive(double vxMetersPerSecond, double vyMetersPerSecond, double omegaRadiansPerSecond) {
                 this.chassisSpeeds = new ChassisSpeeds(
                                 vxMetersPerSecond,
@@ -137,6 +163,11 @@ public class DriveBase extends SubsystemBase {
                                 omegaRadiansPerSecond);
         }
 
+        /**
+         * Moves the drivebase around by running the swerve modules.
+         * 
+         * @param chassisSpeeds The x, y, and theta the drivebase must move in.
+         */
         public void drive(ChassisSpeeds chassisSpeeds) {
                 this.chassisSpeeds = chassisSpeeds;
         }
@@ -145,6 +176,10 @@ public class DriveBase extends SubsystemBase {
          * TODO: Test To See If Position Is Held When Pushed Around
          * TODO: Test To See If It Doesn't Interfere With Other Drive Functions
          */
+
+        /**
+         * Sets swerve modules into an x-shape so the drivebase cannot be pushed around.
+         */
         public void lockDriveBase() {
                 frontLeftModule.set(0, 45);
                 frontRightModule.set(0, 135);
@@ -152,10 +187,25 @@ public class DriveBase extends SubsystemBase {
                 backRightModule.set(0, 45);
         }
 
+        /**
+         * Resets the current odometry position to a given position. All odometry
+         * tracking from then on will be relative to the given position.
+         * 
+         * @param pose The new pose that the odometry tracking should be set to. The
+         *             translation aspect is a Translation2d meters and the rotation
+         *             aspect is a Rotation2d.
+         */
         public void resetOdometry(Pose2d pose) {
                 m_odometry.resetPosition(pose, getGyroscopeRotation());
         }
 
+        /**
+         * Gets the current odometry reading of the drivebase.
+         * 
+         * @return A Pose2d with the current odometry position of the drivebase. The
+         *         translation aspect is a Translation2d meters and the rotation
+         *         aspect is a Rotation2d.
+         */
         public Pose2d getPose() {
                 return new Pose2d(
                                 -m_odometry.getPoseMeters().getY(),
@@ -163,6 +213,13 @@ public class DriveBase extends SubsystemBase {
                                 m_odometry.getPoseMeters().getRotation().minus(new Rotation2d(Math.toRadians(90))));
         }
 
+        /**
+         * Returns SwerveControllerCommand for given trajectory.
+         * 
+         * @param trajectory Given trajectory to make SwerveControllerCommand for.
+         * @return SwerveControllerCommand for the drivebase to follow the given
+         *         trajectory.
+         */
         public SwerveControllerCommand getSwerveControllerCommand(Trajectory trajectory) {
                 return new SwerveControllerCommand(
                                 trajectory,
@@ -179,6 +236,13 @@ public class DriveBase extends SubsystemBase {
                                 this);
         }
 
+        /**
+         * Sets modules to desired states in both speed and direction.
+         * 
+         * @param desiredStates An array of desired states for the swerve module going
+         *                      in order of front left, front right, back left, back
+         *                      right.
+         */
         public void setModuleStates(SwerveModuleState[] desiredStates) {
                 SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,
                                 Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND);

@@ -39,50 +39,100 @@ public class Limelight extends SubsystemBase {
                 .addNumber("Distance", () -> getTargetDistance());
     }
 
-    public void intializeLimelight() {
+    private void intializeLimelight() {
         setLedMode(3);
         setCamMode(0);
     }
 
+    /**
+     * Wether the Limelight has a valid target
+     * 
+     * @return A boolean that is true when the Limelight has a valid target.
+     */
     public boolean hasValidTarget() {
         return limelightTableEntry.getEntry("tv").getDouble(0) == 1;
     }
 
+    /**
+     * Gets horizontal offset of the Limelight's crosshair
+     * 
+     * @return The horizontal offset of the Limelight's crosshair.
+     */
     public double getTargetHorizontalOffset() {
         return limelightTableEntry.getEntry("tx").getDouble(0.0);
     }
 
+    /**
+     * Gets vertical offset of the Limelight's crosshair
+     * 
+     * @return The vertical offset of the Limelight's crosshair.
+     */
     public double getTargetVerticalOffset() {
         return limelightTableEntry.getEntry("ty").getDouble(0.0);
     }
 
+    /**
+     * Gets the targets area in relation the the image size
+     * 
+     * @return The area of the target in relationship to the image size.
+     */
     public double getTargetArea() {
         return limelightTableEntry.getEntry("ta").getDouble(0.0);
     }
 
+    /**
+     * Gets distance from the front of the shooter to the target.
+     * 
+     * @return The distance from the shooter to the LimeLight target.
+     */
     public double getTargetDistance() {
 
-        if(!hasValidTarget())
+        if (!hasValidTarget())
             return 0.0;
 
         double angleToGoalDegrees = Constants.Limelight.MOUNTED_ANGLE + getTargetVerticalOffset();
         double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
 
-        return (Constants.Limelight.TARGET_HEIGHT - Constants.Limelight.LENS_HEIGHT) / Math.tan(angleToGoalRadians);
+        return ((Constants.Limelight.TARGET_HEIGHT - Constants.Limelight.LENS_HEIGHT) / Math.tan(angleToGoalRadians))
+                + Constants.Limelight.LENS_TO_SHOOTER;
     }
 
-    public void getCamMode(double defaultValue) {
-        limelightTableEntry.getEntry("camMode").getDouble(defaultValue);
+    /**
+     * Gets the current camera mode of the Limelight.
+     * 
+     * @param defaultValue The default value if the NetworkTableEntry could not be
+     *                     found.
+     * @return The current camera mode of the Limelight.
+     */
+    public double getCamMode(double defaultValue) {
+        return limelightTableEntry.getEntry("camMode").getDouble(defaultValue);
     }
 
-    public void getLedMode(double defaultValue) {
-        limelightTableEntry.getEntry("ledMode").getDouble(defaultValue);
+    /**
+     * Gets the current LED mode of the Limelight.
+     * 
+     * @param defaultValue The default value if the NetworkTableEntry could not be
+     *                     found.
+     * @return The current LED mode of the Limelight.
+     */
+    public double getLedMode(double defaultValue) {
+        return limelightTableEntry.getEntry("ledMode").getDouble(defaultValue);
     }
 
+    /**
+     * Sets the camera mode of the Limelight to a given camera mode.
+     * 
+     * @param camMode The given camera mode to set the LimeLight to.
+     */
     public void setCamMode(double camMode) {
         limelightTableEntry.getEntry("camMode").setNumber(camMode);
     }
 
+    /**
+     * Set the LED mode of the Limelight to a given LED mode.
+     * 
+     * @param ledMode The given LED mode to set the Limelight to.
+     */
     public void setLedMode(double ledMode) {
         limelightTableEntry.getEntry("ledMode").setNumber(ledMode);
     }

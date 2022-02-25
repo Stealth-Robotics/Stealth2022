@@ -23,7 +23,9 @@ import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.DriveBaseCommands.FollowTrajectory;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
+import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.commands.ShooterCommands.ReadyShooter;
+import frc.robot.commands.ShooterCommands.ResetShooter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
@@ -47,7 +49,7 @@ public class RobotContainer {
   private final Conveyor conveyor = new Conveyor();
   private final Limelight limelight = new Limelight();
 
-  XboxController driveGamepad = new XboxController(0);
+  XboxController driveGamepad = new XboxController(Constants.IO.DRIVE_JOYSTICK_PORT);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -82,15 +84,16 @@ public class RobotContainer {
     new JoystickButton(driveGamepad, 1)
         .whenPressed(() -> driveBase.zeroGyroscope());
 
-    new JoystickButton(driveGamepad, 2).whenPressed(
-        new SequentialCommandGroup(
-            // new InstantCommand(() -> limelight.setLedMode(3)),
-            // add align to targer and ready shooter in a parralel deadline
-            new ReadyShooter(shooter, 5 /* limelight.getTargetDistance() */),
-            new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
-            new ParallelCommandGroup(
-                new InstantCommand(() -> shooter.hoodToPos(0)),
-                new InstantCommand(() -> shooter.setVelocity(0)))));
+    // TODO: Test If Sequential Command Group Is Working
+    new JoystickButton(driveGamepad, 2)
+        .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
+
+    // new JoystickButton(driveGamepad, 2).whenPressed(
+    //     new SequentialCommandGroup(
+    //         // add align to targer and ready shooter in a parralel deadline
+    //         new ReadyShooter(shooter, 5 /* (limelight.getTargetDistance()/12) */),
+    //         new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
+    //         new ResetShooter(shooter)));
   }
 
   SequentialCommandGroup testAutoSPath = new SequentialCommandGroup(
