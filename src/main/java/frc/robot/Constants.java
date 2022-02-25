@@ -119,19 +119,18 @@ public final class Constants {
                         EMPTY
                 }
 
-                public static final double CONVEYOR_F_COEFF = 0;
                 public static final double CONVEOR_P_COEFF = 0.5;
                 public static final double CONVEYOR_I_COEFF = 0.0;
                 public static final double CONVEYOR_D_COEFF = 1.00;
 
-                public static final double TOLERANCE = 50;
+                public static final double TOLERANCE = 1000;
 
                 public static final int TIMEOUT = 30; // In Milliseconds
 
                 public static final int PID_LOOP_IDX = 0;
 
                 public static final double SHOOT_CONVEYOR_STEP = 20000;
-                public static final double INTAKE_CONVEYER_STEP = 200;
+                public static final double INTAKE_CONVEYER_STEP = 10000;
         }
 
         public static final class IO {

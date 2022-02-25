@@ -2,7 +2,6 @@ package frc.robot.commands.ConveyerCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Constants.Conveyor.BALL_COLORS;
 import frc.robot.subsystems.Conveyor;
 
 public class ConveyorDefault extends CommandBase {
@@ -17,13 +16,10 @@ public class ConveyorDefault extends CommandBase {
 
     @Override
     public void execute() {
-
-        if (!conveyor.getBreak()) {
-            return;
+        if(conveyor.getBreak())
+        {
+            conveyor.moveByPos(Constants.Conveyor.INTAKE_CONVEYER_STEP);
         }
-
-        //conveyor.moveByPosition(Constants.Conveyor.INTAKE_CONVEYER_STEP);
-        conveyor.addBall(BALL_COLORS.UNKNOWN);
     }
 
     @Override
