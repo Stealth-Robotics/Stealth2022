@@ -101,7 +101,7 @@ public final class Constants {
 
                 public static final double HOOD_P_COEFF = 0.0001;
                 public static final double HOOD_I_COEFF = 0.00004;
-                public static final double HOOD_D_COEFF = 0.00000;
+                public static final double HOOD_D_COEFF = 0.0;
 
                 public static final double HOOD_TOLERANCE = 1000;
 
@@ -119,9 +119,9 @@ public final class Constants {
                         EMPTY
                 }
 
-                public static final double CONVEOR_P_COEFF = 0.5;
-                public static final double CONVEYOR_I_COEFF = 0.0;
-                public static final double CONVEYOR_D_COEFF = 1.00;
+                public static final double CONVEOR_P_COEFF = 0.0001;
+                public static final double CONVEYOR_I_COEFF = 0.00004;
+                public static final double CONVEYOR_D_COEFF = 0.0;
 
                 public static final double TOLERANCE = 1000;
 
