@@ -4,11 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.Conveyor.BALL_COLORS;
@@ -18,14 +14,10 @@ public class Conveyor extends SubsystemBase {
     private final WPI_TalonFX conveyorMotor;
     private final DigitalInput beamBreak;
 
-    private final PIDController conveyorController;
-
     private BALL_COLORS topBallColor = BALL_COLORS.UNKNOWN;
     private BALL_COLORS bottomBallColor = BALL_COLORS.UNKNOWN;
 
     public Conveyor() {
-        ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
-
         conveyorMotor = new WPI_TalonFX(RobotMap.Conveyor.CONVEYER_MOTOR);
         beamBreak = new DigitalInput(RobotMap.Conveyor.BEAM_BREAK);
 
@@ -38,50 +30,17 @@ public class Conveyor extends SubsystemBase {
         conveyorMotor.configPeakOutputForward(0.4, Constants.Conveyor.TIMEOUT);
         conveyorMotor.configPeakOutputReverse(-0.4, Constants.Conveyor.TIMEOUT);
 
-        conveyorMotor.configAllowableClosedloopError(Constants.Conveyor.PID_LOOP_IDX,
-                Constants.Conveyor.TOLERANCE, Constants.Conveyor.TIMEOUT);
-
-        conveyorMotor.setInverted(true);
-
-        conveyorController = new PIDController(
-                Constants.Conveyor.CONVEOR_P_COEFF,
-                Constants.Conveyor.CONVEYOR_I_COEFF,
-                Constants.Conveyor.CONVEYOR_D_COEFF);
-
-        conveyorController.setTolerance(Constants.Conveyor.TOLERANCE);
-        conveyorController.setIntegratorRange(-0.2, 0.2);
-
-        tab.getLayout("Conveyor", BuiltInLayouts.kList)
-                .withSize(2, 2)
-                .withPosition(0, 0)
-                .addNumber("Position Target", () -> conveyorController.getSetpoint());
-
-        tab.getLayout("Conveyor", BuiltInLayouts.kList)
-                .withSize(2, 2)
-                .withPosition(0, 0)
-                .addNumber("Current Position", () -> getConveyorPosition());
-
-        tab.getLayout("Beam Break", BuiltInLayouts.kList)
-                .withSize(2, 1)
-                .withSize(2, 0)
-                .addBoolean("Beam Break Value", () -> getBreak());
-        tab.getLayout("Conveyor", BuiltInLayouts.kList)
-                .withSize(2,0 )
-                .withSize(2, 0)
-                .addNumber("Conveyor Error", () -> conveyorController.getPositionError());
-
+       conveyorMotor.setInverted(true);
+       
     }
 
     public void setSpeed(double speed) {
         conveyorMotor.set(ControlMode.PercentOutput, speed);
     }
 
-    public void setPos(double newPos) {
-        conveyorController.setSetpoint(newPos);
-    }
-
-    public void moveByPos(double newPos) {
-        setPos(newPos + getConveyorPosition());
+    public double getSpeed()
+    {
+        return conveyorMotor.getMotorOutputPercent();
     }
 
     public double getConveyorPosition() {
@@ -96,13 +55,8 @@ public class Conveyor extends SubsystemBase {
         return beamBreak.get();
     }
 
-    public boolean atPosition() {
-        return conveyorController.atSetpoint();
-    }
-
-    @Override
-    public void periodic() {
-        setSpeed(conveyorController.calculate(getConveyorPosition()));
+    public boolean atPosition(double pos) {
+        return Math.abs(conveyorMotor.getSelectedSensorPosition()) >= pos;
     }
 
     public void addBall(BALL_COLORS newColor) {

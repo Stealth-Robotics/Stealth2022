@@ -1,7 +1,6 @@
 package frc.robot.commands.ConveyerCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.Conveyor;
 
 public class ConveyorDefault extends CommandBase {
@@ -16,15 +15,12 @@ public class ConveyorDefault extends CommandBase {
 
     @Override
     public void execute() {
-        if(conveyor.getBreak())
-        {
-            conveyor.moveByPos(Constants.Conveyor.INTAKE_CONVEYER_STEP);
+        if (conveyor.getBreak() && conveyor.getSpeed() != 0.4) {
+            conveyor.setSpeed(0.4);
+        }
+
+        else if(conveyor.getSpeed() != 0.0) {
+            conveyor.setSpeed(0);
         }
     }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
 }

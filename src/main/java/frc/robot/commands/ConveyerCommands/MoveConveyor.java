@@ -8,6 +8,8 @@ public class MoveConveyor extends CommandBase {
 
     private final double distance;
 
+    private double startingDistance;
+
     public MoveConveyor(Conveyor conveyor, double distance) {
         this.conveyor = conveyor;
         this.distance = distance;
@@ -17,11 +19,18 @@ public class MoveConveyor extends CommandBase {
 
     @Override
     public void initialize() {
-        conveyor.moveByPos(distance);
+        startingDistance = conveyor.getConveyorPosition();
+        conveyor.setSpeed(1);
     }
 
     @Override
     public boolean isFinished() {
-        return conveyor.atPosition();
+        return conveyor.atPosition(startingDistance + distance);
     }
+
+    @Override
+    public void end(boolean interrupted) {
+        conveyor.setSpeed(0);
+    }
+
 }
