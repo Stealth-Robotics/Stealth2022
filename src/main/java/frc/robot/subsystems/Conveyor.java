@@ -6,6 +6,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.Conveyor.BALL_COLORS;
@@ -21,6 +24,8 @@ public class Conveyor extends SubsystemBase {
     private BALL_COLORS bottomBallColor = BALL_COLORS.UNKNOWN;
 
     public Conveyor() {
+        ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
+
         conveyorMotor = new WPI_TalonFX(RobotMap.Conveyor.CONVEYER_MOTOR);
         beamBreak = new DigitalInput(RobotMap.Conveyor.BEAM_BREAK);
 
@@ -44,6 +49,22 @@ public class Conveyor extends SubsystemBase {
                 Constants.Conveyor.CONVEYOR_D_COEFF);
 
         conveyorController.setTolerance(Constants.Conveyor.TOLERANCE);
+        conveyorController.setIntegratorRange(-0.2, 0.2);
+
+        tab.getLayout("Conveyor", BuiltInLayouts.kList)
+                .withSize(2, 2)
+                .withPosition(0, 0)
+                .addNumber("Position Target", () -> conveyorController.getSetpoint());
+
+        tab.getLayout("Conveyor", BuiltInLayouts.kList)
+                .withSize(2, 2)
+                .withPosition(0, 0)
+                .addNumber("Current Position", () -> getConveyorPosition());
+
+        tab.getLayout("Beam Break", BuiltInLayouts.kList)
+                .withSize(2, 1)
+                .withSize(2, 0)
+                .addBoolean("Beam Break Value", () -> getBreak());
     }
 
     public void setSpeed(double speed) {
