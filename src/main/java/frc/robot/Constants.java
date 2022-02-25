@@ -101,7 +101,7 @@ public final class Constants {
                 public static final double HOOD_I_COEFF = 0.00004;
                 public static final double HOOD_D_COEFF = 0.00000;
 
-                public static final double HOOD_TOLERANCE = 8000;
+                public static final double HOOD_TOLERANCE = 1000;
 
                 public static final double HOOD_LOWER_BOUND = 82;
                 public static final double HOOD_UPPER_BOUND = 58;
