@@ -59,14 +59,17 @@ public final class Constants {
                 public static final double X_P_CONTROLLER = 0.001;
                 public static final double X_I_CONTROLLER = 0.0;
                 public static final double X_D_CONTROLLER = 0.0;
+                public static final double X_TOLERANCE = 0.05;
 
                 public static final double Y_P_CONTROLLER = 0.001;
                 public static final double Y_I_CONTROLLER = 0.0;
                 public static final double Y_D_CONTROLLER = 0.0;
+                public static final double Y_TOLERANCE = 0.05;
 
                 public static final double THETA_P_CONTROLLER = 0.001;
                 public static final double THETA_I_CONTROLLER = 0.0;
                 public static final double THETA_D_CONTROLLER = 0.0;
+                public static final double THETA_TOLERANCE = 2;
 
                 public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
                                 MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
