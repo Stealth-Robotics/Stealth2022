@@ -63,7 +63,7 @@ public final class RobotMap {
          */
 
         public static final int CONVEYER_MOTOR = 2;
-        public static final int BEAM_BREAK = 2;
+        public static final int BEAM_BREAK = 0;
     }
 
     public static final class Pneumatics {

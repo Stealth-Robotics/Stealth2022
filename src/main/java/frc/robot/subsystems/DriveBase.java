@@ -34,6 +34,8 @@ public class DriveBase extends SubsystemBase {
                         Constants.DriveBase.DRIVE_KINEMATICS,
                         getGyroscopeRotation());
 
+        PIDController xController;
+        PIDController yController;
         ProfiledPIDController thetaController;
 
         private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
@@ -84,6 +86,27 @@ public class DriveBase extends SubsystemBase {
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_ENCODER,
                                 Constants.DriveBase.BACK_RIGHT_MODULE_STEER_OFFSET);
 
+                xController = new PIDController(
+                                Constants.DriveBase.X_P_CONTROLLER,
+                                Constants.DriveBase.X_I_CONTROLLER,
+                                Constants.DriveBase.X_D_CONTROLLER);
+                xController.setTolerance(Constants.DriveBase.X_TOLERANCE);
+
+                yController = new PIDController(
+                                Constants.DriveBase.Y_P_CONTROLLER,
+                                Constants.DriveBase.Y_I_CONTROLLER,
+                                Constants.DriveBase.Y_D_CONTROLLER);
+                yController.setTolerance(Constants.DriveBase.Y_TOLERANCE);
+
+                thetaController = new ProfiledPIDController(
+                                Constants.DriveBase.THETA_P_CONTROLLER,
+                                Constants.DriveBase.THETA_I_CONTROLLER,
+                                Constants.DriveBase.THETA_D_CONTROLLER,
+                                Constants.DriveBase.THETA_CONTROLLER_CONSTRAINTS);
+                xController.setTolerance(Constants.DriveBase.THETA_TOLERANCE);
+
+                thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
                 tab.getLayout("Pigeon IMU", BuiltInLayouts.kList)
                                 .withSize(2, 2)
                                 .withPosition(8, 0)
@@ -109,13 +132,6 @@ public class DriveBase extends SubsystemBase {
                                 .withPosition(8, 2)
                                 .addNumber("Theta", () -> getPose().getRotation().getDegrees());
 
-                thetaController = new ProfiledPIDController(
-                                Constants.DriveBase.THETA_P_CONTROLLER,
-                                Constants.DriveBase.THETA_I_CONTROLLER,
-                                Constants.DriveBase.THETA_D_CONTROLLER,
-                                Constants.DriveBase.THETA_CONTROLLER_CONSTRAINTS);
-
-                thetaController.enableContinuousInput(-Math.PI, Math.PI);
         }
 
         /**
@@ -225,12 +241,8 @@ public class DriveBase extends SubsystemBase {
                                 trajectory,
                                 () -> getPose(),
                                 Constants.DriveBase.DRIVE_KINEMATICS,
-                                new PIDController(Constants.DriveBase.X_P_CONTROLLER,
-                                                Constants.DriveBase.X_I_CONTROLLER,
-                                                Constants.DriveBase.X_D_CONTROLLER),
-                                new PIDController(Constants.DriveBase.Y_P_CONTROLLER,
-                                                Constants.DriveBase.Y_I_CONTROLLER,
-                                                Constants.DriveBase.Y_D_CONTROLLER),
+                                xController,
+                                yController,
                                 thetaController,
                                 this::setModuleStates,
                                 this);
