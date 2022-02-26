@@ -27,8 +27,8 @@ public class Conveyor extends SubsystemBase {
 
         conveyorMotor.configNominalOutputForward(0, Constants.Conveyor.TIMEOUT);
         conveyorMotor.configNominalOutputReverse(0, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configPeakOutputForward(1, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configPeakOutputReverse(-1, Constants.Conveyor.TIMEOUT);
+        conveyorMotor.configPeakOutputForward(0.4, Constants.Conveyor.TIMEOUT);
+        conveyorMotor.configPeakOutputReverse(-0.4, Constants.Conveyor.TIMEOUT);
 
        conveyorMotor.setInverted(true);
        
