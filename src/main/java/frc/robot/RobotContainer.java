@@ -86,19 +86,13 @@ public class RobotContainer {
     new JoystickButton(driveGamepad, 1)
         .whenPressed(() -> driveBase.zeroGyroscope());
 
-    // TODO: Test If Sequential Command Group Is Working
     new JoystickButton(driveGamepad, 2)
         .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
 
-    // new JoystickButton(driveGamepad, 2).whenPressed(
-    //     new SequentialCommandGroup(
-    //         // add align to targer and ready shooter in a parralel deadline
-    //         new ReadyShooter(shooter, 5 /* (limelight.getTargetDistance()/12) */),
-    //         new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2, Constants.Conveyor.SHOOTING_SPEED),
-    //         new ResetShooter(shooter)));
-
-    new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.climberControl(0.5)));
-    new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.climberControl(0.5)));
+    new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(0.5)))
+        .whenReleased(() -> climber.setSpeed(0));
+    new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.setSpeed(0.5)))
+        .whenReleased(() -> climber.setSpeed(0));
 
   }
 
