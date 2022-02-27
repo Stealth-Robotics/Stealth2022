@@ -9,7 +9,7 @@ import frc.robot.subsystems.DriveBase;
 
 public class AlignWithTarget extends CommandBase {
 
-    //TODO: PID Controller Needs to be Tuned
+    // TODO: PID Controller Needs to be Tuned
     private final DriveBase driveBase;
     private final Limelight limelight;
     private final PIDController alignController;
@@ -21,6 +21,8 @@ public class AlignWithTarget extends CommandBase {
                 Constants.DriveBase.ALIGN_P_COEFF,
                 Constants.DriveBase.ALIGN_I_COEFF,
                 Constants.DriveBase.ALIGN_D_COEFF);
+
+        alignController.setTolerance(Constants.DriveBase.ALIGN_TOLERANCE);
     }
 
     @Override
@@ -30,6 +32,11 @@ public class AlignWithTarget extends CommandBase {
 
     public void execute() {
         driveBase.drive(0, 0, -alignController.calculate(limelight.getTargetHorizontalOffset()));
+    }
+
+    @Override
+    public boolean isFinished() {
+        return alignController.atSetpoint() || !limelight.hasValidTarget();
     }
 
 }

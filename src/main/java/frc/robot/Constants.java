@@ -83,6 +83,8 @@ public final class Constants {
                 public static final double ALIGN_P_COEFF = 0;
                 public static final double ALIGN_I_COEFF = 0;
                 public static final double ALIGN_D_COEFF = 0;
+
+                public static final double ALIGN_TOLERANCE = 0;
         }
 
         public static final class Limelight {
