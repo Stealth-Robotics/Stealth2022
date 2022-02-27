@@ -7,6 +7,7 @@ import frc.robot.Constants;
 import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.ShooterCommands.ReadyShooter;
 import frc.robot.commands.ShooterCommands.ResetShooter;
+import frc.robot.subsystems.CANdleSystem;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Shooter;
@@ -16,12 +17,14 @@ public class ShootCargo extends SequentialCommandGroup {
     private final DriveBase driveBase;
     private final Shooter shooter;
     private final Conveyor conveyor;
+    private final CANdleSystem candle;
 
-    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor) {
+    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, CANdleSystem candle) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;
         this.conveyor = conveyor;
+        this.candle = candle; 
 
         addRequirements(shooter, conveyor, driveBase);
 
@@ -34,9 +37,15 @@ public class ShootCargo extends SequentialCommandGroup {
     }
 
     @Override
+    public void initialize() {
+        candle.blink();
+    }
+
+    @Override
     public void end(boolean interrupted) {
         driveBase.drive(0, 0, 0);
         shooter.setVelocity(0);
         shooter.hoodToPos(0);
+        candle.turnOff();
     }
 }

@@ -5,10 +5,6 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 public final class RobotMap {
     public static final class DriveBase {
 
-        /**
-         * TODO: Set CAN IDs Based On Production Robot
-         */
-
         public static final int FRONT_LEFT_MODULE_DRIVE = 13;
         public static final int FRONT_LEFT_MODULE_STEERING = 23;
         public static final int FRONT_LEFT_MODULE_ENCODER = 33;
@@ -31,18 +27,10 @@ public final class RobotMap {
 
     public static final class Intake {
 
-        /**
-         * TODO: Set CAN IDs Based On Production Robot
-         */
-
         public static final int INTAKE_MOTOR = 1;
     }
 
     public static final class Shooter {
-
-        /**
-         * TODO: Set CAN IDs Based On Production Robot
-         */
 
         public static final int SHOOTER_MOTOR_1 = 8;
         public static final int SHOOTER_MOTOR_2 = 9;
@@ -58,12 +46,14 @@ public final class RobotMap {
 
     public static final class Conveyor {
 
-        /**
-         * TODO: Set CAN IDs Based On Production Robot
-         */
-
         public static final int CONVEYER_MOTOR = 2;
         public static final int BEAM_BREAK = 0;
+    }
+
+    public static final class CANdleSystem
+    {
+        public static final int LEFT_CANDLE = 45;
+        public static final int RIGHT_CANDLE = 46;
     }
 
     public static final class Pneumatics {

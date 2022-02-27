@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.List;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,27 +15,22 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
-import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.DriveBaseCommands.FollowTrajectory;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
-import frc.robot.commands.ShooterCommands.ReadyShooter;
-import frc.robot.commands.ShooterCommands.ResetShooter;
+import frc.robot.subsystems.CANdleSystem;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Climber;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -52,6 +49,7 @@ public class RobotContainer {
     private final Conveyor conveyor = new Conveyor();
     private final Limelight limelight = new Limelight();
     private final Climber climber = new Climber();
+    private final CANdleSystem candle = new CANdleSystem();
 
     private final UsbCamera intakeCamera;
 
@@ -94,7 +92,7 @@ public class RobotContainer {
                 .whenPressed(() -> driveBase.zeroGyroscope());
 
         new JoystickButton(driveGamepad, 5)
-                .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
+                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, candle));
 
         new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(0.3)))
                 .whenReleased(() -> climber.setSpeed(0));
