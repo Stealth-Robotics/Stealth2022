@@ -125,19 +125,22 @@ public final class Constants {
                         EMPTY
                 }
 
-                public static final double SHOOTING_SPEED = 0.4;
-                public static final double INDEXING_SPEED = 0.4;
 
                 public static final int TIMEOUT = 30; // In Milliseconds
 
                 public static final int PID_LOOP_IDX = 0;
 
                 public static final double SHOOT_CONVEYOR_STEP = 20000;
+                public static final double INDEXING_STEP = 5000;
+
+
+
+
         }
 
         public static final class IO {
                 public static final int DRIVE_JOYSTICK_PORT = 0;
 
-                public static final double DRIVE_JOYSTICK_DEADZONE = 0.05;
+                public static final double DRIVE_JOYSTICK_DEADZONE = 0.1;
         }
 }

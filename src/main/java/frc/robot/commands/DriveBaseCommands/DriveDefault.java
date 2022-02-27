@@ -75,6 +75,10 @@ public class DriveDefault extends CommandBase {
                         omegaRadsPerSec = 0;
                 }
 
+              //  System.out.println("xMetersPerSec " + xMetersPerSec);
+                //System.out.println("yMetersPerSec " + yMetersPerSec);
+               // System.out.println("omegaRadsPerSec " + omegaRadsPerSec);
+
                 driveBase.drive(
                                 ChassisSpeeds.fromFieldRelativeSpeeds(
                                                 xMetersPerSec,

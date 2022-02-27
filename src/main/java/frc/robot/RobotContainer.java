@@ -13,6 +13,8 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -32,6 +34,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climber;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -62,7 +66,7 @@ public class RobotContainer {
         driveBase,
         () -> driveGamepad.getLeftX(),
         () -> -driveGamepad.getLeftY(),
-        () -> driveGamepad.getRightX(),
+        () -> -driveGamepad.getRightX(),
         () -> driveGamepad.getLeftBumper()));
 
     intake.setDefaultCommand(new IntakeDefault(intake,
@@ -70,6 +74,9 @@ public class RobotContainer {
 
     conveyor.setDefaultCommand(new ConveyorDefault(conveyor));
 
+    UsbCamera intakeCamera = CameraServer.getInstance().startAutomaticCapture(0);
+    intakeCamera.setResolution(320, 240);
+    intakeCamera.setFPS(25);  
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -89,9 +96,9 @@ public class RobotContainer {
     new JoystickButton(driveGamepad, 2)
         .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
 
-    new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(0.5)))
+    new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(0.3)))
         .whenReleased(() -> climber.setSpeed(0));
-    new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.setSpeed(0.5)))
+    new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.setSpeed(-0.3)))
         .whenReleased(() -> climber.setSpeed(0));
 
   }

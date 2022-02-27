@@ -13,9 +13,10 @@ import frc.robot.RobotMap;
 public class Conveyor extends SubsystemBase {
     private final WPI_TalonFX conveyorMotor;
     private final DigitalInput beamBreak;
+    private double target = 0;
 
-    private BALL_COLORS topBallColor = BALL_COLORS.UNKNOWN;
-    private BALL_COLORS bottomBallColor = BALL_COLORS.UNKNOWN;
+    private BALL_COLORS topBallColor = BALL_COLORS.EMPTY;
+    private BALL_COLORS bottomBallColor = BALL_COLORS.EMPTY;
 
     public Conveyor() {
         conveyorMotor = new WPI_TalonFX(RobotMap.Conveyor.CONVEYER_MOTOR);
@@ -27,19 +28,22 @@ public class Conveyor extends SubsystemBase {
 
         conveyorMotor.configNominalOutputForward(0, Constants.Conveyor.TIMEOUT);
         conveyorMotor.configNominalOutputReverse(0, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configPeakOutputForward(1, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configPeakOutputReverse(-1, Constants.Conveyor.TIMEOUT);
+        conveyorMotor.configPeakOutputForward(0.4, Constants.Conveyor.TIMEOUT);
+        conveyorMotor.configPeakOutputReverse(-0.4, Constants.Conveyor.TIMEOUT);
 
-       conveyorMotor.setInverted(true);
-       
+        conveyorMotor.setInverted(true);
+
+    }
+
+    public void moveByAmount(double amount) {
+        target = amount + getConveyorPosition();
     }
 
     public void setSpeed(double speed) {
         conveyorMotor.set(ControlMode.PercentOutput, speed);
     }
 
-    public double getSpeed()
-    {
+    public double getSpeed() {
         return conveyorMotor.getMotorOutputPercent();
     }
 
@@ -52,11 +56,11 @@ public class Conveyor extends SubsystemBase {
     }
 
     public boolean getBreak() {
-        return beamBreak.get();
+        return !beamBreak.get();
     }
 
-    public boolean atPosition(double pos) {
-        return Math.abs(conveyorMotor.getSelectedSensorPosition()) >= pos;
+    public boolean atPosition() {
+        return conveyorMotor.getSelectedSensorPosition() >= target;
     }
 
     public void addBall(BALL_COLORS newColor) {
@@ -93,5 +97,21 @@ public class Conveyor extends SubsystemBase {
 
     public boolean isFull() {
         return !(bottomBallColor == BALL_COLORS.EMPTY && topBallColor == BALL_COLORS.EMPTY);
+    }
+
+    @Override
+    public void periodic() {
+
+        if(!atPosition())
+        {
+            setSpeed(1);
+        }
+
+        else {
+            setSpeed(0);
+        }
+
+        
+
     }
 }

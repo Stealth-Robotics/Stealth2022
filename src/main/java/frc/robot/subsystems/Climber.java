@@ -22,6 +22,7 @@ public class Climber extends SubsystemBase {
 
         climberMotor1.setInverted(TalonFXInvertType.Clockwise); //TODO: Needs to be checked
         climberMotor2.follow(climberMotor1);
+        climberMotor2.setInverted(TalonFXInvertType.FollowMaster);
     }
 
     public void setSpeed(double speed) {
