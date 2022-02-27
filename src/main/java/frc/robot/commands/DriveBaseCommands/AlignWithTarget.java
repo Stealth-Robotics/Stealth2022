@@ -31,7 +31,7 @@ public class AlignWithTarget extends CommandBase {
     }
 
     public void execute() {
-        driveBase.drive(0, 0, -alignController.calculate(limelight.getTargetHorizontalOffset()));
+        driveBase.drive(0, 0, alignController.calculate(limelight.getTargetHorizontalOffset()));
     }
 
     @Override
