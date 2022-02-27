@@ -35,8 +35,6 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climber;
 
-
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -47,81 +45,83 @@ import frc.robot.subsystems.Climber;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final DriveBase driveBase = new DriveBase();
-  private final Intake intake = new Intake();
-  private final Shooter shooter = new Shooter();
-  private final Conveyor conveyor = new Conveyor();
-  private final Limelight limelight = new Limelight();
-  private final Climber climber = new Climber();
+    // The robot's subsystems and commands are defined here...
+    private final DriveBase driveBase = new DriveBase();
+    private final Intake intake = new Intake();
+    private final Shooter shooter = new Shooter();
+    private final Conveyor conveyor = new Conveyor();
+    private final Limelight limelight = new Limelight();
+    private final Climber climber = new Climber();
 
-  XboxController driveGamepad = new XboxController(Constants.IO.DRIVE_JOYSTICK_PORT);
+    private final UsbCamera intakeCamera;
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
+    private final XboxController driveGamepad = new XboxController(Constants.IO.DRIVE_JOYSTICK_PORT);
 
-    driveBase.setDefaultCommand(new DriveDefault(
-        driveBase,
-        () -> driveGamepad.getLeftX(),
-        () -> -driveGamepad.getLeftY(),
-        () -> -driveGamepad.getRightX(),
-        () -> driveGamepad.getLeftBumper()));
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
 
-    intake.setDefaultCommand(new IntakeDefault(intake,
-        driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
+        driveBase.setDefaultCommand(new DriveDefault(
+                driveBase,
+                () -> driveGamepad.getLeftX(),
+                () -> -driveGamepad.getLeftY(),
+                () -> -driveGamepad.getRightX(),
+                () -> driveGamepad.getLeftBumper()));
 
-    conveyor.setDefaultCommand(new ConveyorDefault(conveyor));
+        intake.setDefaultCommand(new IntakeDefault(intake,
+                driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
 
-    UsbCamera intakeCamera = CameraServer.getInstance().startAutomaticCapture(0);
-    intakeCamera.setResolution(320, 240);
-    intakeCamera.setFPS(25);  
-    // Configure the button bindings
-    configureButtonBindings();
-  }
+        conveyor.setDefaultCommand(new ConveyorDefault(conveyor));
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    new JoystickButton(driveGamepad, 1)
-        .whenPressed(() -> driveBase.zeroGyroscope());
+        intakeCamera = CameraServer.startAutomaticCapture(0);
+        intakeCamera.setResolution(1280, 720);
+        intakeCamera.setFPS(25);
+        // Configure the button bindings
+        configureButtonBindings();
+    }
 
-    new JoystickButton(driveGamepad, 5)
-        .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+     * it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        new JoystickButton(driveGamepad, 1)
+                .whenPressed(() -> driveBase.zeroGyroscope());
 
-    new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(0.3)))
-        .whenReleased(() -> climber.setSpeed(0));
-    new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.setSpeed(-0.3)))
-        .whenReleased(() -> climber.setSpeed(0));
+        new JoystickButton(driveGamepad, 5)
+                .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
+
+        new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(0.3)))
+                .whenReleased(() -> climber.setSpeed(0));
+        new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.setSpeed(-0.3)))
+                .whenReleased(() -> climber.setSpeed(0));
 
         new JoystickButton(driveGamepad, 2).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
 
-  }
+    }
 
-  SequentialCommandGroup testAutoSPath = new SequentialCommandGroup(
-      new FollowTrajectory(driveBase, TrajectoryGenerator.generateTrajectory(
-          new Pose2d(0, 0, new Rotation2d(0)),
-          List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-          new Pose2d(3, 0, new Rotation2d(0)),
-          Constants.DriveBase.CONFIG)),
-      new InstantCommand(() -> intake.setSpeed(0.5), intake),
-      new WaitCommand(2),
-      new InstantCommand(() -> intake.setSpeed(0), intake));
+    SequentialCommandGroup testAutoSPath = new SequentialCommandGroup(
+            new FollowTrajectory(driveBase, TrajectoryGenerator.generateTrajectory(
+                    new Pose2d(0, 0, new Rotation2d(0)),
+                    List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+                    new Pose2d(3, 0, new Rotation2d(0)),
+                    Constants.DriveBase.CONFIG)),
+            new InstantCommand(() -> intake.setSpeed(0.5), intake),
+            new WaitCommand(2),
+            new InstantCommand(() -> intake.setSpeed(0), intake));
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return testAutoSPath;
-  }
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        // An ExampleCommand will run in autonomous
+        return testAutoSPath;
+    }
 }
