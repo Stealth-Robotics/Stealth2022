@@ -79,6 +79,10 @@ public final class Constants {
                                 Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND,
                                 Constants.DriveBase.MAX_ACCELERATION_METERS_PER_SECOND)
                                                 .setKinematics(Constants.DriveBase.DRIVE_KINEMATICS);
+
+                public static final double ALIGN_P_COEFF = 0;
+                public static final double ALIGN_I_COEFF = 0;
+                public static final double ALIGN_D_COEFF = 0;
         }
 
         public static final class Limelight {
@@ -124,7 +128,6 @@ public final class Constants {
                         UNKNOWN,
                         EMPTY
                 }
-
 
                 public static final int TIMEOUT = 30; // In Milliseconds
 
