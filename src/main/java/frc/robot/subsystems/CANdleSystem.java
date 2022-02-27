@@ -15,16 +15,16 @@ public class CANdleSystem extends SubsystemBase {
 
     public CANdleSystem()
     {
-        leftCANdle = new CANdle(RobotMap.CANdleSubsystem.LEFT_CANDLE);
-        rightCANdle = new CANdle(RobotMap.CANdleSubsystem.RIGHT_CANDLE);
+        leftCANdle = new CANdle(RobotMap.CANdleSystem.LEFT_CANDLE);
+        rightCANdle = new CANdle(RobotMap.CANdleSystem.RIGHT_CANDLE);
 
         CANdleConfiguration config = new CANdleConfiguration();
         config.brightnessScalar = 1.0;
         config.statusLedOffWhenActive = true;
         config.disableWhenLOS = true;
         
-        leftCANdle.configAllSettings(config, Constants.CANdleSubsystem.TIMEOUT);
-        rightCANdle.configAllSettings(config, Constants.CANdleSubsystem.TIMEOUT);
+        leftCANdle.configAllSettings(config, Constants.CANdleSystem.TIMEOUT);
+        rightCANdle.configAllSettings(config, Constants.CANdleSystem.TIMEOUT);
     }
 
     public void blink()
