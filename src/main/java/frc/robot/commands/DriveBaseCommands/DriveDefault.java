@@ -17,12 +17,6 @@ public class DriveDefault extends CommandBase {
 
         private final BooleanSupplier slowModeSupplier;
 
-        private double xMetersPerSec = 0;
-        private double yMetersPerSec = 0;
-        private double omegaRadsPerSec = 0;
-
-        private boolean slowMode = false;
-
         public DriveDefault(DriveBase driveBase,
                         DoubleSupplier translationXSupplier,
                         DoubleSupplier translationYSupplier,
@@ -40,50 +34,35 @@ public class DriveDefault extends CommandBase {
         @Override
         public void execute() {
 
-                slowMode = slowModeSupplier.getAsBoolean();
-
-                xMetersPerSec = slowMode
-                                ? (translationXSupplier.getAsDouble()
-                                                * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND)
-                                                * Constants.DriveBase.SLOWMODE_MULTIPLIER
-                                : (translationXSupplier.getAsDouble()
-                                                * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND);
-
-                yMetersPerSec = slowMode
-                                ? (translationYSupplier.getAsDouble()
-                                                * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND)
-                                                * Constants.DriveBase.SLOWMODE_MULTIPLIER
-                                : (translationYSupplier.getAsDouble()
-                                                * Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND);
-
-                omegaRadsPerSec = slowMode
-                                ? (rotationSupplier.getAsDouble()
-                                                * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
-                                                * Constants.DriveBase.SLOWMODE_MULTIPLIER
-                                : (rotationSupplier.getAsDouble()
-                                                * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-
-                if (Math.abs(translationXSupplier.getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
-                        xMetersPerSec = 0;
-                }
-
-                if (Math.abs(translationYSupplier.getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
-                        yMetersPerSec = 0;
-                }
-
-                if (Math.abs(rotationSupplier.getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE) {
-                        omegaRadsPerSec = 0;
-                }
-
-              //  System.out.println("xMetersPerSec " + xMetersPerSec);
-                //System.out.println("yMetersPerSec " + yMetersPerSec);
-               // System.out.println("omegaRadsPerSec " + omegaRadsPerSec);
-
                 driveBase.drive(
                                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                                                xMetersPerSec,
-                                                yMetersPerSec,
-                                                omegaRadsPerSec,
+                                                (Math.abs(translationXSupplier
+                                                                .getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE)
+                                                                                ? 0
+                                                                                : (slowModeSupplier.getAsBoolean()
+                                                                                                ? translationXSupplier
+                                                                                                                .getAsDouble()
+                                                                                                                / 4
+                                                                                                : translationXSupplier
+                                                                                                                .getAsDouble()),
+                                                (Math.abs(translationYSupplier
+                                                                .getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE)
+                                                                                ? 0
+                                                                                : (slowModeSupplier.getAsBoolean()
+                                                                                                ? translationYSupplier
+                                                                                                                .getAsDouble()
+                                                                                                                / 4
+                                                                                                : translationYSupplier
+                                                                                                                .getAsDouble()),
+                                                (Math.abs(rotationSupplier
+                                                                .getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE)
+                                                                                ? 0
+                                                                                : (slowModeSupplier.getAsBoolean()
+                                                                                                ? rotationSupplier
+                                                                                                                .getAsDouble()
+                                                                                                                / 4
+                                                                                                : rotationSupplier
+                                                                                                                .getAsDouble()),
                                                 driveBase.getGyroscopeRotation()));
         }
 
