@@ -4,16 +4,20 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
@@ -29,6 +33,10 @@ public class DriveBase extends SubsystemBase {
         private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
                         Constants.DriveBase.DRIVE_KINEMATICS,
                         getGyroscopeRotation());
+
+        PIDController xController;
+        PIDController yController;
+        ProfiledPIDController thetaController;
 
         private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -77,6 +85,27 @@ public class DriveBase extends SubsystemBase {
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_STEERING,
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_ENCODER,
                                 Constants.DriveBase.BACK_RIGHT_MODULE_STEER_OFFSET);
+
+                xController = new PIDController(
+                                Constants.DriveBase.X_P_CONTROLLER,
+                                Constants.DriveBase.X_I_CONTROLLER,
+                                Constants.DriveBase.X_D_CONTROLLER);
+                xController.setTolerance(Constants.DriveBase.X_TOLERANCE);
+
+                yController = new PIDController(
+                                Constants.DriveBase.Y_P_CONTROLLER,
+                                Constants.DriveBase.Y_I_CONTROLLER,
+                                Constants.DriveBase.Y_D_CONTROLLER);
+                yController.setTolerance(Constants.DriveBase.Y_TOLERANCE);
+
+                thetaController = new ProfiledPIDController(
+                                Constants.DriveBase.THETA_P_CONTROLLER,
+                                Constants.DriveBase.THETA_I_CONTROLLER,
+                                Constants.DriveBase.THETA_D_CONTROLLER,
+                                Constants.DriveBase.THETA_CONTROLLER_CONSTRAINTS);
+                xController.setTolerance(Constants.DriveBase.THETA_TOLERANCE);
+
+                thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
                 tab.getLayout("Pigeon IMU", BuiltInLayouts.kList)
                                 .withSize(2, 2)
@@ -159,6 +188,21 @@ public class DriveBase extends SubsystemBase {
                 this.chassisSpeeds = chassisSpeeds;
         }
 
+        /*
+         * TODO: Test To See If Position Is Held When Pushed Around
+         * TODO: Test To See If It Doesn't Interfere With Other Drive Functions
+         */
+
+        /**
+         * Sets swerve modules into an x-shape so the drivebase cannot be pushed around.
+         */
+        public void lockDriveBase() {
+                frontLeftModule.set(0, 45);
+                frontRightModule.set(0, 135);
+                backLeftModule.set(0, 135);
+                backRightModule.set(0, 45);
+        }
+
         /**
          * Resets the current odometry position to a given position. All odometry
          * tracking from then on will be relative to the given position.
@@ -196,6 +240,25 @@ public class DriveBase extends SubsystemBase {
                                 -m_odometry.getPoseMeters().getY(),
                                 m_odometry.getPoseMeters().getX(),
                                 Rotation2d.fromDegrees(theta));
+        }
+
+        /**
+         * Returns SwerveControllerCommand for given trajectory.
+         * 
+         * @param trajectory Given trajectory to make SwerveControllerCommand for.
+         * @return SwerveControllerCommand for the drivebase to follow the given
+         *         trajectory.
+         */
+        public SwerveControllerCommand getSwerveControllerCommand(Trajectory trajectory) {
+                return new SwerveControllerCommand(
+                                trajectory,
+                                () -> getPose(),
+                                Constants.DriveBase.DRIVE_KINEMATICS,
+                                xController,
+                                yController,
+                                thetaController,
+                                this::setModuleStates,
+                                this);
         }
 
         /**
