@@ -27,6 +27,7 @@ public class ShootCargo extends SequentialCommandGroup {
         addRequirements(shooter, conveyor, driveBase);
 
         addCommands(
+                new MoveConveyor(conveyor, 2000),
                 new ReadyShooter(shooter, 7 /* (limelight.getTargetDistance()/12) */),
                 new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
                 new ResetShooter(shooter));

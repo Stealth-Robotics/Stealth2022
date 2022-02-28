@@ -60,7 +60,8 @@ public class Conveyor extends SubsystemBase {
     }
 
     public boolean atPosition() {
-        return conveyorMotor.getSelectedSensorPosition() >= target;
+        return target >= 0 ? conveyorMotor.getSelectedSensorPosition() >= target
+                : conveyorMotor.getSelectedSensorPosition() <= target;
     }
 
     public void addBall(BALL_COLORS newColor) {
