@@ -17,28 +17,19 @@ public class ShootCargo extends SequentialCommandGroup {
     private final DriveBase driveBase;
     private final Shooter shooter;
     private final Conveyor conveyor;
-    private final CANdleSystem candle;
 
-    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, CANdleSystem candle) {
+    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;
         this.conveyor = conveyor;
-        this.candle = candle; 
 
         addRequirements(shooter, conveyor, driveBase);
 
         addCommands(
-                new ReadyShooter(shooter, 5 /* (limelight.getTargetDistance()/12) */),
+                new ReadyShooter(shooter, 7 /* (limelight.getTargetDistance()/12) */),
                 new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
-                new ResetShooter(shooter),
-                new InstantCommand(() -> conveyor.removeTopBall()),
-                new InstantCommand(() -> conveyor.removeTopBall()));
-    }
-
-    @Override
-    public void initialize() {
-        candle.blink();
+                new ResetShooter(shooter));
     }
 
     @Override
@@ -46,6 +37,5 @@ public class ShootCargo extends SequentialCommandGroup {
         driveBase.drive(0, 0, 0);
         shooter.setVelocity(0);
         shooter.hoodToPos(0);
-        candle.turnOff();
     }
 }

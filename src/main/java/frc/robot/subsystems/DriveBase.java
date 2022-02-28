@@ -225,10 +225,21 @@ public class DriveBase extends SubsystemBase {
          *         aspect is a Rotation2d.
          */
         public Pose2d getPose() {
+                double theta = 0;
+
+                if(m_odometry.getPoseMeters().getRotation().getDegrees() < 0 && m_odometry.getPoseMeters().getRotation().getDegrees() > -180)
+                {
+                        theta = -m_odometry.getPoseMeters().getRotation().getDegrees();
+                }
+
+                else {
+                        theta = 360 - m_odometry.getPoseMeters().getRotation().getDegrees();
+                }
+
                 return new Pose2d(
                                 -m_odometry.getPoseMeters().getY(),
                                 m_odometry.getPoseMeters().getX(),
-                                m_odometry.getPoseMeters().getRotation().minus(new Rotation2d(Math.toRadians(90))));
+                                Rotation2d.fromDegrees(theta));
         }
 
         /**

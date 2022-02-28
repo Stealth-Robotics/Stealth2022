@@ -56,17 +56,17 @@ public final class Constants {
                                 // Back right
                                 new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
-                public static final double X_P_CONTROLLER = 0.001;
+                public static final double X_P_CONTROLLER = 1;
                 public static final double X_I_CONTROLLER = 0.0;
                 public static final double X_D_CONTROLLER = 0.0;
-                public static final double X_TOLERANCE = 0.05;
+                public static final double X_TOLERANCE = 0.5;
 
-                public static final double Y_P_CONTROLLER = 0.001;
+                public static final double Y_P_CONTROLLER = 1;
                 public static final double Y_I_CONTROLLER = 0.0;
                 public static final double Y_D_CONTROLLER = 0.0;
-                public static final double Y_TOLERANCE = 0.05;
+                public static final double Y_TOLERANCE = 0.5;
 
-                public static final double THETA_P_CONTROLLER = 0.001;
+                public static final double THETA_P_CONTROLLER = 1;
                 public static final double THETA_I_CONTROLLER = 0.0;
                 public static final double THETA_D_CONTROLLER = 0.0;
                 public static final double THETA_TOLERANCE = 2;
@@ -98,9 +98,9 @@ public final class Constants {
 
         public static final class Shooter {
                 public static final double SHOOTER_F_COEFF = 1023.0 / 20660.0;
-                public static final double SHOOTER_P_COEFF = 0.1;
-                public static final double SHOOTER_I_COEFF = 0.001;
-                public static final double SHOOTER_D_COEFF = 5;
+                public static final double SHOOTER_P_COEFF = 0.07;
+                public static final double SHOOTER_I_COEFF = 0.000;
+                public static final double SHOOTER_D_COEFF = 0;
 
                 public static final double SHOOTER_VELO_TOLERANCE = 5;
 
@@ -142,7 +142,7 @@ public final class Constants {
         public static final class IO {
                 public static final int DRIVE_JOYSTICK_PORT = 0;
 
-                public static final double DRIVE_JOYSTICK_DEADZONE = 0.1;
+                public static final double DRIVE_JOYSTICK_DEADZONE = 0.05;
         }
 
         public static final class CANdleSystem {

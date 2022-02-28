@@ -49,7 +49,7 @@ public class RobotContainer {
     private final Conveyor conveyor = new Conveyor();
     private final Limelight limelight = new Limelight();
     private final Climber climber = new Climber();
-    private final CANdleSystem candle = new CANdleSystem();
+    //private final CANdleSystem candle = new CANdleSystem();
 
     private final UsbCamera intakeCamera;
 
@@ -92,26 +92,23 @@ public class RobotContainer {
                 .whenPressed(() -> driveBase.zeroGyroscope());
 
         new JoystickButton(driveGamepad, 5)
-                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, candle));
+                .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
 
         new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(0.3)))
                 .whenReleased(() -> climber.setSpeed(0));
         new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.setSpeed(-0.3)))
                 .whenReleased(() -> climber.setSpeed(0));
 
-        new JoystickButton(driveGamepad, 2).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
+        //new JoystickButton(driveGamepad, 2).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
 
     }
 
     SequentialCommandGroup testAutoSPath = new SequentialCommandGroup(
             new FollowTrajectory(driveBase, TrajectoryGenerator.generateTrajectory(
                     new Pose2d(0, 0, new Rotation2d(0)),
-                    List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+                    List.of(),
                     new Pose2d(3, 0, new Rotation2d(0)),
-                    Constants.DriveBase.CONFIG)),
-            new InstantCommand(() -> intake.setSpeed(0.5), intake),
-            new WaitCommand(2),
-            new InstantCommand(() -> intake.setSpeed(0), intake));
+                    Constants.DriveBase.CONFIG)));
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

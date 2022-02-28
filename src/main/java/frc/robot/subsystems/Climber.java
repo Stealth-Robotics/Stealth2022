@@ -14,7 +14,7 @@ public class Climber extends SubsystemBase {
     private final WPI_TalonFX climberMotor1;
     private final WPI_TalonFX climberMotor2;
 
-    private final Solenoid pivotPistons;
+    //private final Solenoid pivotPistons;
 
     public Climber() {
         climberMotor1 = new WPI_TalonFX(RobotMap.Climber.CLIMBER_MOTOR_1);
@@ -27,15 +27,15 @@ public class Climber extends SubsystemBase {
         climberMotor2.follow(climberMotor1);
         climberMotor2.setInverted(TalonFXInvertType.FollowMaster);
 
-        pivotPistons = new Solenoid(RobotMap.Pneumatics.PCM,
-         RobotMap.Pneumatics.CLIMBER_DEPLOY_PCM_CHANNEL);
+        // pivotPistons = new Solenoid(RobotMap.Pneumatics.PCM,
+        //  RobotMap.Pneumatics.CLIMBER_DEPLOY_PCM_CHANNEL);
     }
 
     public void setSpeed(double speed) {
         climberMotor1.set(ControlMode.PercentOutput, speed);
     }
-    public void togglePivotPistons() {
-        pivotPistons.toggle();;
-    }
+    // public void togglePivotPistons() {
+    //     pivotPistons.toggle();;
+    // }
    
 }
