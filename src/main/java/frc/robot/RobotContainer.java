@@ -4,27 +4,17 @@
 
 package frc.robot;
 
-import java.util.List;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
-import frc.robot.commands.DriveBaseCommands.FollowTrajectory;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
-import frc.robot.subsystems.CANdleSystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
@@ -103,13 +93,6 @@ public class RobotContainer {
 
     }
 
-    SequentialCommandGroup testAutoSPath = new SequentialCommandGroup(
-            new FollowTrajectory(driveBase, TrajectoryGenerator.generateTrajectory(
-                    new Pose2d(0, 0, new Rotation2d(0)),
-                    List.of(),
-                    new Pose2d(3, 0, new Rotation2d(0)),
-                    Constants.DriveBase.CONFIG)));
-
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -117,6 +100,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return testAutoSPath;
+        return new InstantCommand();
     }
 }
