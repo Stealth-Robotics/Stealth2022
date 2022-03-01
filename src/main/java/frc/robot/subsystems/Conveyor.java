@@ -7,16 +7,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.Conveyor.BALL_COLORS;
 import frc.robot.RobotMap;
 
 public class Conveyor extends SubsystemBase {
     private final WPI_TalonFX conveyorMotor;
     private final DigitalInput beamBreak;
     private double target = 0;
-
-    private BALL_COLORS topBallColor = BALL_COLORS.EMPTY;
-    private BALL_COLORS bottomBallColor = BALL_COLORS.EMPTY;
+    private double startingPosition = 0;
 
     public Conveyor() {
         conveyorMotor = new WPI_TalonFX(RobotMap.Conveyor.CONVEYER_MOTOR);
@@ -36,6 +33,7 @@ public class Conveyor extends SubsystemBase {
     }
 
     public void moveByAmount(double amount) {
+        startingPosition = getConveyorPosition();
         target = amount + getConveyorPosition();
     }
 
@@ -60,56 +58,24 @@ public class Conveyor extends SubsystemBase {
     }
 
     public boolean atPosition() {
-        return target >= 0 ? conveyorMotor.getSelectedSensorPosition() >= target
-                : conveyorMotor.getSelectedSensorPosition() <= target;
-    }
-
-    public void addBall(BALL_COLORS newColor) {
-        if (bottomBallColor == BALL_COLORS.EMPTY)
-            bottomBallColor = newColor;
-
-        else {
-            topBallColor = bottomBallColor;
-            bottomBallColor = newColor;
-        }
-    }
-
-    public boolean hasBall() {
-        return bottomBallColor != BALL_COLORS.EMPTY || topBallColor != BALL_COLORS.EMPTY;
-    }
-
-    public void removeTopBall() {
-        topBallColor = bottomBallColor;
-        bottomBallColor = BALL_COLORS.EMPTY;
-    }
-
-    public void removeBottomBall() {
-        bottomBallColor = topBallColor;
-        topBallColor = BALL_COLORS.EMPTY;
-    }
-
-    public BALL_COLORS getTopBall() {
-        return topBallColor;
-    }
-
-    public BALL_COLORS getBottomBall() {
-        return bottomBallColor;
-    }
-
-    public boolean isFull() {
-        return !(bottomBallColor == BALL_COLORS.EMPTY && topBallColor == BALL_COLORS.EMPTY);
+        return target >= startingPosition ? getConveyorPosition() >= target : getConveyorPosition() <= target;
     }
 
     @Override
     public void periodic() {
 
-        if (!atPosition() && getSpeed() != 0.4) {
+        if(!atPosition() && (target > startingPosition) && getSpeed() != 0.4)
+        {
             setSpeed(0.4);
         }
 
-        else if (getSpeed() != 0.0) {
-            setSpeed(0);
+        else if(!atPosition() && (target < startingPosition) && getSpeed() != -0.4)
+        {
+            setSpeed(-0.4);
         }
 
+        else if(atPosition() && getSpeed() != 0.0) {
+            setSpeed(0.0);
+        }
     }
 }
