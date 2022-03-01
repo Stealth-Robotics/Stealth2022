@@ -11,13 +11,13 @@ public class Intake extends SubsystemBase {
 
     private final WPI_TalonFX intake;
 
-    // private final Solenoid deployPistons;
+    final Solenoid deployPistons;
 
     public Intake() {
         intake = new WPI_TalonFX(RobotMap.Intake.INTAKE_MOTOR);
         intake.setInverted(true);
-        // deployPistons = new Solenoid(RobotMap.Pneumatics.PCM,
-        // RobotMap.Pneumatics.INTAKE_DEPLOY_PCM_CHANNEL);
+        deployPistons = new Solenoid(RobotMap.Pneumatics.PCM, RobotMap.Pneumatics.PCM_TYPE,
+                RobotMap.Pneumatics.INTAKE_DEPLOY_PCM_CHANNEL);
     }
 
     /**
@@ -33,21 +33,21 @@ public class Intake extends SubsystemBase {
      * Deploys intake pistons down.
      */
     public void deploy() {
-        // deployPistons.set(true);
+        deployPistons.set(true);
     }
 
     /**
      * Undeploys intake pistons up.
      */
     public void unDeploy() {
-        // deployPistons.set(false);
+        deployPistons.set(false);
     }
 
     /**
      * Toggles pistons to the opposite of their current state.
      */
     public void toggle() {
-        // deployPistons.toggle();
+        deployPistons.toggle();
     }
 
 }

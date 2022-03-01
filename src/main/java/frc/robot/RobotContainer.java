@@ -104,8 +104,8 @@ public class RobotContainer {
                 new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.setSpeed(-0.3)))
                                 .whenReleased(() -> climber.setSpeed(0));
 
-                // new JoystickButton(driveGamepad, 2).whenPressed(new InstantCommand(() ->
-                // climber.togglePivotPistons()));
+                new JoystickButton(driveGamepad, 2).whenPressed(new InstantCommand(() ->
+                climber.togglePivotPistons()));
 
         }
 
