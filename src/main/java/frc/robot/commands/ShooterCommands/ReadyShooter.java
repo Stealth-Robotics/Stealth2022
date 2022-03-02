@@ -2,7 +2,6 @@ package frc.robot.commands.ShooterCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 public class ReadyShooter extends CommandBase {
@@ -17,7 +16,7 @@ public class ReadyShooter extends CommandBase {
 
     @Override
     public void initialize() {
-        shooter.hoodToDegree(distance);
+        shooter.hoodToDegree(distanceToDegree(distance));
         shooter.setVelocity(distanceToRpm(distance));
     }
 
