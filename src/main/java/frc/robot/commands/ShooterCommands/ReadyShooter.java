@@ -8,19 +8,16 @@ import frc.robot.subsystems.Shooter;
 public class ReadyShooter extends CommandBase {
     private final Shooter shooter;
     private final double distance;
-    private final Limelight limelight;
-
-    public ReadyShooter(Shooter shooter, double distance, Limelight limelight) {
+    public ReadyShooter(Shooter shooter, double distance) {
         this.shooter = shooter;
         this.distance = distance;
-        this.limelight = limelight;
         addRequirements(shooter);
     }
 
     @Override
     public void initialize() {
-        shooter.hoodToDegree(distanceToDegree(limelight.getTargetDistance() / 12));
-        shooter.setVelocity(distanceToRpm(limelight.getTargetDistance() / 12));
+        shooter.hoodToDegree(distance);
+        shooter.setVelocity(distanceToRpm(distance));
     }
 
     @Override
