@@ -36,7 +36,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void togglePivotPistons() {
-        pivotPistons.toggle();
+        pivotPistons.set(!pivotPistons.get());
     }
 
 }

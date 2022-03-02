@@ -47,7 +47,7 @@ public class Intake extends SubsystemBase {
      * Toggles pistons to the opposite of their current state.
      */
     public void toggle() {
-        deployPistons.toggle();
+        deployPistons.set(!deployPistons.get());
     }
 
 }
