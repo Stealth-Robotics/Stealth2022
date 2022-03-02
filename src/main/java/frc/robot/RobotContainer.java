@@ -19,6 +19,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -58,6 +59,7 @@ public class RobotContainer {
 
         private final UsbCamera intakeCamera;
 
+       private final Joystick buttonPanel = new Joystick(Constants.IO.MECH_JOYSTICK_PORT);
         private final XboxController driveGamepad = new XboxController(Constants.IO.DRIVE_JOYSTICK_PORT);
 
         /**
@@ -75,7 +77,7 @@ public class RobotContainer {
                 intake.setDefaultCommand(new IntakeDefault(intake,
                                 driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
 
-                conveyor.setDefaultCommand(new ConveyorDefault(conveyor));
+                conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () ->  driveGamepad.getStartButton() ));
 
                 intakeCamera = CameraServer.startAutomaticCapture(0);
                 intakeCamera.setResolution(1280, 720);
