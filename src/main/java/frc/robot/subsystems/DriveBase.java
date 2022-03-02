@@ -4,12 +4,16 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -31,6 +35,18 @@ public class DriveBase extends SubsystemBase {
                         getGyroscopeRotation());
 
         private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+
+        private final PIDController xController = new PIDController(Constants.DriveBase.X_P_COEFF, 0, 0);
+        private final PIDController yController = new PIDController(Constants.DriveBase.Y_P_COEFF, 0, 0);
+
+        private final ProfiledPIDController thetaController = new ProfiledPIDController(
+                        Constants.DriveBase.THETA_P_COEFF, 0, 0,
+                        Constants.DriveBase.THETA_CONTROLLER_CONSTRAINTS);
+
+        private final HolonomicDriveController pathController = new HolonomicDriveController(
+                        xController,
+                        yController,
+                        thetaController);
 
         public DriveBase() {
                 ShuffleboardTab tab = Shuffleboard.getTab("DriveBase");
@@ -77,6 +93,9 @@ public class DriveBase extends SubsystemBase {
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_STEERING,
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_ENCODER,
                                 Constants.DriveBase.BACK_RIGHT_MODULE_STEER_OFFSET);
+
+                thetaController.enableContinuousInput(-Math.PI, Math.PI);
+                // pathController.setEnabled(true);
 
                 tab.getLayout("Pigeon IMU", BuiltInLayouts.kList)
                                 .withSize(2, 2)
@@ -159,6 +178,22 @@ public class DriveBase extends SubsystemBase {
                 this.chassisSpeeds = chassisSpeeds;
         }
 
+        public void drive(Trajectory.State targetState, Rotation2d targetRotation) {
+                ChassisSpeeds targetChassisSpeeds = pathController.calculate(
+                                getPose(),
+                                targetState,
+                                targetRotation);
+                drive(targetChassisSpeeds);
+        }
+
+        public void resetPathController() {
+                xController.reset();
+                yController.reset();
+                thetaController.reset(
+                                getGyroscopeRotation().getRadians(),
+                                chassisSpeeds.omegaRadiansPerSecond);
+        }
+
         /*
          * TODO: Test To See If Position Is Held When Pushed Around
          * TODO: Test To See If It Doesn't Interfere With Other Drive Functions
@@ -186,8 +221,6 @@ public class DriveBase extends SubsystemBase {
                 m_odometry.resetPosition(pose, getGyroscopeRotation());
         }
 
-        
-
         /**
          * Gets the current odometry reading of the drivebase.
          * 
@@ -198,8 +231,8 @@ public class DriveBase extends SubsystemBase {
         public Pose2d getPose() {
                 double theta = 0;
 
-                if(m_odometry.getPoseMeters().getRotation().getDegrees() < 0 && m_odometry.getPoseMeters().getRotation().getDegrees() > -180)
-                {
+                if (m_odometry.getPoseMeters().getRotation().getDegrees() < 0
+                                && m_odometry.getPoseMeters().getRotation().getDegrees() > -180) {
                         theta = -m_odometry.getPoseMeters().getRotation().getDegrees();
                 }
 

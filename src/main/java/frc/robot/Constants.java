@@ -4,6 +4,8 @@ import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 public final class Constants {
@@ -31,12 +33,36 @@ public final class Constants {
 
                 public static final double MAX_VOLTAGE = 12.0;
 
+                public static final double X_P_COEFF = 0;
+                public static final double Y_P_COEFF = 0;
+                public static final double THETA_P_COEFF = 0;
+
                 public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
                                 SdsModuleConfigurations.MK4_L2.getDriveReduction() *
                                 SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
 
+                public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 1.0;
+
                 public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
                                 Math.hypot(TRACKWIDTH / 2.0, WHEELBASE / 2.0);
+
+                public static final double MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = Math.PI;
+
+                public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
+                                MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+                                MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED);
+
+                public static final TrajectoryConfig MAX_SPEED_CONFIG = new TrajectoryConfig(
+                                MAX_VELOCITY_METERS_PER_SECOND,
+                                MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+
+                public static final TrajectoryConfig MEDIUM_SPEED_CONFIG = new TrajectoryConfig(
+                                0.6 * MAX_VELOCITY_METERS_PER_SECOND,
+                                0.6 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+
+                public static final TrajectoryConfig SLOW_SPEED_CONFIG = new TrajectoryConfig(
+                                0.3 * MAX_VELOCITY_METERS_PER_SECOND,
+                                0.3 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
 
                 public static final double SLOWMODE_MULTIPLIER = 1 / 4;
 
