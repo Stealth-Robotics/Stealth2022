@@ -97,7 +97,7 @@ public class RobotContainer {
                                 .whenPressed(() -> driveBase.zeroGyroscope());
 
                 new JoystickButton(driveGamepad, 5)
-                                .whenPressed(new ShootCargo(driveBase, shooter, conveyor));
+                                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));
 
                 new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(0.3)))
                                 .whenReleased(() -> climber.setSpeed(0));
