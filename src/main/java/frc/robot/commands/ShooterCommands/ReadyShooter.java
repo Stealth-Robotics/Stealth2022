@@ -8,6 +8,7 @@ import frc.robot.subsystems.Shooter;
 public class ReadyShooter extends CommandBase {
     private final Shooter shooter;
     private final double distance;
+
     public ReadyShooter(Shooter shooter, double distance) {
         this.shooter = shooter;
         this.distance = distance;
@@ -27,10 +28,16 @@ public class ReadyShooter extends CommandBase {
 
     // 272.75\sin\left(13.9266-0.0152556x\right)-180.267
     private double distanceToDegree(double distance) {
-        return 272.75 * Math.sin(13.9266 - 0.0152556 * distance) - 180.267;
+        return Math.min(
+                Constants.Shooter.HOOD_LOWER_BOUND,
+                Math.max(
+                        Constants.Shooter.HOOD_UPPER_BOUND,
+                        (272.75 * Math.sin(13.9266 - 0.0152556 * distance) - 180.267)));
     }
 
     private double distanceToRpm(double distance) {
-        return 8.70162 * Math.pow(distance, 1.68446) + 2867.95;
+        return Math.max(
+                0,
+                (8.70162 * Math.pow(distance, 1.68446) + 2867.95));
     }
 }
