@@ -8,24 +8,27 @@ import frc.robot.commands.ShooterCommands.ResetShooter;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Limelight;
 
 public class ShootCargo extends SequentialCommandGroup {
 
     private final DriveBase driveBase;
     private final Shooter shooter;
     private final Conveyor conveyor;
+    private final Limelight limelight;
 
-    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor) {
+    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor,Limelight limelight ) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;
         this.conveyor = conveyor;
+        this.limelight = limelight;
 
         addRequirements(shooter, conveyor, driveBase);
 
         addCommands(
                 new MoveConveyor(conveyor, -5000),
-                new ReadyShooter(shooter, 7 /* (limelight.getTargetDistance()/12) */),
+                new ReadyShooter(shooter, (limelight.getTargetDistance()/12)),
                 new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
                 new ResetShooter(shooter));
     }
