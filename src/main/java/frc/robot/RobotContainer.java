@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.ClimberCommands.ClimberDefault;
+import frc.robot.commands.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.DriveBaseCommands.SwerveControllerFollower;

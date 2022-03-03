@@ -1,4 +1,4 @@
-package frc.ClimberCommands;
+package frc.robot.commands.ClimberCommands;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
