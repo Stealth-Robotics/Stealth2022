@@ -33,16 +33,36 @@ public final class Constants {
 
                 public static final double MAX_VOLTAGE = 12.0;
 
+                public static final double X_P_COEFF = 0.001;
+                public static final double Y_P_COEFF = 0.001;
+                public static final double THETA_P_COEFF = 1.0;
+
                 public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
                                 SdsModuleConfigurations.MK4_L2.getDriveReduction() *
                                 SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
 
-                public static final double MAX_ACCELERATION_METERS_PER_SECOND = Units.feetToMeters(10);
+                public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3.0;
 
                 public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
                                 Math.hypot(TRACKWIDTH / 2.0, WHEELBASE / 2.0);
 
-                public static final double MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = 3 * Math.PI;
+                public static final double MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = Math.PI;
+
+                public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
+                                MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+                                MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED);
+
+                public static final TrajectoryConfig MAX_SPEED_CONFIG = new TrajectoryConfig(
+                                MAX_VELOCITY_METERS_PER_SECOND,
+                                MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+
+                public static final TrajectoryConfig MEDIUM_SPEED_CONFIG = new TrajectoryConfig(
+                                0.6 * MAX_VELOCITY_METERS_PER_SECOND,
+                                0.6 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+
+                public static final TrajectoryConfig SLOW_SPEED_CONFIG = new TrajectoryConfig(
+                                0.3 * MAX_VELOCITY_METERS_PER_SECOND,
+                                0.3 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
 
                 public static final double SLOWMODE_MULTIPLIER = 1 / 4;
 
@@ -55,30 +75,6 @@ public final class Constants {
                                 new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
                                 // Back right
                                 new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
-
-                public static final double X_P_CONTROLLER = 0.0;
-                public static final double X_I_CONTROLLER = 0.0;
-                public static final double X_D_CONTROLLER = 0.0;
-                public static final double X_TOLERANCE = 0.0;
-
-                public static final double Y_P_CONTROLLER = 0.0;
-                public static final double Y_I_CONTROLLER = 0.0;
-                public static final double Y_D_CONTROLLER = 0.0;
-                public static final double Y_TOLERANCE = 0.0;
-
-                public static final double THETA_P_CONTROLLER = 0.0;
-                public static final double THETA_I_CONTROLLER = 0.0;
-                public static final double THETA_D_CONTROLLER = 0.0;
-                public static final double THETA_TOLERANCE = 0.0;
-
-                public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
-                                MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-                                MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED);
-
-                public static final TrajectoryConfig CONFIG = new TrajectoryConfig(
-                                Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND,
-                                Constants.DriveBase.MAX_ACCELERATION_METERS_PER_SECOND)
-                                                .setKinematics(Constants.DriveBase.DRIVE_KINEMATICS);
 
                 public static final double ALIGN_P_COEFF = 0;
                 public static final double ALIGN_I_COEFF = 0;
