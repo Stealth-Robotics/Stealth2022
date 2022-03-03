@@ -7,7 +7,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveBase;
 
@@ -43,10 +42,10 @@ public class SwerveControllerFollower extends CommandBase {
         driveBase.drive(targetState, targetRotation);
 
         Pose2d targetPose = targetState.poseMeters;
-        System.out.println("Target Heading: " + targetPose.getRotation().getDegrees());
-        // SmartDashboard.putNumber("Target Heading", targetPose.getRotation().getDegrees());
-        // SmartDashboard.putNumber("Target X", targetPose.getX());
-        // SmartDashboard.putNumber("Target Y", targetPose.getY());
+        
+        System.out.println("Target X: " + targetPose.getX());
+        System.out.println("Target Y: " + targetPose.getY());
+        System.out.println("Target Heading" + targetPose.getRotation().getDegrees());
     }
 
     @Override

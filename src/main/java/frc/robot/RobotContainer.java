@@ -68,8 +68,8 @@ public class RobotContainer {
 
                 driveBase.setDefaultCommand(new DriveDefault(
                                 driveBase,
-                                () -> driveGamepad.getLeftX(),
                                 () -> -driveGamepad.getLeftY(),
+                                () -> driveGamepad.getLeftX(),
                                 () -> -driveGamepad.getRightX(),
                                 () -> driveGamepad.getRightBumper()));
 

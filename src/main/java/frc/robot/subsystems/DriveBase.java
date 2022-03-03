@@ -36,11 +36,11 @@ public class DriveBase extends SubsystemBase {
 
         private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
-        private final PIDController xController = new PIDController(Constants.DriveBase.X_P_COEFF, 0.001, 0);
-        private final PIDController yController = new PIDController(Constants.DriveBase.Y_P_COEFF, 0.001, 0);
+        private final PIDController xController = new PIDController(Constants.DriveBase.X_P_COEFF, 0, 0);
+        private final PIDController yController = new PIDController(Constants.DriveBase.Y_P_COEFF, 0, 0);
 
         private final ProfiledPIDController thetaController = new ProfiledPIDController(
-                        Constants.DriveBase.THETA_P_COEFF, 0.001, 0,
+                        Constants.DriveBase.THETA_P_COEFF, 0, 0,
                         Constants.DriveBase.THETA_CONTROLLER_CONSTRAINTS);
 
         private final HolonomicDriveController pathController = new HolonomicDriveController(
@@ -51,8 +51,7 @@ public class DriveBase extends SubsystemBase {
         public DriveBase() {
                 ShuffleboardTab tab = Shuffleboard.getTab("DriveBase");
 
-                // pigeon.configFactoryDefault();
-                setGyroscopeRotation(90);
+                setGyroscopeRotation(0);
 
                 frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)
@@ -142,7 +141,7 @@ public class DriveBase extends SubsystemBase {
          *                 should be set to.
          */
         public void setGyroscopeRotation(double newValue) {
-                pigeon.setYaw(90);
+                pigeon.setYaw(newValue);
         }
 
         /**
@@ -229,21 +228,22 @@ public class DriveBase extends SubsystemBase {
          *         aspect is a Rotation2d.
          */
         public Pose2d getPose() {
-                double theta = 0;
+                // double theta = 0;
 
-                if (m_odometry.getPoseMeters().getRotation().getDegrees() < 0
-                                && m_odometry.getPoseMeters().getRotation().getDegrees() > -180) {
-                        theta = -m_odometry.getPoseMeters().getRotation().getDegrees();
-                }
+                // if (m_odometry.getPoseMeters().getRotation().getDegrees() < 0
+                //                 && m_odometry.getPoseMeters().getRotation().getDegrees() > -180) {
+                //         theta = -m_odometry.getPoseMeters().getRotation().getDegrees();
+                // }
 
-                else {
-                        theta = 360 - m_odometry.getPoseMeters().getRotation().getDegrees();
-                }
+                // else {
+                //         theta = 360 - m_odometry.getPoseMeters().getRotation().getDegrees();
+                // }
 
-                return new Pose2d(
-                                m_odometry.getPoseMeters().getX(),
-                                m_odometry.getPoseMeters().getY(),
-                                Rotation2d.fromDegrees(theta));
+                // return new Pose2d(
+                //                 m_odometry.getPoseMeters().getX(),
+                //                 m_odometry.getPoseMeters().getY(),
+                //                 Rotation2d.fromDegrees(theta));
+                return m_odometry.getPoseMeters();
         }
 
         /**

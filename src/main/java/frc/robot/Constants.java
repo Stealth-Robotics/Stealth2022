@@ -35,7 +35,7 @@ public final class Constants {
 
                 public static final double X_P_COEFF = 0.001;
                 public static final double Y_P_COEFF = 0.001;
-                public static final double THETA_P_COEFF = 1.0;
+                public static final double THETA_P_COEFF = 0.001;
 
                 public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
                                 SdsModuleConfigurations.MK4_L2.getDriveReduction() *
