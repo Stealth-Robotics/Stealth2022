@@ -78,7 +78,7 @@ public class RobotContainer {
                                 driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
 
                 conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
-                climber.setDefaultCommand(new ClimberDefault(climber, mechGamepad.getRightTriggerAxis(), mechGamepad.getRightTriggerAxis()));
+                climber.setDefaultCommand(new ClimberDefault(climber,() -> mechGamepad.getRightTriggerAxis(), () -> mechGamepad.getRightTriggerAxis()));
 
                 intakeCamera = CameraServer.startAutomaticCapture(0);
                 intakeCamera.setResolution(1280, 720);
