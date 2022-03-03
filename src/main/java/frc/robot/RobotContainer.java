@@ -58,9 +58,9 @@ public class RobotContainer {
 
         private final UsbCamera intakeCamera;
 
-        private final XboxController driveGamepad = new XboxController(Constants.IO.DRIVE_JOYSTICK_PORT);
-        private final XboxController mechGamepad = new XboxController(Constants.IO.MECH_GAMEPAD_PORT);
-        private final Joystick driverStation = new Joystick(Constants.IO.DRIVER_STATION_PORT);
+        private final XboxController driveGamepad = new XboxController(Constants.IOConstants.DRIVE_JOYSTICK_PORT);
+        private final XboxController mechGamepad = new XboxController(Constants.IOConstants.MECH_GAMEPAD_PORT);
+        private final Joystick driverStation = new Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -123,6 +123,6 @@ public class RobotContainer {
                                                 new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
                                                 List.of(),
                                                 new Pose2d(Units.feetToMeters(50), 0, Rotation2d.fromDegrees(0)),
-                                                Constants.DriveBase.SLOW_SPEED_CONFIG)));
+                                                Constants.DriveBaseConstants.SLOW_SPEED_CONFIG)));
         }
 }

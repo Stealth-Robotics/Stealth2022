@@ -10,7 +10,7 @@ import edu.wpi.first.math.util.Units;
 
 public final class Constants {
 
-        public static final class DriveBase {
+        public static final class DriveBaseConstants {
                 /**
                  * TODO: Fix TRACKWIDTH & WHEELBASE Based On Production Robot
                  * (In Meters)
@@ -83,7 +83,7 @@ public final class Constants {
                 public static final double ALIGN_TOLERANCE = 0;
         }
 
-        public static final class Limelight {
+        public static final class LimelightConstants {
                 public static final double MOUNTED_ANGLE = 35; // Degrees
                 public static final double LENS_HEIGHT = 36.73; // Inches
                 public static final double TARGET_HEIGHT = 103; // Inches
@@ -92,7 +92,7 @@ public final class Constants {
 
         }
 
-        public static final class Shooter {
+        public static final class ShooterConstants {
                 public static final double SHOOTER_F_COEFF = 1023.0 / 20660.0;
                 public static final double SHOOTER_P_COEFF = 0.07;
                 public static final double SHOOTER_I_COEFF = 0.000;
@@ -119,7 +119,7 @@ public final class Constants {
                 public static final double HOOD_DEGREES_TO_TICKS = 2184.533;
         }
 
-        public static final class Conveyor {
+        public static final class ConveyorConstants {
                 public enum BALL_COLORS {
                         RED,
                         BLUE,
@@ -135,7 +135,7 @@ public final class Constants {
                 public static final double INDEXING_STEP = 5000;
         }
 
-        public static final class IO {
+        public static final class IOConstants {
                 public static final int DRIVE_JOYSTICK_PORT = 0;
                 public static final int MECH_GAMEPAD_PORT = 1;
                 public static final int DRIVER_STATION_PORT = 2;
@@ -143,13 +143,12 @@ public final class Constants {
                 public static final double DRIVE_JOYSTICK_DEADZONE = 0.05;
         }
 
-        public static final class CANdleSystem {
+        public static final class CANdleSystemConstants {
                 public static final int TIMEOUT = 30;
         }
-        public static final class Climber {
+        public static final class ClimberConstants {
                 public static final double MAX_THRESHOLD = 125000;
                 public static final double MIN_THRESHOLD = 5000;
                 public static final double MAX_SPEED = 0.3;
-                
         }
 }

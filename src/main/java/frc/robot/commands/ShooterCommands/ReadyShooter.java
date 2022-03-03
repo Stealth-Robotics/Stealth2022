@@ -28,9 +28,9 @@ public class ReadyShooter extends CommandBase {
     // 272.75\sin\left(13.9266-0.0152556x\right)-180.267
     private double distanceToDegree(double distance) {
         return Math.min(
-                Constants.Shooter.HOOD_LOWER_BOUND,
+                Constants.ShooterConstants.HOOD_LOWER_BOUND,
                 Math.max(
-                        Constants.Shooter.HOOD_UPPER_BOUND,
+                        Constants.ShooterConstants.HOOD_UPPER_BOUND,
                         (272.75 * Math.sin(13.9266 - 0.0152556 * distance) - 180.267)));
     }
 

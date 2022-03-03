@@ -90,10 +90,10 @@ public class Limelight extends SubsystemBase {
         if (!hasValidTarget())
             return 0.0;
 
-        double angleToGoalDegrees = Constants.Limelight.MOUNTED_ANGLE + getTargetVerticalOffset();
+        double angleToGoalDegrees = Constants.LimelightConstants.MOUNTED_ANGLE + getTargetVerticalOffset();
         double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
 
-        return ((Constants.Limelight.TARGET_HEIGHT - Constants.Limelight.LENS_HEIGHT) / Math.tan(angleToGoalRadians) );
+        return ((Constants.LimelightConstants.TARGET_HEIGHT - Constants.LimelightConstants.LENS_HEIGHT) / Math.tan(angleToGoalRadians) );
                
     }
 

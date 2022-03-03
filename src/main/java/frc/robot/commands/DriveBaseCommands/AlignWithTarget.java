@@ -1,11 +1,10 @@
 package frc.robot.commands.DriveBaseCommands;
 
-import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Limelight;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.Limelight;
 
 public class AlignWithTarget extends CommandBase {
 
@@ -18,11 +17,11 @@ public class AlignWithTarget extends CommandBase {
         this.driveBase = driveBase;
         this.limelight = limelight;
         alignController = new PIDController(
-                Constants.DriveBase.ALIGN_P_COEFF,
-                Constants.DriveBase.ALIGN_I_COEFF,
-                Constants.DriveBase.ALIGN_D_COEFF);
+                Constants.DriveBaseConstants.ALIGN_P_COEFF,
+                Constants.DriveBaseConstants.ALIGN_I_COEFF,
+                Constants.DriveBaseConstants.ALIGN_D_COEFF);
 
-        alignController.setTolerance(Constants.DriveBase.ALIGN_TOLERANCE);
+        alignController.setTolerance(Constants.DriveBaseConstants.ALIGN_TOLERANCE);
     }
 
     @Override

@@ -29,10 +29,10 @@ public class Shooter extends SubsystemBase {
         public Shooter() {
                 ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
 
-                shooterMotor1 = new WPI_TalonFX(RobotMap.Shooter.SHOOTER_MOTOR_1);
-                shooterMotor2 = new WPI_TalonFX(RobotMap.Shooter.SHOOTER_MOTOR_2);
-                hoodMotor = new WPI_TalonFX(RobotMap.Shooter.HOOD_MOTOR);
-                hoodSwitch = new DigitalInput(RobotMap.Shooter.HOOD_SWITCH);
+                shooterMotor1 = new WPI_TalonFX(RobotMap.ShooterHardware.SHOOTER_MOTOR_1);
+                shooterMotor2 = new WPI_TalonFX(RobotMap.ShooterHardware.SHOOTER_MOTOR_2);
+                hoodMotor = new WPI_TalonFX(RobotMap.ShooterHardware.HOOD_MOTOR);
+                hoodSwitch = new DigitalInput(RobotMap.ShooterHardware.HOOD_SWITCH);
 
                 initMotors();
 
@@ -50,15 +50,15 @@ public class Shooter extends SubsystemBase {
                 shooterMotor2.setInverted(TalonFXInvertType.OpposeMaster);
 
                 hoodController = new PIDController(
-                                Constants.Shooter.HOOD_P_COEFF,
-                                Constants.Shooter.HOOD_I_COEFF,
-                                Constants.Shooter.HOOD_D_COEFF);
+                                Constants.ShooterConstants.HOOD_P_COEFF,
+                                Constants.ShooterConstants.HOOD_I_COEFF,
+                                Constants.ShooterConstants.HOOD_D_COEFF);
 
-                hoodController.setTolerance(Constants.Shooter.HOOD_TOLERANCE);
+                hoodController.setTolerance(Constants.ShooterConstants.HOOD_TOLERANCE);
                 
                 hoodController.setIntegratorRange(
-                                Constants.Shooter.HOOD_INTEGRAL_MIN,
-                                Constants.Shooter.HOOD_INTEGRAL_MAX);
+                                Constants.ShooterConstants.HOOD_INTEGRAL_MIN,
+                                Constants.ShooterConstants.HOOD_INTEGRAL_MAX);
 
                 tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
                                 .withSize(2, 2)
@@ -95,7 +95,7 @@ public class Shooter extends SubsystemBase {
         }
 
         public boolean atVelocity() {
-                return Math.abs(shooterMotor1.getClosedLoopError()) <= Constants.Shooter.SHOOTER_VELO_TOLERANCE;
+                return Math.abs(shooterMotor1.getClosedLoopError()) <= Constants.ShooterConstants.SHOOTER_VELO_TOLERANCE;
         }
 
         public void hoodToPos(double pos) {
@@ -116,8 +116,8 @@ public class Shooter extends SubsystemBase {
         }
 
         public void hoodToDegree(double degree) {
-                hoodToPos((Constants.Shooter.HOOD_LOWER_BOUND - degree)
-                                * Constants.Shooter.HOOD_DEGREES_TO_TICKS);
+                hoodToPos((Constants.ShooterConstants.HOOD_LOWER_BOUND - degree)
+                                * Constants.ShooterConstants.HOOD_DEGREES_TO_TICKS);
         }
 
         public boolean getHoodSwitchState() {
@@ -135,35 +135,35 @@ public class Shooter extends SubsystemBase {
                 shooterMotor1.configNeutralDeadband(0.001);
 
                 shooterMotor1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                                Constants.Shooter.PID_LOOP_IDX,
-                                Constants.Shooter.TIMEOUT);
+                                Constants.ShooterConstants.PID_LOOP_IDX,
+                                Constants.ShooterConstants.TIMEOUT);
 
                 shooterMotor2.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                                Constants.Shooter.PID_LOOP_IDX,
-                                Constants.Shooter.TIMEOUT);
+                                Constants.ShooterConstants.PID_LOOP_IDX,
+                                Constants.ShooterConstants.TIMEOUT);
 
-                shooterMotor1.configNominalOutputForward(0, Constants.Shooter.TIMEOUT);
-                shooterMotor1.configNominalOutputReverse(0, Constants.Shooter.TIMEOUT);
-                shooterMotor1.configPeakOutputForward(1, Constants.Shooter.TIMEOUT);
-                shooterMotor1.configPeakOutputReverse(-1, Constants.Shooter.TIMEOUT);
+                shooterMotor1.configNominalOutputForward(0, Constants.ShooterConstants.TIMEOUT);
+                shooterMotor1.configNominalOutputReverse(0, Constants.ShooterConstants.TIMEOUT);
+                shooterMotor1.configPeakOutputForward(1, Constants.ShooterConstants.TIMEOUT);
+                shooterMotor1.configPeakOutputReverse(-1, Constants.ShooterConstants.TIMEOUT);
 
-                shooterMotor1.config_kF(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.SHOOTER_F_COEFF,
-                                Constants.Shooter.TIMEOUT);
-                shooterMotor1.config_kP(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.SHOOTER_P_COEFF,
-                                Constants.Shooter.TIMEOUT);
-                shooterMotor1.config_kI(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.SHOOTER_I_COEFF,
-                                Constants.Shooter.TIMEOUT);
-                shooterMotor1.config_kD(Constants.Shooter.PID_LOOP_IDX, Constants.Shooter.SHOOTER_D_COEFF,
-                                Constants.Shooter.TIMEOUT);
+                shooterMotor1.config_kF(Constants.ShooterConstants.PID_LOOP_IDX, Constants.ShooterConstants.SHOOTER_F_COEFF,
+                                Constants.ShooterConstants.TIMEOUT);
+                shooterMotor1.config_kP(Constants.ShooterConstants.PID_LOOP_IDX, Constants.ShooterConstants.SHOOTER_P_COEFF,
+                                Constants.ShooterConstants.TIMEOUT);
+                shooterMotor1.config_kI(Constants.ShooterConstants.PID_LOOP_IDX, Constants.ShooterConstants.SHOOTER_I_COEFF,
+                                Constants.ShooterConstants.TIMEOUT);
+                shooterMotor1.config_kD(Constants.ShooterConstants.PID_LOOP_IDX, Constants.ShooterConstants.SHOOTER_D_COEFF,
+                                Constants.ShooterConstants.TIMEOUT);
 
                 hoodMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                                Constants.Shooter.PID_LOOP_IDX,
-                                Constants.Shooter.TIMEOUT);
+                                Constants.ShooterConstants.PID_LOOP_IDX,
+                                Constants.ShooterConstants.TIMEOUT);
 
-                hoodMotor.configNominalOutputForward(0, Constants.Shooter.TIMEOUT);
-                hoodMotor.configNominalOutputReverse(0, Constants.Shooter.TIMEOUT);
-                hoodMotor.configPeakOutputForward(1, Constants.Shooter.TIMEOUT);
-                hoodMotor.configPeakOutputReverse(-1, Constants.Shooter.TIMEOUT);
+                hoodMotor.configNominalOutputForward(0, Constants.ShooterConstants.TIMEOUT);
+                hoodMotor.configNominalOutputReverse(0, Constants.ShooterConstants.TIMEOUT);
+                hoodMotor.configPeakOutputForward(1, Constants.ShooterConstants.TIMEOUT);
+                hoodMotor.configPeakOutputReverse(-1, Constants.ShooterConstants.TIMEOUT);
         }
 
         @Override

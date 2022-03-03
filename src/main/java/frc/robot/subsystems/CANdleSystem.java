@@ -23,8 +23,8 @@ public class CANdleSystem extends SubsystemBase {
         config.statusLedOffWhenActive = true;
         config.disableWhenLOS = true;
         
-        leftCANdle.configAllSettings(config, Constants.CANdleSystem.TIMEOUT);
-        rightCANdle.configAllSettings(config, Constants.CANdleSystem.TIMEOUT);
+        leftCANdle.configAllSettings(config, Constants.CANdleSystemConstants.TIMEOUT);
+        rightCANdle.configAllSettings(config, Constants.CANdleSystemConstants.TIMEOUT);
     }
 
     public void blink()

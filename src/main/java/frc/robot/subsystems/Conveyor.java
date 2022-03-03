@@ -21,12 +21,12 @@ public class Conveyor extends SubsystemBase {
 
         conveyorMotor.configFactoryDefault();
         conveyorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                Constants.Conveyor.PID_LOOP_IDX, Constants.Conveyor.TIMEOUT);
+                Constants.ConveyorConstants.PID_LOOP_IDX, Constants.ConveyorConstants.TIMEOUT);
 
-        conveyorMotor.configNominalOutputForward(0, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configNominalOutputReverse(0, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configPeakOutputForward(0.4, Constants.Conveyor.TIMEOUT);
-        conveyorMotor.configPeakOutputReverse(-0.4, Constants.Conveyor.TIMEOUT);
+        conveyorMotor.configNominalOutputForward(0, Constants.ConveyorConstants.TIMEOUT);
+        conveyorMotor.configNominalOutputReverse(0, Constants.ConveyorConstants.TIMEOUT);
+        conveyorMotor.configPeakOutputForward(0.4, Constants.ConveyorConstants.TIMEOUT);
+        conveyorMotor.configPeakOutputReverse(-0.4, Constants.ConveyorConstants.TIMEOUT);
 
         conveyorMotor.setInverted(true);
 

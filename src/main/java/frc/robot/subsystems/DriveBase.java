@@ -23,7 +23,7 @@ import frc.robot.RobotMap;
 
 public class DriveBase extends SubsystemBase {
 
-        private final WPI_Pigeon2 pigeon = new WPI_Pigeon2(RobotMap.DriveBase.PIGEON_IMU);
+        private final WPI_Pigeon2 pigeon = new WPI_Pigeon2(RobotMap.DriveBaseHardware.PIGEON_IMU);
 
         private final SwerveModule frontLeftModule;
         private final SwerveModule frontRightModule;
@@ -31,17 +31,17 @@ public class DriveBase extends SubsystemBase {
         private final SwerveModule backRightModule;
 
         private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-                        Constants.DriveBase.DRIVE_KINEMATICS,
+                        Constants.DriveBaseConstants.DRIVE_KINEMATICS,
                         getGyroscopeRotation());
 
         private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
-        private final PIDController xController = new PIDController(Constants.DriveBase.X_P_COEFF, 0, 0);
-        private final PIDController yController = new PIDController(Constants.DriveBase.Y_P_COEFF, 0, 0);
+        private final PIDController xController = new PIDController(Constants.DriveBaseConstants.X_P_COEFF, 0, 0);
+        private final PIDController yController = new PIDController(Constants.DriveBaseConstants.Y_P_COEFF, 0, 0);
 
         private final ProfiledPIDController thetaController = new ProfiledPIDController(
-                        Constants.DriveBase.THETA_P_COEFF, 0, 0,
-                        Constants.DriveBase.THETA_CONTROLLER_CONSTRAINTS);
+                        Constants.DriveBaseConstants.THETA_P_COEFF, 0, 0,
+                        Constants.DriveBaseConstants.THETA_CONTROLLER_CONSTRAINTS);
 
         private final HolonomicDriveController pathController = new HolonomicDriveController(
                         xController,
@@ -58,40 +58,40 @@ public class DriveBase extends SubsystemBase {
                                                 .withSize(2, 4)
                                                 .withPosition(0, 0),
                                 Mk4SwerveModuleHelper.GearRatio.L2,
-                                RobotMap.DriveBase.FRONT_LEFT_MODULE_DRIVE,
-                                RobotMap.DriveBase.FRONT_LEFT_MODULE_STEERING,
-                                RobotMap.DriveBase.FRONT_LEFT_MODULE_ENCODER,
-                                Constants.DriveBase.FRONT_LEFT_MODULE_STEER_OFFSET);
+                                RobotMap.DriveBaseHardware.FRONT_LEFT_MODULE_DRIVE,
+                                RobotMap.DriveBaseHardware.FRONT_LEFT_MODULE_STEERING,
+                                RobotMap.DriveBaseHardware.FRONT_LEFT_MODULE_ENCODER,
+                                Constants.DriveBaseConstants.FRONT_LEFT_MODULE_STEER_OFFSET);
 
                 frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
                                                 .withPosition(2, 0),
                                 Mk4SwerveModuleHelper.GearRatio.L2,
-                                RobotMap.DriveBase.FRONT_RIGHT_MODULE_DRIVE,
-                                RobotMap.DriveBase.FRONT_RIGHT_MODULE_STEERING,
-                                RobotMap.DriveBase.FRONT_RIGHT_MODULE_ENCODER,
-                                Constants.DriveBase.FRONT_RIGHT_MODULE_STEER_OFFSET);
+                                RobotMap.DriveBaseHardware.FRONT_RIGHT_MODULE_DRIVE,
+                                RobotMap.DriveBaseHardware.FRONT_RIGHT_MODULE_STEERING,
+                                RobotMap.DriveBaseHardware.FRONT_RIGHT_MODULE_ENCODER,
+                                Constants.DriveBaseConstants.FRONT_RIGHT_MODULE_STEER_OFFSET);
 
                 backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Back Left Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
                                                 .withPosition(4, 0),
                                 Mk4SwerveModuleHelper.GearRatio.L2,
-                                RobotMap.DriveBase.BACK_LEFT_MODULE_DRIVE,
-                                RobotMap.DriveBase.BACK_LEFT_MODULE_STEERING,
-                                RobotMap.DriveBase.BACK_LEFT_MODULE_ENCODER,
-                                Constants.DriveBase.BACK_LEFT_MODULE_STEER_OFFSET);
+                                RobotMap.DriveBaseHardware.BACK_LEFT_MODULE_DRIVE,
+                                RobotMap.DriveBaseHardware.BACK_LEFT_MODULE_STEERING,
+                                RobotMap.DriveBaseHardware.BACK_LEFT_MODULE_ENCODER,
+                                Constants.DriveBaseConstants.BACK_LEFT_MODULE_STEER_OFFSET);
 
                 backRightModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
                                                 .withPosition(6, 0),
                                 Mk4SwerveModuleHelper.GearRatio.L2,
-                                RobotMap.DriveBase.BACK_RIGHT_MODULE_DRIVE,
-                                RobotMap.DriveBase.BACK_RIGHT_MODULE_STEERING,
-                                RobotMap.DriveBase.BACK_RIGHT_MODULE_ENCODER,
-                                Constants.DriveBase.BACK_RIGHT_MODULE_STEER_OFFSET);
+                                RobotMap.DriveBaseHardware.BACK_RIGHT_MODULE_DRIVE,
+                                RobotMap.DriveBaseHardware.BACK_RIGHT_MODULE_STEERING,
+                                RobotMap.DriveBaseHardware.BACK_RIGHT_MODULE_ENCODER,
+                                Constants.DriveBaseConstants.BACK_RIGHT_MODULE_STEER_OFFSET);
 
                 thetaController.enableContinuousInput(Math.PI, -Math.PI);
                 pathController.setEnabled(true);
@@ -255,33 +255,33 @@ public class DriveBase extends SubsystemBase {
          */
         public void setModuleStates(SwerveModuleState[] desiredStates) {
                 SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,
-                                Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND);
+                                Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND);
 
                 frontLeftModule.set(
                                 desiredStates[0].speedMetersPerSecond
-                                                / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
-                                                * Constants.DriveBase.MAX_VOLTAGE,
+                                                / Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND
+                                                * Constants.DriveBaseConstants.MAX_VOLTAGE,
                                 desiredStates[0].angle.getRadians());
                 frontRightModule.set(
                                 desiredStates[1].speedMetersPerSecond
-                                                / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
-                                                * Constants.DriveBase.MAX_VOLTAGE,
+                                                / Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND
+                                                * Constants.DriveBaseConstants.MAX_VOLTAGE,
                                 desiredStates[1].angle.getRadians());
                 backLeftModule.set(
                                 desiredStates[2].speedMetersPerSecond
-                                                / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
-                                                * Constants.DriveBase.MAX_VOLTAGE,
+                                                / Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND
+                                                * Constants.DriveBaseConstants.MAX_VOLTAGE,
                                 desiredStates[2].angle.getRadians());
                 backRightModule.set(
                                 desiredStates[3].speedMetersPerSecond
-                                                / Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
-                                                * Constants.DriveBase.MAX_VOLTAGE,
+                                                / Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND
+                                                * Constants.DriveBaseConstants.MAX_VOLTAGE,
                                 desiredStates[3].angle.getRadians());
         }
 
         @Override
         public void periodic() {
-                SwerveModuleState[] states = Constants.DriveBase.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+                SwerveModuleState[] states = Constants.DriveBaseConstants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
                 setModuleStates(states);
 
                 m_odometry.update(

@@ -17,8 +17,8 @@ public class Climber extends SubsystemBase {
     private final Solenoid pivotPistons;
 
     public Climber() {
-        climberMotor1 = new WPI_TalonFX(RobotMap.Climber.CLIMBER_MOTOR_1);
-        climberMotor2 = new WPI_TalonFX(RobotMap.Climber.CLIMBER_MOTOR_2);
+        climberMotor1 = new WPI_TalonFX(RobotMap.ClimberHardware.CLIMBER_MOTOR_1);
+        climberMotor2 = new WPI_TalonFX(RobotMap.ClimberHardware.CLIMBER_MOTOR_2);
 
         climberMotor1.setNeutralMode(NeutralMode.Brake);
         climberMotor2.setNeutralMode(NeutralMode.Brake);

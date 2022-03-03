@@ -14,7 +14,7 @@ public class Intake extends SubsystemBase {
     final Solenoid deployPistons;
 
     public Intake() {
-        intake = new WPI_TalonFX(RobotMap.Intake.INTAKE_MOTOR);
+        intake = new WPI_TalonFX(RobotMap.IntakeHardware.INTAKE_MOTOR);
         intake.setInverted(true);
         deployPistons = new Solenoid(RobotMap.Pneumatics.PCM, RobotMap.Pneumatics.PCM_TYPE,
                 RobotMap.Pneumatics.INTAKE_DEPLOY_PCM_CHANNEL);

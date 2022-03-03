@@ -37,32 +37,32 @@ public class DriveDefault extends CommandBase {
                 driveBase.drive(
                                 ChassisSpeeds.fromFieldRelativeSpeeds(
                                                 (Math.abs(translationXSupplier
-                                                                .getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE)
+                                                                .getAsDouble()) < Constants.IOConstants.DRIVE_JOYSTICK_DEADZONE)
                                                                                 ? 0
                                                                                 : (slowModeSupplier.getAsBoolean()
                                                                                                 ? translationXSupplier
-                                                                                                                .getAsDouble()*Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
+                                                                                                                .getAsDouble()*Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND
                                                                                                                 / 4
                                                                                                 : translationXSupplier
-                                                                                                                .getAsDouble()*Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
+                                                                                                                .getAsDouble()*Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND),
                                                 (Math.abs(translationYSupplier
-                                                                .getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE)
+                                                                .getAsDouble()) < Constants.IOConstants.DRIVE_JOYSTICK_DEADZONE)
                                                                                 ? 0
                                                                                 : (slowModeSupplier.getAsBoolean()
                                                                                                 ? translationYSupplier
-                                                                                                                .getAsDouble()*Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND
+                                                                                                                .getAsDouble()*Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND
                                                                                                                 / 4
                                                                                                 : translationYSupplier
-                                                                                                                .getAsDouble()*Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND),
+                                                                                                                .getAsDouble()*Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND),
                                                 (Math.abs(rotationSupplier
-                                                                .getAsDouble()) < Constants.IO.DRIVE_JOYSTICK_DEADZONE)
+                                                                .getAsDouble()) < Constants.IOConstants.DRIVE_JOYSTICK_DEADZONE)
                                                                                 ? 0
                                                                                 : (slowModeSupplier.getAsBoolean()
                                                                                                 ? rotationSupplier
-                                                                                                                .getAsDouble()*Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+                                                                                                                .getAsDouble()*Constants.DriveBaseConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
                                                                                                                 / 4
                                                                                                 : rotationSupplier
-                                                                                                                .getAsDouble() * Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND),
+                                                                                                                .getAsDouble() * Constants.DriveBaseConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND),
                                                 driveBase.getGyroscopeRotation()));
         }
 

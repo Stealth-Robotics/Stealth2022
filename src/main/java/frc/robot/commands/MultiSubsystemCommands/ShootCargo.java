@@ -29,7 +29,7 @@ public class ShootCargo extends SequentialCommandGroup {
         addCommands(
                 new MoveConveyor(conveyor, -5000),
                 new ReadyShooter(shooter, (limelight.getTargetDistance()/12)),
-                new MoveConveyor(conveyor, Constants.Conveyor.SHOOT_CONVEYOR_STEP * 2),
+                new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
                 new ResetShooter(shooter));
     }
 

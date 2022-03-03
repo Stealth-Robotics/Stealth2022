@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public final class RobotMap {
-    public static final class DriveBase {
+    public static final class DriveBaseHardware {
 
         public static final int FRONT_LEFT_MODULE_DRIVE = 13;
         public static final int FRONT_LEFT_MODULE_STEERING = 23;
@@ -25,12 +25,12 @@ public final class RobotMap {
 
     }
 
-    public static final class Intake {
+    public static final class IntakeHardware {
 
         public static final int INTAKE_MOTOR = 1;
     }
 
-    public static final class Shooter {
+    public static final class ShooterHardware {
 
         public static final int SHOOTER_MOTOR_1 = 8;
         public static final int SHOOTER_MOTOR_2 = 9;
@@ -38,7 +38,7 @@ public final class RobotMap {
         public static final int HOOD_SWITCH = 4;
     }
 
-    public static final class Climber {
+    public static final class ClimberHardware {
         public static final int CLIMBER_MOTOR_1 = 5;
         public static final int CLIMBER_MOTOR_2= 6;
 
