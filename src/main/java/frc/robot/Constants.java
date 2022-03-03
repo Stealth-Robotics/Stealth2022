@@ -137,7 +137,8 @@ public final class Constants {
 
         public static final class IO {
                 public static final int DRIVE_JOYSTICK_PORT = 0;
-                public static final int BUTTON_PANEL_PORT = 1;
+                public static final int MECH_GAMEPAD_PORT = 1;
+                public static final int DRIVER_STATION_PORT = 2;
 
                 public static final double DRIVE_JOYSTICK_DEADZONE = 0.05;
         }

@@ -58,9 +58,9 @@ public class RobotContainer {
 
         private final UsbCamera intakeCamera;
 
-        private final Joystick buttonPanel = new Joystick(Constants.IO.BUTTON_PANEL_PORT);
-        private final XboxController mechGamepad = new XboxController(2);
         private final XboxController driveGamepad = new XboxController(Constants.IO.DRIVE_JOYSTICK_PORT);
+        private final XboxController mechGamepad = new XboxController(Constants.IO.MECH_GAMEPAD_PORT);
+        private final Joystick driverStation = new Joystick(Constants.IO.DRIVER_STATION_PORT);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -78,7 +78,8 @@ public class RobotContainer {
                                 driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
 
                 conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
-                climber.setDefaultCommand(new ClimberDefault(climber,() -> mechGamepad.getRightTriggerAxis(), () -> mechGamepad.getRightTriggerAxis()));
+                climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRightTriggerAxis(),
+                                () -> mechGamepad.getRightTriggerAxis()));
 
                 intakeCamera = CameraServer.startAutomaticCapture(0);
                 intakeCamera.setResolution(1280, 720);
@@ -103,11 +104,10 @@ public class RobotContainer {
                 new JoystickButton(driveGamepad, 6)
                                 .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));
 
-               
-                new JoystickButton(driveGamepad, 4).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
-
-                new JoystickButton(driveGamepad, 2).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
-
+                // TODO: Check Button Numbers
+                new JoystickButton(mechGamepad, 1).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
+                new JoystickButton(mechGamepad, 2).whenPressed(new EjectTopCargo(shooter, conveyor));
+                new JoystickButton(mechGamepad, 3).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
         }
 
         /**
