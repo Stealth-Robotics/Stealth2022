@@ -12,11 +12,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
@@ -107,12 +110,12 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
-                return new SwerveControllerFollower(driveBase, TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-                                List.of(
-                                                new Translation2d(1, 1),
-                                                new Translation2d(2, -1)),
-                                new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
-                                Constants.DriveBase.MEDIUM_SPEED_CONFIG));
+                return new SequentialCommandGroup(
+                                new InstantCommand(() -> driveBase.resetOdometry(new Pose2d())),
+                                new SwerveControllerFollower(driveBase, TrajectoryGenerator.generateTrajectory(
+                                                new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+                                                List.of(),
+                                                new Pose2d(Units.feetToMeters(50), 0, Rotation2d.fromDegrees(0)),
+                                                Constants.DriveBase.SLOW_SPEED_CONFIG)));
         }
 }

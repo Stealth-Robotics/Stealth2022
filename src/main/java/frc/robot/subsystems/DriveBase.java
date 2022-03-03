@@ -36,11 +36,11 @@ public class DriveBase extends SubsystemBase {
 
         private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
-        private final PIDController xController = new PIDController(Constants.DriveBase.X_P_COEFF, 0, 0);
-        private final PIDController yController = new PIDController(Constants.DriveBase.Y_P_COEFF, 0, 0);
+        private final PIDController xController = new PIDController(Constants.DriveBase.X_P_COEFF, 0.001, 0);
+        private final PIDController yController = new PIDController(Constants.DriveBase.Y_P_COEFF, 0.001, 0);
 
         private final ProfiledPIDController thetaController = new ProfiledPIDController(
-                        Constants.DriveBase.THETA_P_COEFF, 0, 0,
+                        Constants.DriveBase.THETA_P_COEFF, 0.001, 0,
                         Constants.DriveBase.THETA_CONTROLLER_CONSTRAINTS);
 
         private final HolonomicDriveController pathController = new HolonomicDriveController(
@@ -94,8 +94,8 @@ public class DriveBase extends SubsystemBase {
                                 RobotMap.DriveBase.BACK_RIGHT_MODULE_ENCODER,
                                 Constants.DriveBase.BACK_RIGHT_MODULE_STEER_OFFSET);
 
-                thetaController.enableContinuousInput(-Math.PI, Math.PI);
-                // pathController.setEnabled(true);
+                thetaController.enableContinuousInput(Math.PI, -Math.PI);
+                pathController.setEnabled(true);
 
                 tab.getLayout("Pigeon IMU", BuiltInLayouts.kList)
                                 .withSize(2, 2)
@@ -241,8 +241,8 @@ public class DriveBase extends SubsystemBase {
                 }
 
                 return new Pose2d(
-                                -m_odometry.getPoseMeters().getY(),
                                 m_odometry.getPoseMeters().getX(),
+                                m_odometry.getPoseMeters().getY(),
                                 Rotation2d.fromDegrees(theta));
         }
 
