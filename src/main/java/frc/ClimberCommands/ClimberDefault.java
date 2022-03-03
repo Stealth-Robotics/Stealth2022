@@ -25,14 +25,14 @@ public class ClimberDefault extends CommandBase {
 
         if (downSpeed.getAsDouble() > 0.05
                 && climber.getClimberPosition() > Constants.Climber.MIN_THRESHOLD) {
-            climber.setSpeed(-Math.min(downSpeed.getAsDouble(), Constants.Climber.MAX_SPEED));
+            climber.setSpeed(-downSpeed.getAsDouble() * Constants.Climber.MAX_SPEED);
         }
 
         else if (climber.getClimberPosition() < Constants.Climber.MAX_THRESHOLD) {
-            climber.setSpeed(Math.min(upSpeed.getAsDouble(), Constants.Climber.MAX_SPEED));
+            climber.setSpeed(upSpeed.getAsDouble() * Constants.Climber.MAX_SPEED);
         }
 
-        if (downSpeed.getAsDouble() > 0.05 && climber.getClimberPosition() < Constants.Climber.MAX_THRESHOLD / 2) {
+        if (downSpeed.getAsDouble() > 0.05 && climber.getClimberPosition() <= Constants.Climber.MAX_THRESHOLD / 2) {
             climber.movePisitons(false);
         } else if (upSpeed.getAsDouble() > 0.05 && climber.getClimberPosition() > Constants.Climber.MAX_THRESHOLD / 2) {
             climber.movePisitons(true);
