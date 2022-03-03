@@ -1,7 +1,6 @@
 package frc.robot.commands.ConveyerCommands;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Conveyor;
@@ -21,11 +20,11 @@ public class ConveyorDefault extends CommandBase {
     @Override
     public void execute() {
 
-        if (reverseIntake.getAsBoolean() && conveyor.getSpeed() != -0.4) {
+        if (reverseIntake.getAsBoolean()) {
             conveyor.setSpeed(-0.4);
-        } else if (!reverseIntake.getAsBoolean() && conveyor.getBreak() && conveyor.getSpeed() != 0.3) {
+        } else if (conveyor.getBreak() && conveyor.getSpeed() != 0.3) {
             conveyor.setSpeed(0.3);
-        } else if (!reverseIntake.getAsBoolean() && conveyor.getSpeed() != 0.0) {
+        } else if (conveyor.getSpeed() != 0.0) {
             conveyor.setSpeed(0);
         }
     }
