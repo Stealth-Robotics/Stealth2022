@@ -118,6 +118,7 @@ public class RobotContainer {
         public Command getAutonomousCommand() {
 
                 return new SequentialCommandGroup(
+                                new InstantCommand(() -> driveBase.zeroGyroscope()),
                                 new InstantCommand(() -> driveBase.resetOdometry(new Pose2d())),
                                 new SwerveControllerFollower(driveBase, TrajectoryGenerator.generateTrajectory(
                                                 new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
