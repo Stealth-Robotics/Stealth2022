@@ -21,11 +21,12 @@ public class ShootTopCargo extends SequentialCommandGroup {
         this.shooter = shooter;
         this.limelight = limelight;
 
+        addRequirements(conveyor, shooter, limelight);
+
         addCommands(
-                new ReadyShooter(shooter, (limelight.getTargetDistance()/12)),
+                new ReadyShooter(shooter, (limelight.getTargetDistance() / 12)),
                 new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP),
                 new ResetShooter(shooter));
-
     }
 
     @Override

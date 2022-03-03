@@ -3,8 +3,6 @@ package frc.robot.commands.ClimberCommands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-import org.json.simple.parser.Yytoken;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Climber;
@@ -20,6 +18,8 @@ public class ClimberDefault extends CommandBase {
         this.upSpeed = upSpeed;
         this.downSpeed = downSpeed;
         this.override = override;
+
+        addRequirements(climber);
     }
 
     @Override

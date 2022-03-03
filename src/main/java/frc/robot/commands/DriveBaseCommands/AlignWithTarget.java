@@ -22,6 +22,8 @@ public class AlignWithTarget extends CommandBase {
                 Constants.DriveBaseConstants.ALIGN_D_COEFF);
 
         alignController.setTolerance(Constants.DriveBaseConstants.ALIGN_TOLERANCE);
+
+        addRequirements(driveBase);
     }
 
     @Override
