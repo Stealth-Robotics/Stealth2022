@@ -39,4 +39,17 @@ public class Climber extends SubsystemBase {
         pivotPistons.set(!pivotPistons.get());
     }
 
+    public void movePisitons(boolean setState) {
+        pivotPistons.set(setState);
+    }
+
+    public double getClimberPosition() {
+        return climberMotor1.getSelectedSensorPosition();
+    }
+
+    public double getClimberPower()
+    {
+        return climberMotor1.getMotorOutputPercent();
+    }
+
 }

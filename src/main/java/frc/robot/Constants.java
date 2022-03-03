@@ -145,4 +145,10 @@ public final class Constants {
         public static final class CANdleSystem {
                 public static final int TIMEOUT = 30;
         }
+        public static final class Climber {
+                public static final double MAX_THRESHOLD = 125000;
+                public static final double MIN_THRESHOLD = 5000;
+                public static final double MAX_SPEED = 0.3;
+                
+        }
 }

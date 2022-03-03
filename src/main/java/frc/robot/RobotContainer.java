@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.DriveBaseCommands.SwerveControllerFollower;
@@ -77,6 +78,7 @@ public class RobotContainer {
                                 driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
 
                 conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
+                climber.setDefaultCommand(new ClimberDefault(climber, mechGamepad.getRightTriggerAxis(), mechGamepad.getRightTriggerAxis()));
 
                 intakeCamera = CameraServer.startAutomaticCapture(0);
                 intakeCamera.setResolution(1280, 720);
@@ -101,10 +103,7 @@ public class RobotContainer {
                 new JoystickButton(driveGamepad, 6)
                                 .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));
 
-                new JoystickButton(driveGamepad, 2).whenHeld(new InstantCommand(() -> climber.setSpeed(0.3)))
-                                .whenReleased(() -> climber.setSpeed(0));
-                new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(-0.3)))
-                                .whenReleased(() -> climber.setSpeed(0));
+               
                 new JoystickButton(driveGamepad, 4).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
 
                 new JoystickButton(driveGamepad, 2).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
