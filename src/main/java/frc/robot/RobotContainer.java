@@ -76,7 +76,7 @@ public class RobotContainer {
                 intake.setDefaultCommand(new IntakeDefault(intake,
                                 driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
 
-                conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () ->  driveGamepad.getStartButton() ));
+                conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
 
                 intakeCamera = CameraServer.startAutomaticCapture(0);
                 intakeCamera.setResolution(1280, 720);
@@ -107,8 +107,7 @@ public class RobotContainer {
                                 .whenReleased(() -> climber.setSpeed(0));
                 new JoystickButton(driveGamepad, 4).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
 
-                new JoystickButton(driveGamepad, 2).whenPressed(new InstantCommand(() ->
-                climber.togglePivotPistons()));
+                new JoystickButton(driveGamepad, 2).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
 
         }
 
@@ -119,45 +118,12 @@ public class RobotContainer {
          */
         public Command getAutonomousCommand() {
 
-                // TrajectoryConfig config = new TrajectoryConfig(
-                //                 Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND,
-                //                 Constants.DriveBase.MAX_ACCELERATION_METERS_PER_SECOND)
-                //                                 // Add kinematics to ensure max speed is actually obeyed
-                //                                 .setKinematics(Constants.DriveBase.DRIVE_KINEMATICS);
-
-                // Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-                //                 // Start at the origin facing the +X direction
-                //                 new Pose2d(0, 0, new Rotation2d(0)),
-                //                 // Pass through these two interior waypoints, making an 's' curve path
-                //                 List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-                //                 // End 3 meters straight ahead of where we started, facing forward
-                //                 new Pose2d(3, 0, new Rotation2d(0)),
-                //                 config);
-
-                // var thetaController = new ProfiledPIDController(
-                //                 1, 0, 0,
-                //                 new TrapezoidProfile.Constraints(
-                //                                 Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-                //                                 Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
-                // thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-                // SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                //                 exampleTrajectory,
-                //                 driveBase::getPose, // Functional interface to feed supplier
-                //                 Constants.DriveBase.DRIVE_KINEMATICS,
-
-                //                 // Position controllers
-                //                 new PIDController(1, 0, 0),
-                //                 new PIDController(1, 0, 0),
-                //                 thetaController,
-                //                 driveBase::setModuleStates,
-                //                 driveBase);
-
-                // driveBase.resetOdometry(exampleTrajectory.getInitialPose());
-
-                // return swerveControllerCommand.andThen(() -> driveBase.drive(0, 0, 0));
-
-                // An ExampleCommand will run in autonomous
-                return testAutoSPath;
+                return new SequentialCommandGroup(
+                                new InstantCommand(() -> driveBase.resetOdometry(new Pose2d())),
+                                new SwerveControllerFollower(driveBase, TrajectoryGenerator.generateTrajectory(
+                                                new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+                                                List.of(),
+                                                new Pose2d(Units.feetToMeters(50), 0, Rotation2d.fromDegrees(0)),
+                                                Constants.DriveBase.SLOW_SPEED_CONFIG)));
         }
 }
