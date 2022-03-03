@@ -77,9 +77,10 @@ public class RobotContainer {
                 intake.setDefaultCommand(new IntakeDefault(intake,
                                 driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
 
+                // TODO: Check And Set Override Button
                 conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
                 climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRightTriggerAxis(),
-                                () -> mechGamepad.getRightTriggerAxis()));
+                                () -> mechGamepad.getRightTriggerAxis(), () -> mechGamepad.getRawButton(4)));
 
                 intakeCamera = CameraServer.startAutomaticCapture(0);
                 intakeCamera.setResolution(1280, 720);
