@@ -30,7 +30,10 @@ import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.DriveBaseCommands.FollowTrajectory;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
+import frc.robot.commands.MultiSubsystemCommands.EjectTopCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
+import frc.robot.commands.MultiSubsystemCommands.ShootTopCargo;
+import frc.robot.commands.MultiSubsystemCommands.ShootTopCargo;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
@@ -59,7 +62,8 @@ public class RobotContainer {
 
         private final UsbCamera intakeCamera;
 
-       private final Joystick buttonPanel = new Joystick(Constants.IO.MECH_JOYSTICK_PORT);
+        private final Joystick buttonPanel = new Joystick(Constants.IO.BUTTON_PANEL_PORT);
+        private final XboxController mechGamepad = new XboxController(2);
         private final XboxController driveGamepad = new XboxController(Constants.IO.DRIVE_JOYSTICK_PORT);
 
         /**
@@ -72,12 +76,12 @@ public class RobotContainer {
                                 () -> driveGamepad.getLeftX(),
                                 () -> -driveGamepad.getLeftY(),
                                 () -> -driveGamepad.getRightX(),
-                                () -> driveGamepad.getLeftBumper()));
+                                () -> driveGamepad.getRightBumper()));
 
                 intake.setDefaultCommand(new IntakeDefault(intake,
                                 driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
 
-                conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () ->  driveGamepad.getStartButton() ));
+                conveyor.setDefaultCommand(new ConveyorDefault(conveyor, mechGamepad::getRightBumper));
 
                 intakeCamera = CameraServer.startAutomaticCapture(0);
                 intakeCamera.setResolution(1280, 720);
@@ -95,19 +99,20 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
+                // drive gamepad controls
                 new JoystickButton(driveGamepad, 1)
                                 .whenPressed(() -> driveBase.zeroGyroscope());
 
-                new JoystickButton(driveGamepad, 5)
+                new JoystickButton(driveGamepad, 6)
                                 .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));
 
-                new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(0.3)))
+                new JoystickButton(driveGamepad, 2).whenHeld(new InstantCommand(() -> climber.setSpeed(0.3)))
                                 .whenReleased(() -> climber.setSpeed(0));
-                new JoystickButton(driveGamepad, 4).whenHeld(new InstantCommand(() -> climber.setSpeed(-0.3)))
+                new JoystickButton(driveGamepad, 3).whenHeld(new InstantCommand(() -> climber.setSpeed(-0.3)))
                                 .whenReleased(() -> climber.setSpeed(0));
+                new JoystickButton(driveGamepad, 4).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
 
-                new JoystickButton(driveGamepad, 2).whenPressed(new InstantCommand(() ->
-                climber.togglePivotPistons()));
+           
 
         }
 
@@ -126,38 +131,39 @@ public class RobotContainer {
         public Command getAutonomousCommand() {
 
                 // TrajectoryConfig config = new TrajectoryConfig(
-                //                 Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND,
-                //                 Constants.DriveBase.MAX_ACCELERATION_METERS_PER_SECOND)
-                //                                 // Add kinematics to ensure max speed is actually obeyed
-                //                                 .setKinematics(Constants.DriveBase.DRIVE_KINEMATICS);
+                // Constants.DriveBase.MAX_VELOCITY_METERS_PER_SECOND,
+                // Constants.DriveBase.MAX_ACCELERATION_METERS_PER_SECOND)
+                // // Add kinematics to ensure max speed is actually obeyed
+                // .setKinematics(Constants.DriveBase.DRIVE_KINEMATICS);
 
                 // Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-                //                 // Start at the origin facing the +X direction
-                //                 new Pose2d(0, 0, new Rotation2d(0)),
-                //                 // Pass through these two interior waypoints, making an 's' curve path
-                //                 List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-                //                 // End 3 meters straight ahead of where we started, facing forward
-                //                 new Pose2d(3, 0, new Rotation2d(0)),
-                //                 config);
+                // // Start at the origin facing the +X direction
+                // new Pose2d(0, 0, new Rotation2d(0)),
+                // // Pass through these two interior waypoints, making an 's' curve path
+                // List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+                // // End 3 meters straight ahead of where we started, facing forward
+                // new Pose2d(3, 0, new Rotation2d(0)),
+                // config);
 
                 // var thetaController = new ProfiledPIDController(
-                //                 1, 0, 0,
-                //                 new TrapezoidProfile.Constraints(
-                //                                 Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-                //                                 Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+                // 1, 0, 0,
+                // new TrapezoidProfile.Constraints(
+                // Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+                // Constants.DriveBase.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
                 // thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-                // SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                //                 exampleTrajectory,
-                //                 driveBase::getPose, // Functional interface to feed supplier
-                //                 Constants.DriveBase.DRIVE_KINEMATICS,
+                // SwerveControllerCommand swerveControllerCommand = new
+                // SwerveControllerCommand(
+                // exampleTrajectory,
+                // driveBase::getPose, // Functional interface to feed supplier
+                // Constants.DriveBase.DRIVE_KINEMATICS,
 
-                //                 // Position controllers
-                //                 new PIDController(1, 0, 0),
-                //                 new PIDController(1, 0, 0),
-                //                 thetaController,
-                //                 driveBase::setModuleStates,
-                //                 driveBase);
+                // // Position controllers
+                // new PIDController(1, 0, 0),
+                // new PIDController(1, 0, 0),
+                // thetaController,
+                // driveBase::setModuleStates,
+                // driveBase);
 
                 // driveBase.resetOdometry(exampleTrajectory.getInitialPose());
 
