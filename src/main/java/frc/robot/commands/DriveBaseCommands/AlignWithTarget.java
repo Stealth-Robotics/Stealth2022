@@ -23,7 +23,7 @@ public class AlignWithTarget extends CommandBase {
 
         alignController.setTolerance(Constants.DriveBaseConstants.ALIGN_TOLERANCE);
 
-        addRequirements(driveBase);
+        addRequirements(driveBase, limelight);
     }
 
     @Override
@@ -33,6 +33,11 @@ public class AlignWithTarget extends CommandBase {
 
     public void execute() {
         driveBase.drive(0, 0, alignController.calculate(limelight.getTargetHorizontalOffset()));
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        driveBase.drive(0,0,0);
     }
 
     @Override

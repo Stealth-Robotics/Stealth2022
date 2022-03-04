@@ -1,8 +1,11 @@
 package frc.robot.commands.MultiSubsystemCommands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.ConveyerCommands.MoveConveyor;
+import frc.robot.commands.DriveBaseCommands.AlignWithTarget;
 import frc.robot.commands.ShooterCommands.ReadyShooter;
 import frc.robot.commands.ShooterCommands.ResetShooter;
 import frc.robot.subsystems.Conveyor;
@@ -16,22 +19,33 @@ public class ShootCargo extends SequentialCommandGroup {
     private final Shooter shooter;
     private final Conveyor conveyor;
     private final Limelight limelight;
+    //private double distance;
 
-    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor,Limelight limelight ) {
+    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;
         this.conveyor = conveyor;
         this.limelight = limelight;
 
-        addRequirements(shooter, conveyor, driveBase);
+        //distance = this.limelight.getTargetDistance();
+
+        addRequirements(shooter, conveyor, driveBase, limelight);
 
         addCommands(
-                new MoveConveyor(conveyor, -5000),
-                new ReadyShooter(shooter, (limelight.getTargetDistance()/12)),
+                new InstantCommand(() -> System.out.println(limelight.getTargetDistance())),
+                // new ParallelCommandGroup(
+                //         new AlignWithTarget(driveBase, this.limelight),
+                //         new MoveConveyor(conveyor, -500)),
+                new ReadyShooter(shooter, this.limelight),
                 new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
                 new ResetShooter(shooter));
     }
+
+    // @Override
+    // public void execute() {
+    // System.out.println(limelight.getTargetDistance());
+    // }
 
     @Override
     public void end(boolean interrupted) {

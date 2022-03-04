@@ -33,9 +33,9 @@ public final class Constants {
 
                 public static final double MAX_VOLTAGE = 12.0;
 
-                public static final double X_P_COEFF = 0.001;
-                public static final double Y_P_COEFF = 0.001;
-                public static final double THETA_P_COEFF = 0.001;
+                public static final double X_P_COEFF = 3;
+                public static final double Y_P_COEFF = 3;
+                public static final double THETA_P_COEFF = 4;
 
                 public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
                                 SdsModuleConfigurations.MK4_L2.getDriveReduction() *
@@ -76,11 +76,11 @@ public final class Constants {
                                 // Back right
                                 new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
-                public static final double ALIGN_P_COEFF = 0;
-                public static final double ALIGN_I_COEFF = 0;
-                public static final double ALIGN_D_COEFF = 0;
+                public static final double ALIGN_P_COEFF = 0.08;
+                public static final double ALIGN_I_COEFF = 0.000;
+                public static final double ALIGN_D_COEFF = 0.0010;
 
-                public static final double ALIGN_TOLERANCE = 0;
+                public static final double ALIGN_TOLERANCE = 7;
         }
 
         public static final class LimelightConstants {
@@ -140,15 +140,15 @@ public final class Constants {
                 public static final int MECH_GAMEPAD_PORT = 1;
                 public static final int DRIVER_STATION_PORT = 2;
 
-                public static final double DRIVE_JOYSTICK_DEADZONE = 0.05;
+                public static final double DRIVE_JOYSTICK_DEADZONE = 0.06;
         }
 
         public static final class CANdleSystemConstants {
                 public static final int TIMEOUT = 30;
         }
         public static final class ClimberConstants {
-                public static final double MAX_THRESHOLD = 125000;
-                public static final double MIN_THRESHOLD = 5000;
-                public static final double MAX_SPEED = 0.3;
+                public static final double MAX_THRESHOLD = 140000;
+                public static final double MIN_THRESHOLD = -3000;
+                public static final double MAX_SPEED = 0.6;
         }
 }

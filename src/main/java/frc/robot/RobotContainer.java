@@ -70,7 +70,7 @@ public class RobotContainer {
                 driveBase.setDefaultCommand(new DriveDefault(
                                 driveBase,
                                 () -> -driveGamepad.getLeftY(),
-                                () -> driveGamepad.getLeftX(),
+                                () -> -driveGamepad.getLeftX(),
                                 () -> -driveGamepad.getRightX(),
                                 () -> driveGamepad.getRightBumper()));
 
@@ -79,8 +79,8 @@ public class RobotContainer {
 
                 // TODO: Check And Set Override Button
                 conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
-                climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRightTriggerAxis(),
-                                () -> mechGamepad.getRightTriggerAxis(), () -> mechGamepad.getRawButton(4)));
+                climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRawAxis(3),
+                                () -> mechGamepad.getRawAxis(4), () -> mechGamepad.getRawButton(6)));
 
                 intakeCamera = CameraServer.startAutomaticCapture(0);
                 intakeCamera.setResolution(1280, 720);
@@ -106,9 +106,11 @@ public class RobotContainer {
                                 .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));
 
                 // TODO: Check Button Numbers
-                new JoystickButton(mechGamepad, 1).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
+                new JoystickButton(mechGamepad, 4).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
                 new JoystickButton(mechGamepad, 2).whenPressed(new EjectTopCargo(shooter, conveyor));
-                new JoystickButton(mechGamepad, 3).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
+                new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
+
+                new JoystickButton(driveGamepad, 2).whenPressed(() -> driveBase.resetOdometry(new Pose2d()));
         }
 
         /**
@@ -122,9 +124,9 @@ public class RobotContainer {
                                 new InstantCommand(() -> driveBase.zeroGyroscope()),
                                 new InstantCommand(() -> driveBase.resetOdometry(new Pose2d())),
                                 new SwerveControllerFollower(driveBase, TrajectoryGenerator.generateTrajectory(
-                                                new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+                                                driveBase.getPose(),
                                                 List.of(),
-                                                new Pose2d(Units.feetToMeters(50), 0, Rotation2d.fromDegrees(0)),
-                                                Constants.DriveBaseConstants.SLOW_SPEED_CONFIG)));
+                                                new Pose2d(Units.feetToMeters(10), 0, Rotation2d.fromDegrees(180)),
+                                                Constants.DriveBaseConstants.MAX_SPEED_CONFIG)));
         }
 }

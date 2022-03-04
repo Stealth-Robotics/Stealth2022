@@ -21,14 +21,15 @@ public class IntakeDefault extends CommandBase {
 
     @Override
     public void execute() {
-        if (reverseSpeed.getAsDouble() > 0) {
+        if (reverseSpeed.getAsDouble() > 0.05) {
             intake.deploy();
             intake.setSpeed(-reverseSpeed.getAsDouble());
-        } else if (forwardSpeed.getAsDouble() > 0) {
+        } else if (forwardSpeed.getAsDouble() > 0.05) {
             intake.deploy();
             intake.setSpeed(forwardSpeed.getAsDouble());
         } else {
             intake.unDeploy();
+            intake.setSpeed(0);
         }
     }
 

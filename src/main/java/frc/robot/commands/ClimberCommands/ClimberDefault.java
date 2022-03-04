@@ -23,25 +23,40 @@ public class ClimberDefault extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        climber.resetClimberEncoder();
+    }
+
+    @Override
     public void execute() {
 
         if (downSpeed.getAsDouble() > 0.05
-                && climber.getClimberPosition() > Constants.ClimberConstants.MIN_THRESHOLD
-                && !override.getAsBoolean()) {
+                && climber.getClimberPosition() > Constants.ClimberConstants.MIN_THRESHOLD) {
             climber.setSpeed(-downSpeed.getAsDouble() * Constants.ClimberConstants.MAX_SPEED);
         }
 
         else if (climber.getClimberPosition() < Constants.ClimberConstants.MAX_THRESHOLD
-                && !override.getAsBoolean()) {
+                && upSpeed.getAsDouble() > 0.05) {
             climber.setSpeed(upSpeed.getAsDouble() * Constants.ClimberConstants.MAX_SPEED);
         }
 
+        // else if (downSpeed.getAsDouble() > 0.05 && override.getAsBoolean()) {
+        //     climber.setSpeed(-downSpeed.getAsDouble() * Constants.ClimberConstants.MAX_SPEED);
+        // }
+
+        // else if (upSpeed.getAsDouble() > 0.05 && override.getAsBoolean()) {
+        //     climber.setSpeed(upSpeed.getAsDouble() * Constants.ClimberConstants.MAX_SPEED);
+        // }
+
+        else {
+            climber.setSpeed(0);
+        }
+
         if (downSpeed.getAsDouble() > 0.05
-                && climber.getClimberPosition() <= Constants.ClimberConstants.MAX_THRESHOLD / 2
                 && !override.getAsBoolean()) {
             climber.movePisitons(false);
         } else if (upSpeed.getAsDouble() > 0.05
-                && climber.getClimberPosition() > Constants.ClimberConstants.MAX_THRESHOLD / 2
+                && climber.getClimberPosition() > Constants.ClimberConstants.MAX_THRESHOLD / 4
                 && !override.getAsBoolean()) {
             climber.movePisitons(true);
         }
