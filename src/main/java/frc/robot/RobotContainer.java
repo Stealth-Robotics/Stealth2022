@@ -79,11 +79,8 @@ public class RobotContainer {
 
                 // TODO: Check And Set Override Button
                 conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
-
-                // TODO: Check Override Up And Toggle Buttons (Last 2 Buttons)
                 climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRawAxis(3),
-                                () -> mechGamepad.getRawAxis(4), () -> mechGamepad.getRawButton(6),
-                                () -> mechGamepad.getRawButton(5), () -> mechGamepad.getRawButtonPressed(7)));
+                                () -> mechGamepad.getRawAxis(4), () -> mechGamepad.getRawButton(6)));
 
                 intakeCamera = CameraServer.startAutomaticCapture(0);
                 intakeCamera.setResolution(1280, 720);
@@ -111,8 +108,9 @@ public class RobotContainer {
                 // TODO: Check Button Numbers
                 new JoystickButton(mechGamepad, 4).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
                 new JoystickButton(mechGamepad, 2).whenPressed(new EjectTopCargo(shooter, conveyor));
-                // new JoystickButton(driveGamepad, 2).whenPressed(() ->
-                // driveBase.resetOdometry(new Pose2d()));
+                new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
+
+                new JoystickButton(driveGamepad, 2).whenPressed(() -> driveBase.resetOdometry(new Pose2d()));
         }
 
         /**
