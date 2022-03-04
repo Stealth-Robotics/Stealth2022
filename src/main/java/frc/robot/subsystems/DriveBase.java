@@ -130,7 +130,7 @@ public class DriveBase extends SubsystemBase {
          * @return The rotation of the Pigeon IMU as a Rotation2d
          */
         public Rotation2d getGyroscopeRotation() {
-                return pigeon.getRotation2d();
+                return Rotation2d.fromDegrees(pigeon.getYaw());
         }
 
         /**
@@ -189,7 +189,7 @@ public class DriveBase extends SubsystemBase {
                 xController.reset();
                 yController.reset();
                 thetaController.reset(
-                                getGyroscopeRotation().getRadians(),
+                                getPose().getRotation().getRadians(),
                                 chassisSpeeds.omegaRadiansPerSecond);
         }
 
