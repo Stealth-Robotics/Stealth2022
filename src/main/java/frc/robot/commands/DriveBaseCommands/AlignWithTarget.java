@@ -12,6 +12,7 @@ public class AlignWithTarget extends CommandBase {
     private final DriveBase driveBase;
     private final Limelight limelight;
     private final PIDController alignController;
+    private double newpower;
 
     public AlignWithTarget(DriveBase driveBase, Limelight limelight) {
         this.driveBase = driveBase;
@@ -32,7 +33,10 @@ public class AlignWithTarget extends CommandBase {
     }
 
     public void execute() {
-        driveBase.drive(0, 0, alignController.calculate(limelight.getTargetHorizontalOffset()));
+        newpower = alignController.calculate(limelight.getTargetHorizontalOffset());
+        if (newpower > 1.75) newpower = 1.75;
+        if (newpower < -1.75) newpower = -1.75;
+        driveBase.drive(0, 0, newpower);
     }
 
     @Override

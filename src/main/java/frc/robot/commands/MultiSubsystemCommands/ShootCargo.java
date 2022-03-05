@@ -33,10 +33,10 @@ public class ShootCargo extends SequentialCommandGroup {
         addRequirements(shooter, conveyor, driveBase, limelight);
 
         addCommands(
-                new InstantCommand(() -> System.out.println(limelight.getTargetDistance())),
-                // new ParallelCommandGroup(
-                //         new AlignWithTarget(driveBase, this.limelight),
-                //         new MoveConveyor(conveyor, -500)),
+                //new InstantCommand(() -> System.out.println(limelight.getTargetDistance())),
+                new ParallelCommandGroup(
+                        new AlignWithTarget(driveBase, this.limelight),
+                        new MoveConveyor(conveyor, -500)),
                 new ReadyShooter(shooter, this.limelight),
                 new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
                 new ResetShooter(shooter));

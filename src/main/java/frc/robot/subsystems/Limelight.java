@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.swing.plaf.synth.SynthStyle;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -135,5 +137,10 @@ public class Limelight extends SubsystemBase {
      */
     public void setLedMode(double ledMode) {
         limelightTableEntry.getEntry("ledMode").setNumber(ledMode);
+    }
+
+    @Override
+    public void periodic() {
+        System.out.println(getTargetHorizontalOffset());
     }
 }

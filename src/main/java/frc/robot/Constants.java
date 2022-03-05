@@ -76,11 +76,11 @@ public final class Constants {
                                 // Back right
                                 new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
-                public static final double ALIGN_P_COEFF = 0.08;
-                public static final double ALIGN_I_COEFF = 0.000;
-                public static final double ALIGN_D_COEFF = 0.0010;
+                public static final double ALIGN_P_COEFF = 0.2;
+                public static final double ALIGN_I_COEFF = 0.3;
+                public static final double ALIGN_D_COEFF = 0.000;
 
-                public static final double ALIGN_TOLERANCE = 7;
+                public static final double ALIGN_TOLERANCE = .5;
         }
 
         public static final class LimelightConstants {

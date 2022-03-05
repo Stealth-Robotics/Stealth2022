@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AutoCommands.TwoBallAuto;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
@@ -85,7 +86,8 @@ public class RobotContainer {
                 intakeCamera = CameraServer.startAutomaticCapture(0);
                 intakeCamera.setResolution(1280, 720);
                 intakeCamera.setFPS(25);
-                // Configure the button bindings
+                
+                //Configure the button bindings
                 configureButtonBindings();
         }
 
@@ -120,13 +122,8 @@ public class RobotContainer {
          */
         public Command getAutonomousCommand() {
 
-                return new SequentialCommandGroup(
-                                new InstantCommand(() -> driveBase.zeroGyroscope()),
-                                new InstantCommand(() -> driveBase.resetOdometry(new Pose2d())),
-                                new SwerveControllerFollower(driveBase, TrajectoryGenerator.generateTrajectory(
-                                                driveBase.getPose(),
-                                                List.of(),
-                                                new Pose2d(Units.feetToMeters(10), 0, Rotation2d.fromDegrees(180)),
-                                                Constants.DriveBaseConstants.MAX_SPEED_CONFIG)));
+                //return new InstantCommand();
+
+                return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight);
         }
 }

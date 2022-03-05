@@ -18,9 +18,12 @@ public class ReadyShooter extends CommandBase {
     @Override
     public void initialize() {
         shooter.hoodToDegree(distanceToDegree(limelight.getTargetDistance()/12.0));
-         System.out.println("Distance: " + limelight.getTargetDistance());
+        System.out.println("Distance: " + limelight.getTargetDistance());
         System.out.println(distanceToDegree(limelight.getTargetDistance()/12.0));
         shooter.setVelocity(distanceToRpm(limelight.getTargetDistance()/12.0));
+        //shooter.hoodToDegree(58.5);
+        //shooter.setVelocity(4400);
+
     }
 
     @Override
@@ -30,7 +33,7 @@ public class ReadyShooter extends CommandBase {
 
     // 272.75\sin\left(13.9266-0.0152556x\right)-180.267
     private double distanceToDegree(double adistance) {
-      return (-0.0297619*Math.pow(adistance, 2)) - (0.8809552*adistance)+ 86.4821;
+      return (-0.00520833*Math.pow(adistance, 2)) - (1.83036*adistance)+ 91.1674;
 
         // return Math.min(
         // Constants.ShooterConstants.HOOD_LOWER_BOUND,
@@ -42,6 +45,6 @@ public class ReadyShooter extends CommandBase {
     private double distanceToRpm(double distance) {
         return Math.max(
                 0,
-                (8.70162 * Math.pow(distance, 1.68446) + 2867.95));
+                (6.77083 * Math.pow(distance, 2) - (74.1071*distance) + 3265.85));
     }
 }
