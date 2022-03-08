@@ -92,6 +92,7 @@ public class Shooter extends SubsystemBase {
 
         public void setVelocity(double rpm) {
                 shooterMotor1.set(ControlMode.Velocity, rpm * 2048.0 / 600.0);
+                System.out.println("Target:" + rpm * 2048.0 / 600.0);
         }
 
         public boolean atVelocity() {

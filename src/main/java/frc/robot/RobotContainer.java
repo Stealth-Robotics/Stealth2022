@@ -4,33 +4,25 @@
 
 package frc.robot;
 
-import java.util.List;
-
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommands.TwoBallAuto;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
+import frc.robot.commands.ConveyerCommands.MoveConveyor;
+import frc.robot.commands.DriveBaseCommands.AlignWithTarget;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
-import frc.robot.commands.DriveBaseCommands.SwerveControllerFollower;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
 import frc.robot.commands.MultiSubsystemCommands.EjectTopCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootTopCargo;
-import frc.robot.commands.MultiSubsystemCommands.ShootTopCargo;
+import frc.robot.commands.ShooterCommands.ResetShooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
@@ -57,8 +49,6 @@ public class RobotContainer {
         private final Climber climber = new Climber();
         // private final CANdleSystem candle = new CANdleSystem();
 
-        private final UsbCamera intakeCamera;
-
         private final XboxController driveGamepad = new XboxController(Constants.IOConstants.DRIVE_JOYSTICK_PORT);
         private final XboxController mechGamepad = new XboxController(Constants.IOConstants.MECH_GAMEPAD_PORT);
         private final Joystick driverStation = new Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
@@ -83,11 +73,7 @@ public class RobotContainer {
                 climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRawAxis(3),
                                 () -> mechGamepad.getRawAxis(4), () -> mechGamepad.getRawButton(6)));
 
-                intakeCamera = CameraServer.startAutomaticCapture(0);
-                intakeCamera.setResolution(1280, 720);
-                intakeCamera.setFPS(25);
-                
-                //Configure the button bindings
+                // Configure the button bindings
                 configureButtonBindings();
         }
 
@@ -112,7 +98,19 @@ public class RobotContainer {
                 new JoystickButton(mechGamepad, 2).whenPressed(new EjectTopCargo(shooter, conveyor));
                 new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
 
-                new JoystickButton(driveGamepad, 2).whenPressed(() -> driveBase.resetOdometry(new Pose2d()));
+                // new JoystickButton(driveGamepad, 2).whenPressed(() ->
+                // driveBase.resetOdometry(new Pose2d()));
+                new JoystickButton(driveGamepad, 2).whenPressed(
+                                new SequentialCommandGroup(
+                                                new MoveConveyor(conveyor, -500),
+                                                new InstantCommand(() -> shooter.setSpeed(100)),
+                                                new InstantCommand(() -> shooter.hoodToDegree(72)),
+                                                new MoveConveyor(conveyor,
+                                                                Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
+                                                new ResetShooter(shooter),
+                                                new InstantCommand(() -> driveBase.drive(0, 0, 0)),
+                                                new InstantCommand(() -> shooter.setVelocity(0)),
+                                                new InstantCommand(() -> shooter.hoodToPos(0))));
         }
 
         /**
@@ -122,7 +120,7 @@ public class RobotContainer {
          */
         public Command getAutonomousCommand() {
 
-                //return new InstantCommand();
+                // return new InstantCommand();
 
                 return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight);
         }

@@ -138,9 +138,4 @@ public class Limelight extends SubsystemBase {
     public void setLedMode(double ledMode) {
         limelightTableEntry.getEntry("ledMode").setNumber(ledMode);
     }
-
-    @Override
-    public void periodic() {
-        System.out.println(getTargetHorizontalOffset());
-    }
 }

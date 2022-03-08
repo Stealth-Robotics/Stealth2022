@@ -148,7 +148,7 @@ public final class Constants {
         }
         public static final class ClimberConstants {
                 public static final double MAX_THRESHOLD = 140000;
-                public static final double MIN_THRESHOLD = -3000;
+                public static final double MIN_THRESHOLD = -10000;
                 public static final double MAX_SPEED = 0.6;
         }
 }
