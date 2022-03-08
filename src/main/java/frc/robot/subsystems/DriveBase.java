@@ -51,8 +51,6 @@ public class DriveBase extends SubsystemBase {
         public DriveBase() {
                 ShuffleboardTab tab = Shuffleboard.getTab("DriveBase");
 
-                setGyroscopeRotation(0);
-
                 frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                                                 .withSize(2, 4)
@@ -93,6 +91,8 @@ public class DriveBase extends SubsystemBase {
                                 RobotMap.DriveBaseHardware.BACK_RIGHT_MODULE_ENCODER,
                                 Constants.DriveBaseConstants.BACK_RIGHT_MODULE_STEER_OFFSET);
 
+                zeroGyroscope();
+
                 thetaController.enableContinuousInput(Math.PI, -Math.PI);
                 pathController.setEnabled(true);
 
@@ -130,7 +130,9 @@ public class DriveBase extends SubsystemBase {
          * @return The rotation of the Pigeon IMU as a Rotation2d
          */
         public Rotation2d getGyroscopeRotation() {
-                return pigeon.getRotation2d();
+                double[] ypr = new double[3];
+                pigeon.getYawPitchRoll(ypr);
+                return Rotation2d.fromDegrees(ypr[0]);
         }
 
         /**
@@ -178,10 +180,13 @@ public class DriveBase extends SubsystemBase {
         }
 
         public void drive(Trajectory.State targetState, Rotation2d targetRotation) {
+                // determine ChassisSpeeds from path state and positional feedback control from
+                // HolonomicDriveController
                 ChassisSpeeds targetChassisSpeeds = pathController.calculate(
                                 getPose(),
                                 targetState,
                                 targetRotation);
+                // command robot to reach the target ChassisSpeeds
                 drive(targetChassisSpeeds);
         }
 
@@ -231,18 +236,18 @@ public class DriveBase extends SubsystemBase {
                 // double theta = 0;
 
                 // if (m_odometry.getPoseMeters().getRotation().getDegrees() < 0
-                //                 && m_odometry.getPoseMeters().getRotation().getDegrees() > -180) {
-                //         theta = -m_odometry.getPoseMeters().getRotation().getDegrees();
+                // && m_odometry.getPoseMeters().getRotation().getDegrees() > -180) {
+                // theta = -m_odometry.getPoseMeters().getRotation().getDegrees();
                 // }
 
                 // else {
-                //         theta = 360 - m_odometry.getPoseMeters().getRotation().getDegrees();
+                // theta = 360 - m_odometry.getPoseMeters().getRotation().getDegrees();
                 // }
 
                 // return new Pose2d(
-                //                 m_odometry.getPoseMeters().getX(),
-                //                 m_odometry.getPoseMeters().getY(),
-                //                 Rotation2d.fromDegrees(theta));
+                // m_odometry.getPoseMeters().getX(),
+                // m_odometry.getPoseMeters().getY(),
+                // Rotation2d.fromDegrees(theta));
                 return m_odometry.getPoseMeters();
         }
 
@@ -281,7 +286,8 @@ public class DriveBase extends SubsystemBase {
 
         @Override
         public void periodic() {
-                SwerveModuleState[] states = Constants.DriveBaseConstants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+                SwerveModuleState[] states = Constants.DriveBaseConstants.DRIVE_KINEMATICS
+                                .toSwerveModuleStates(chassisSpeeds);
                 setModuleStates(states);
 
                 m_odometry.update(
