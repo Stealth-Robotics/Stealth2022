@@ -19,7 +19,7 @@ public class ShootCargo extends SequentialCommandGroup {
     private final Shooter shooter;
     private final Conveyor conveyor;
     private final Limelight limelight;
-    //private double distance;
+    // private double distance;
 
     public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight) {
 
@@ -28,18 +28,24 @@ public class ShootCargo extends SequentialCommandGroup {
         this.conveyor = conveyor;
         this.limelight = limelight;
 
-        //distance = this.limelight.getTargetDistance();
+        // distance = this.limelight.getTargetDistance();
 
         addRequirements(shooter, conveyor, driveBase, limelight);
 
-        addCommands(
-                //new InstantCommand(() -> System.out.println(limelight.getTargetDistance())),
-                new ParallelCommandGroup(
-                        new AlignWithTarget(driveBase, this.limelight),
-                        new MoveConveyor(conveyor, -500)),
-                new ReadyShooter(shooter, this.limelight),
-                new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
-                new ResetShooter(shooter));
+        if (limelight.hasValidTarget()) {
+            addCommands(
+                    // new InstantCommand(() -> System.out.println(limelight.getTargetDistance())),
+                    new ParallelCommandGroup(
+                            new AlignWithTarget(driveBase, this.limelight),
+                            new MoveConveyor(conveyor, -500)),
+                    new ReadyShooter(shooter, this.limelight),
+                    new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
+                    new ResetShooter(shooter));
+        }
+
+        else {
+            addCommands(new InstantCommand());
+        }
     }
 
     // @Override

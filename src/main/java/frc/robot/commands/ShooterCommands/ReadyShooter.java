@@ -17,9 +17,9 @@ public class ReadyShooter extends CommandBase {
 
     @Override
     public void initialize() {
-        //shooter.hoodToDegree(distanceToDegree(limelight.getTargetDistance() / 12.0));
+        shooter.hoodToDegree(distanceToDegree(limelight.getTargetDistance() / 12.0));
         shooter.setVelocity(distanceToRpm(limelight.getTargetDistance() / 12.0));
-        shooter.hoodToDegree(70);
+        //shooter.hoodToDegree(70);
         // shooter.setVelocity(4400);
 
     }
