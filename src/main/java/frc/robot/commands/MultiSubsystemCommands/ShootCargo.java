@@ -50,7 +50,7 @@ public class ShootCargo extends SequentialCommandGroup {
     @Override
     public void end(boolean interrupted) {
         driveBase.drive(0, 0, 0);
-        shooter.setVelocity(0);
+        shooter.setSpeed(0);
         shooter.hoodToPos(0);
     }
 }

@@ -104,11 +104,11 @@ public final class Constants {
 
                 public static final int PID_LOOP_IDX = 0;
 
-                public static final double HOOD_P_COEFF = 0.0001;
-                public static final double HOOD_I_COEFF = 0.00004;
+                public static final double HOOD_P_COEFF = 0.00004;
+                public static final double HOOD_I_COEFF = 0.00001;
                 public static final double HOOD_D_COEFF = 0.0;
 
-                public static final double HOOD_TOLERANCE = 1000;
+                public static final double HOOD_TOLERANCE = 500;
 
                 public static final double HOOD_INTEGRAL_MIN = -0.2;
                 public static final double HOOD_INTEGRAL_MAX = 0.2;
