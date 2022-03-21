@@ -30,7 +30,6 @@ import frc.robot.commands.MultiSubsystemCommands.EjectTopCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootTopCargo;
 import frc.robot.commands.ShooterCommands.ResetShooter;
-import frc.robot.commands.AutoCommands.FiveBallAuto;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
@@ -111,7 +110,7 @@ public class RobotContainer {
                 new JoystickButton(driveGamepad, 2).whenPressed(
                                 new SequentialCommandGroup(
                                                 new MoveConveyor(conveyor, -500),
-                                                new InstantCommand(() -> shooter.setSpeed(100)),
+                                                new InstantCommand(() -> shooter.setSpeed(.3)),
                                                 new InstantCommand(() -> shooter.hoodToDegree(72)),
                                                 new MoveConveyor(conveyor,
                                                                 Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),

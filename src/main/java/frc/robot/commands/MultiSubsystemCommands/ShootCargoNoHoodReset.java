@@ -13,7 +13,7 @@ import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Limelight;
 
-public class ShootCargo extends SequentialCommandGroup {
+public class ShootCargoNoHoodReset extends SequentialCommandGroup {
 
     private final DriveBase driveBase;
     private final Shooter shooter;
@@ -21,7 +21,7 @@ public class ShootCargo extends SequentialCommandGroup {
     private final Limelight limelight;
     // private double distance;
 
-    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight) {
+    public ShootCargoNoHoodReset(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;

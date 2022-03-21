@@ -22,29 +22,54 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
+
+
 public class FiveBallAuto extends SequentialCommandGroup {
+
+    // final Pose2d initial = (trajectory instanceof PathPlannerTrajectory) ? new Pose2d(
+    //     trajectory.getInitialPose().getTranslation(),
+    //     ((PathPlannerState) ((PathPlannerTrajectory) trajectory).sample(0)).holonomicRotation)
+    //     : trajectory.getInitialPose();
+        
     public FiveBallAuto(DriveBase driveBase, Intake intake, Shooter shooter, Conveyor conveyor, Limelight limelight) {
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
 
+        PathPlannerTrajectory fiveballtrajectory1 = PathPlanner.loadPath("5BallPath1",  
+        0.3 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+        0.3 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+
+        PathPlannerTrajectory fiveballtrajectory2 = PathPlanner.loadPath("5ballpath2",  
+        0.3 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+        0.3 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+
+        PathPlannerTrajectory fiveballtrajectory3 = PathPlanner.loadPath("5ballpath3",  
+        0.3 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+        0.3 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+
+        PathPlannerTrajectory fiveballtrajectory4 = PathPlanner.loadPath("5ballpath4",  
+        0.3 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+        0.3 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+
+        final Pose2d initial = new Pose2d(
+            fiveballtrajectory1.getInitialPose().getTranslation(),
+            ((PathPlannerState) fiveballtrajectory1.sample(0)).holonomicRotation);
+
+
         addCommands(
-                new InstantCommand(() -> driveBase.resetOdometry(new Pose2d())),
+                //new InstantCommand(() -> driveBase.resetOdometry(initial))),
                 new InstantCommand(() -> intake.deploy()),
                 new InstantCommand(() -> intake.setSpeed(1)),
-                new SwerveControllerFollower(driveBase, PathPlanner.loadPath("5ballpath1",  0.3 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-                .3 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false)),
+                new SwerveControllerFollower(driveBase, fiveballtrajectory1).beforeStarting(() -> driveBase.resetOdometry(initial)),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new ShootCargoNoHoodReset(driveBase, shooter, conveyor, limelight),
                 new InstantCommand(() -> intake.setSpeed(1)),
-                new SwerveControllerFollower(driveBase, PathPlanner.loadPath("5ballpath2",  0.3 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-                .3 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false)),
+                new SwerveControllerFollower(driveBase, fiveballtrajectory2),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new ShootCargoNoHoodReset(driveBase, shooter, conveyor, limelight),
                 new InstantCommand(() -> intake.setSpeed(1)),
-                new SwerveControllerFollower(driveBase, PathPlanner.loadPath("5ballpath3",  0.3 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-                .3 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false)),
+                new SwerveControllerFollower(driveBase, fiveballtrajectory3),
                 new WaitCommand(1),
-                new SwerveControllerFollower(driveBase, PathPlanner.loadPath("5ballpath4",  0.3 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-                .3 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false)),
+                new SwerveControllerFollower(driveBase, fiveballtrajectory4),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new InstantCommand(() -> intake.unDeploy()),
                 new ShootCargo(driveBase, shooter, conveyor, limelight),

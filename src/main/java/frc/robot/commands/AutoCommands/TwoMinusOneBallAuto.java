@@ -21,8 +21,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
-public class FiveBallAuto extends SequentialCommandGroup {
-    public FiveBallAuto(DriveBase driveBase, Intake intake, Shooter shooter, Conveyor conveyor, Limelight limelight) {
+public class TwoMinusOneBallAuto extends SequentialCommandGroup {
+    public TwoMinusOneBallAuto(DriveBase driveBase, Intake intake, Shooter shooter, Conveyor conveyor, Limelight limelight) {
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
 
         addCommands(
