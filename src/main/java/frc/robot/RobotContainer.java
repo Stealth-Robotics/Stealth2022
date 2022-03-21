@@ -8,6 +8,8 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
+import org.ejml.dense.row.CovarianceOps_DDRM;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
@@ -17,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AutoCommands.FiveBallAuto;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.ConveyerCommands.MoveConveyor;
@@ -27,6 +30,7 @@ import frc.robot.commands.MultiSubsystemCommands.EjectTopCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootTopCargo;
 import frc.robot.commands.ShooterCommands.ResetShooter;
+import frc.robot.commands.AutoCommands.FiveBallAuto;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
@@ -128,7 +132,8 @@ public class RobotContainer {
 
                 //return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight);
 
-                return autoFollowTrajectory(driveBase, "TestPath", Constants.DriveBaseConstants.SLOW_SPEED_CONFIG, true);
+                return new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight);
+                //return autoFollowTrajectory(driveBase, "TestPath", Constants.DriveBaseConstants.SLOW_SPEED_CONFIG, true);
         }
 
         /**
