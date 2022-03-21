@@ -37,7 +37,7 @@ public class SwerveControllerFollower extends CommandBase {
     public void initialize() {
         timer.reset();
         timer.start();
-        drivetrain.resetPathController(); // reset theta setpoint between different trajectories
+        //drivetrain.resetPathController(); // reset theta setpoint between different trajectories
     }
 
     // Called every time the scheduler runs while the command is scheduled.
