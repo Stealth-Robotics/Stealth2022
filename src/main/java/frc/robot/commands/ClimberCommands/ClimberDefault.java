@@ -41,11 +41,13 @@ public class ClimberDefault extends CommandBase {
         }
 
         // else if (downSpeed.getAsDouble() > 0.05 && override.getAsBoolean()) {
-        //     climber.setSpeed(-downSpeed.getAsDouble() * Constants.ClimberConstants.MAX_SPEED);
+        // climber.setSpeed(-downSpeed.getAsDouble() *
+        // Constants.ClimberConstants.MAX_SPEED);
         // }
 
         // else if (upSpeed.getAsDouble() > 0.05 && override.getAsBoolean()) {
-        //     climber.setSpeed(upSpeed.getAsDouble() * Constants.ClimberConstants.MAX_SPEED);
+        // climber.setSpeed(upSpeed.getAsDouble() *
+        // Constants.ClimberConstants.MAX_SPEED);
         // }
 
         else {

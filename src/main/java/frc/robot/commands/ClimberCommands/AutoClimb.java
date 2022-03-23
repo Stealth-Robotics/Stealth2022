@@ -5,38 +5,36 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Climber;
 
-public class AutoClimb extends SequentialCommandGroup{
-    private final Climber climb;
-
+public class AutoClimb extends SequentialCommandGroup {
+    private final Climber climber;
 
     public AutoClimb(Climber c) {
-        this.climb = c;
-        addRequirements(climb);
+        this.climber = c;
+        addRequirements(climber);
 
         addCommands(
-                         //climb to mid
-        new InstantCommand(() -> climb.movePisitons(false)),
-        new MoveClimber(climb, 0),
+                // climb to mid
+                new InstantCommand(() -> climber.movePisitons(false)),
+                new MoveClimber(climber, 0),
 
-        //climb to high
-        new InstantCommand(() -> climb.movePisitons(true)),
-        new MoveClimber(climb, 20000),
-        new WaitCommand(.5),
-        new MoveClimber(climb, 25000),
-        new InstantCommand(() -> climb.movePisitons(false)),
-        new WaitCommand(.5), 
-        new MoveClimber(climb, 0),
-        
-        //climb to traverse
-        new InstantCommand(() -> climb.movePisitons(true)),
-        new MoveClimber(climb, 20000),
-        new WaitCommand(.5),
-        new MoveClimber(climb, 25000),
+                // climb to high
+                new InstantCommand(() -> climber.movePisitons(true)),
+                new MoveClimber(climber, 20000),
+                new WaitCommand(.5),
+                new MoveClimber(climber, 25000),
+                new InstantCommand(() -> climber.movePisitons(false)),
+                new WaitCommand(.5),
+                new MoveClimber(climber, 0),
 
-        new InstantCommand(() -> climb.movePisitons(false)),
-        new WaitCommand(.5),
-        new MoveClimber(climb, 10000)
-        );
+                // climb to traverse
+                new InstantCommand(() -> climber.movePisitons(true)),
+                new MoveClimber(climber, 20000),
+                new WaitCommand(.5),
+                new MoveClimber(climber, 25000),
+
+                new InstantCommand(() -> climber.movePisitons(false)),
+                new WaitCommand(.5),
+                new MoveClimber(climber, 10000));
 
     }
 
