@@ -1,10 +1,13 @@
 package frc.robot.subsystems;
 
+import java.time.Period;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -50,18 +53,18 @@ public class Climber extends SubsystemBase {
         // automated climb PID
 ///*
         climbController = new HoodPIDController(
-                Constants.ClimberConstants.CLIMB_P_COEFF,
-                Constants.ClimberConstants.CLIMB_I_COEFF,
-                Constants.ClimberConstants.CLIMB_D_COEFF);
+                Constants.Climber.CLIMB_P_COEFF,
+                Constants.Climber.CLIMB_I_COEFF,
+                Constants.Climber.CLIMB_D_COEFF);
 
-        climbController.setTolerance(Constants.ClimberConstants.CLIMB_TOLERANCE);
+        climbController.setTolerance(Constants.Climber.CLIMB_TOLERANCE);
 
         climbController.setIntegratorRange(
-                Constants.ClimberConstants.CLIMB_INTEGRAL_MIN,
-                Constants.ClimberConstants.CLIMB_INTEGRAL_MAX);
+                Constants.Climber.CLIMB_INTEGRAL_MIN,
+                Constants.Climber.CLIMB_INTEGRAL_MAX);
         climberMotor1.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
-                Constants.ClimberConstants.PID_LOOP_IDX,
-                Constants.ClimberConstants.TIMEOUT);
+                Constants.Climber.PID_LOOP_IDX,
+                Constants.Climber.TIMEOUT);
 
         climberMotor1.configNominalOutputForward(0, Constants.ShooterConstants.TIMEOUT);
         climberMotor1.configNominalOutputReverse(0, Constants.ShooterConstants.TIMEOUT);
@@ -72,6 +75,12 @@ public class Climber extends SubsystemBase {
 
     public void setSpeed(double speed) {
         climberMotor1.set(ControlMode.PercentOutput, speed);
+    }
+
+    public void moveToPosition(double pos) 
+    {
+        climbController.reset();
+        climbController.setSetpoint(pos);
     }
 
     public void togglePivotPistons() {
@@ -108,5 +117,6 @@ public class Climber extends SubsystemBase {
         return climbController.atSetpoint();
     }
     //*/
+
 
 }

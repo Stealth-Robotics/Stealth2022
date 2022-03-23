@@ -31,13 +31,13 @@ public class ClimberDefault extends CommandBase {
     public void execute() {
 
         if (downSpeed.getAsDouble() > 0.05
-                && climber.getClimberPosition() > Constants.ClimberConstants.MIN_THRESHOLD) {
-            climber.setSpeed(-downSpeed.getAsDouble() * Constants.ClimberConstants.MAX_SPEED);
+                && climber.getClimberPosition() > Constants.Climber.MIN_THRESHOLD) {
+            climber.setSpeed(-downSpeed.getAsDouble() * Constants.Climber.MAX_SPEED);
         }
 
-        else if (climber.getClimberPosition() < Constants.ClimberConstants.MAX_THRESHOLD
+        else if (climber.getClimberPosition() < Constants.Climber.MAX_THRESHOLD
                 && upSpeed.getAsDouble() > 0.05) {
-            climber.setSpeed(upSpeed.getAsDouble() * Constants.ClimberConstants.MAX_SPEED);
+            climber.setSpeed(upSpeed.getAsDouble() * Constants.Climber.MAX_SPEED);
         }
 
         // else if (downSpeed.getAsDouble() > 0.05 && override.getAsBoolean()) {
@@ -58,7 +58,7 @@ public class ClimberDefault extends CommandBase {
                 && !override.getAsBoolean()) {
             climber.movePisitons(false);
         } else if (upSpeed.getAsDouble() > 0.05
-                && climber.getClimberPosition() > Constants.ClimberConstants.MAX_THRESHOLD / 4
+                && climber.getClimberPosition() > Constants.Climber.MAX_THRESHOLD / 4
                 && !override.getAsBoolean()) {
             climber.movePisitons(true);
         }

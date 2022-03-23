@@ -146,7 +146,7 @@ public final class Constants {
         public static final class CANdleSystemConstants {
                 public static final int TIMEOUT = 30;
         }
-        public static final class ClimberConstants {
+        public static final class Climber {
                 public static final double MAX_THRESHOLD = 140000;
                 public static final double MIN_THRESHOLD = -10000;
                 public static final double MAX_SPEED = 0.6;
