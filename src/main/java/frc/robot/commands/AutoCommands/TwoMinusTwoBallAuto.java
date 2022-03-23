@@ -18,6 +18,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
+//score 2 balls in auto while placing 2 in the hangar
+
 public class TwoMinusTwoBallAuto extends SequentialCommandGroup {
     public TwoMinusTwoBallAuto(DriveBase driveBase, Intake intake, Shooter shooter, Conveyor conveyor, Limelight limelight) {
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
