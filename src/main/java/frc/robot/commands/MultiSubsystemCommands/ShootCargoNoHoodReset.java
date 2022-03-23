@@ -40,7 +40,7 @@ public class ShootCargoNoHoodReset extends SequentialCommandGroup {
                             new MoveConveyor(conveyor, -500)),
                     new ReadyShooter(shooter, this.limelight),
                     new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
-                    new ResetShooter(shooter));
+                    new InstantCommand(() -> shooter.setVelocity(0)));
         }
 
         else {
@@ -57,6 +57,6 @@ public class ShootCargoNoHoodReset extends SequentialCommandGroup {
     public void end(boolean interrupted) {
         driveBase.drive(0, 0, 0);
         shooter.setSpeed(0);
-        shooter.hoodToPos(0);
+        //shooter.hoodToPos(0);
     }
 }

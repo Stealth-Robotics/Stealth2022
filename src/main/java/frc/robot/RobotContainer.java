@@ -131,7 +131,7 @@ public class RobotContainer {
 
                 //return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight);
 
-                return new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight);
+                return new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight).alongWith(new ConveyorDefault(conveyor, () -> false ));
                 //return autoFollowTrajectory(driveBase, "TestPath", Constants.DriveBaseConstants.SLOW_SPEED_CONFIG, true);
         }
 
