@@ -60,7 +60,8 @@ public class RobotContainer {
 
         private final XboxController driveGamepad = new XboxController(Constants.IOConstants.DRIVE_JOYSTICK_PORT);
         private final XboxController mechGamepad = new XboxController(Constants.IOConstants.MECH_GAMEPAD_PORT);
-        //private final Joystick driverStation = new Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
+        // private final Joystick driverStation = new
+        // Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -109,7 +110,7 @@ public class RobotContainer {
                 new JoystickButton(mechGamepad, 6).whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
 
                 new JoystickButton(mechGamepad, 10).whenPressed(new MoveClimber(climber, 80000));
-             //   new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
+                // new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
 
                 // new JoystickButton(driveGamepad, 2).whenPressed(() ->
                 // driveBase.resetOdometry(new Pose2d()));
@@ -135,45 +136,8 @@ public class RobotContainer {
 
                 // return new InstantCommand();
 
-                //return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight);
+                // return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight);
 
-                return new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight).deadlineWith(new ConveyorDefault(conveyor, () -> false ));
-                //return autoFollowTrajectory(driveBase, "TestPath", Constants.DriveBaseConstants.SLOW_SPEED_CONFIG, true);
-        }
-
-        /**
-         * @param trajectories Any number of trajectories to perform in sequence
-         * @return A command suitable for following a sequence of trajectories in
-         *         autonomous.
-         *         The robot pose is reset to the start of the trajectory and
-         *         {@link OCSwerveFollower} is used to follow it.
-         */
-        private Command autoFollowTrajectory(DriveBase drivetrain, Trajectory trajectory, boolean firstTrajectory) {
-                final Pose2d initial = (trajectory instanceof PathPlannerTrajectory) ? new Pose2d(
-                                trajectory.getInitialPose().getTranslation(),
-                                ((PathPlannerState) ((PathPlannerTrajectory) trajectory).sample(0)).holonomicRotation)
-                                : trajectory.getInitialPose();
-                Command followCommand = new SwerveControllerFollower(drivetrain, trajectory);
-                if (firstTrajectory) {
-                        followCommand = followCommand.beforeStarting(() -> drivetrain.resetOdometry(initial));
-                }
-                return followCommand;
-        }
-
-        /**
-         * @param config          The config for this trajectory defining max velocity
-         *                        and acceleration
-         * @param storedPathNames The names of the PathPlanner paths saved to this
-         *                        project for use in this trajectory
-         * @return A command suitable for following a sequence of trajectories in
-         *         autonomous.
-         *         The robot pose is reset to the start of the trajectory and
-         *         {@link OCSwerveFollower} is used to follow it.
-         */
-        private Command autoFollowTrajectory(DriveBase drivetrain, String storedPathName, TrajectoryConfig config,
-                        boolean firstTrajectory) {
-                Trajectory trajectory = PathPlanner.loadPath(storedPathName, config.getMaxVelocity(),
-                                config.getMaxAcceleration(), config.isReversed());
-                return autoFollowTrajectory(drivetrain, trajectory, firstTrajectory);
+                return new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight);
         }
 }
