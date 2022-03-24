@@ -24,7 +24,7 @@ public class ClimberDefault extends CommandBase {
 
     @Override
     public void initialize() {
-        climber.resetClimberEncoder();
+      //  climber.resetClimberEncoder();
     }
 
     @Override
@@ -55,10 +55,12 @@ public class ClimberDefault extends CommandBase {
         }
 
         if (downSpeed.getAsDouble() > 0.05
+                && climber.getClimberPosition() < Constants.Climber.MAX_THRESHOLD * 2 / 3
                 && !override.getAsBoolean()) {
             climber.movePisitons(false);
         } else if (upSpeed.getAsDouble() > 0.05
                 && climber.getClimberPosition() > Constants.Climber.MAX_THRESHOLD / 4
+                && climber.getClimberPosition() < Constants.Climber.MAX_THRESHOLD / 2
                 && !override.getAsBoolean()) {
             climber.movePisitons(true);
         }

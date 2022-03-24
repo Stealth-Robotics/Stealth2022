@@ -20,7 +20,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommands.FiveBallAuto;
+import frc.robot.commands.ClimberCommands.AutoClimb;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
+import frc.robot.commands.ClimberCommands.MoveClimber;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
@@ -103,7 +105,11 @@ public class RobotContainer {
                 // TODO: Check Button Numbers
                 new JoystickButton(mechGamepad, 4).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
                 new JoystickButton(mechGamepad, 2).whenPressed(new EjectTopCargo(shooter, conveyor));
-                new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
+                new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.movePisitons(true)));
+                new JoystickButton(mechGamepad, 6).whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
+
+                new JoystickButton(mechGamepad, 10).whenPressed(new MoveClimber(climber, 80000));
+             //   new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
 
                 // new JoystickButton(driveGamepad, 2).whenPressed(() ->
                 // driveBase.resetOdometry(new Pose2d()));

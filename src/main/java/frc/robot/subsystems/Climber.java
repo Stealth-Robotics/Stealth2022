@@ -48,7 +48,7 @@ public class Climber extends SubsystemBase {
                 .withSize(2, 1)
                 .addNumber("Current Position", () -> getClimberPosition());
 
-        climberMotor1.setSelectedSensorPosition(0);
+        //climberMotor1.setSelectedSensorPosition(0);
 
         // automated climb PID
 ///*
@@ -77,11 +77,7 @@ public class Climber extends SubsystemBase {
         climberMotor1.set(ControlMode.PercentOutput, speed);
     }
 
-    public void moveToPosition(double pos) 
-    {
-        climbController.reset();
-        climbController.setSetpoint(pos);
-    }
+
 
     public void togglePivotPistons() {
         pivotPistons.set(!pivotPistons.get());
@@ -105,11 +101,13 @@ public class Climber extends SubsystemBase {
 ///*
     @Override
     public void periodic() {
-        setSpeed(climbController.calculate(getClimberPosition()));
+        //setSpeed(climbController.calculate(getClimberPosition()));
+
+        System.out.println(climberMotor1.getSelectedSensorPosition());
     }
 
     public void climberToPos(double pos) {
-        climbController.reset();
+       // climbController.reset();
         climbController.setSetpoint(pos);
     }
 
@@ -117,6 +115,4 @@ public class Climber extends SubsystemBase {
         return climbController.atSetpoint();
     }
     //*/
-
-
 }
