@@ -24,11 +24,13 @@ public class ClimberDefault extends CommandBase {
 
     @Override
     public void initialize() {
-      //  climber.resetClimberEncoder();
+        climber.resetClimberEncoder();
     }
 
     @Override
     public void execute() {
+
+//climber bound enforcement
 
         if (downSpeed.getAsDouble() > 0.05
                 && climber.getClimberPosition() > Constants.Climber.MIN_THRESHOLD) {
@@ -40,23 +42,15 @@ public class ClimberDefault extends CommandBase {
             climber.setSpeed(upSpeed.getAsDouble() * Constants.Climber.MAX_SPEED);
         }
 
-        // else if (downSpeed.getAsDouble() > 0.05 && override.getAsBoolean()) {
-        // climber.setSpeed(-downSpeed.getAsDouble() *
-        // Constants.ClimberConstants.MAX_SPEED);
-        // }
-
-        // else if (upSpeed.getAsDouble() > 0.05 && override.getAsBoolean()) {
-        // climber.setSpeed(upSpeed.getAsDouble() *
-        // Constants.ClimberConstants.MAX_SPEED);
-        // }
-
         else {
             climber.setSpeed(0);
         }
 
+//semi auto piston movements
+
         if (downSpeed.getAsDouble() > 0.05
-                && climber.getClimberPosition() < Constants.Climber.MAX_THRESHOLD * 2 / 3
-                && !override.getAsBoolean()) {
+                && !override.getAsBoolean()
+                && climber.getClimberPosition() < Constants.Climber.MAX_THRESHOLD * 2 / 3) {
             climber.movePisitons(false);
         } else if (upSpeed.getAsDouble() > 0.05
                 && climber.getClimberPosition() > Constants.Climber.MAX_THRESHOLD / 4
