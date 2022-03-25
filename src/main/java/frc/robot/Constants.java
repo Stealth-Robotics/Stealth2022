@@ -64,6 +64,12 @@ public final class Constants {
                                 0.3 * MAX_VELOCITY_METERS_PER_SECOND,
                                 0.3 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
 
+                                public static final TrajectoryConfig AUTO_SPEED_CONFIG = new TrajectoryConfig(
+                                    0.8 * MAX_VELOCITY_METERS_PER_SECOND,
+                                    1.0 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+
+                
+
                 public static final double SLOWMODE_MULTIPLIER = 1 / 4;
 
                 public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(

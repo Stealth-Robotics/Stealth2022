@@ -25,64 +25,50 @@ import frc.robot.subsystems.Shooter;
 
 public class FiveBallAuto extends SequentialCommandGroup {
 
-        final static PathPlannerTrajectory fiveBallTrajectory1 = PathPlanner.loadPath("5BallPath1",
-                        0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-                        1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+    final static PathPlannerTrajectory fiveBallTrajectory2 = PathPlanner.loadPath("5ballpath2",
+            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
-        final static PathPlannerTrajectory fiveBallTrajectory2 = PathPlanner.loadPath("5ballpath2",
-                        0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-                        1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+    final static PathPlannerTrajectory fiveBallTrajectory3 = PathPlanner.loadPath("5ballpath3",
+            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
-        final static PathPlannerTrajectory fiveBallTrajectory3 = PathPlanner.loadPath("5ballpath3",
-                        0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-                        1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+    final static PathPlannerTrajectory fiveBallTrajectory4 = PathPlanner.loadPath("5ballpath4",
+            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
-        final static PathPlannerTrajectory fiveBallTrajectory4 = PathPlanner.loadPath("5ballpath4",
-                        0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-                        1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+    public FiveBallAuto(DriveBase driveBase, Intake intake, Shooter shooter, Conveyor conveyor,
+            Limelight limelight) {
 
-        final Pose2d initial = new Pose2d(
-                        fiveBallTrajectory1.getInitialPose().getTranslation(),
-                        ((PathPlannerState) fiveBallTrajectory1.sample(0)).holonomicRotation);
+        addCommands(
+                new ParallelDeadlineGroup(
+                        new SequentialCommandGroup(
+                                new InstantCommand(() -> intake.deploy()),
+                                new InstantCommand(() -> intake.setSpeed(1)),
+                                new SwerveControllerFollower(driveBase, "5BallPath1",
+                                        Constants.DriveBaseConstants.AUTO_SPEED_CONFIG, false, true),
+                                new InstantCommand(() -> intake.setSpeed(0)),
+                                new ShootCargoNoHoodReset(driveBase, shooter, conveyor,
+                                        limelight),
+                                new InstantCommand(() -> intake.setSpeed(1)),
+                                new SwerveControllerFollower(driveBase, "5Ballpath2",
+                                Constants.DriveBaseConstants.AUTO_SPEED_CONFIG, false, false),
+                                new InstantCommand(() -> intake.setSpeed(0)),
+                                new ShootCargoNoHoodReset(driveBase, shooter, conveyor,
+                                        limelight),
+                                new InstantCommand(() -> intake.setSpeed(1)),
+                                new SwerveControllerFollower(driveBase,
+                                        fiveBallTrajectory3),
+                                new WaitCommand(1),
+                                new SwerveControllerFollower(driveBase,
+                                        fiveBallTrajectory4),
+                                new InstantCommand(() -> intake.setSpeed(0)),
+                                new InstantCommand(() -> intake.unDeploy()),
+                                new ShootCargo(driveBase, shooter, conveyor, limelight),
+                                new InstantCommand(() -> driveBase.resetOdometryWithLastHeading())),
+                        new ConveyorDefault(conveyor, () -> false)));
 
-        public FiveBallAuto(DriveBase driveBase, Intake intake, Shooter shooter, Conveyor conveyor,
-                        Limelight limelight) {
+        addRequirements(driveBase, intake, shooter, conveyor, limelight);
 
-                addCommands(
-                                new ParallelDeadlineGroup(
-                                                new SequentialCommandGroup(
-                                                                new InstantCommand(() -> intake.deploy()),
-                                                                new InstantCommand(() -> intake.setSpeed(1)),
-                                                                new SwerveControllerFollower(driveBase,
-                                                                                fiveBallTrajectory1)
-                                                                                                .beforeStarting(() -> driveBase
-                                                                                                                .resetOdometry(initial)),
-                                                                new InstantCommand(() -> intake.setSpeed(0)),
-                                                                new ShootCargoNoHoodReset(driveBase, shooter, conveyor,
-                                                                                limelight),
-                                                                new InstantCommand(() -> intake.setSpeed(1)),
-                                                                new SwerveControllerFollower(driveBase,
-                                                                                fiveBallTrajectory2),
-                                                                new InstantCommand(() -> intake.setSpeed(0)),
-                                                                new ShootCargoNoHoodReset(driveBase, shooter, conveyor,
-                                                                                limelight),
-                                                                new InstantCommand(() -> intake.setSpeed(1)),
-                                                                new SwerveControllerFollower(driveBase,
-                                                                                fiveBallTrajectory3),
-                                                                new WaitCommand(1),
-                                                                new SwerveControllerFollower(driveBase,
-                                                                                fiveBallTrajectory4),
-                                                                new InstantCommand(() -> intake.setSpeed(0)),
-                                                                new InstantCommand(() -> intake.unDeploy()),
-                                                                new ShootCargo(driveBase, shooter, conveyor, limelight),
-                                                                new InstantCommand(
-                                                                                () -> driveBase.resetOdometry(
-                                                                                                new Pose2d(1.5, 0,
-                                                                                                                new Rotation2d(Math
-                                                                                                                                .toRadians(-152)))))),
-                                                new ConveyorDefault(conveyor, () -> false)));
-
-                addRequirements(driveBase, intake, shooter, conveyor, limelight);
-
-        }
+    }
 }
