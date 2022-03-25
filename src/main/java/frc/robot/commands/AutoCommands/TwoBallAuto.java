@@ -18,19 +18,26 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
-public class TwoBallAuto extends ParallelDeadlineGroup {
-    public TwoBallAuto(DriveBase driveBase, Intake intake, Shooter shooter, Conveyor conveyor, Limelight limelight) {
-        super(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> driveBase.resetOdometry(new Pose2d())),
-                        new InstantCommand(() -> intake.deploy()),
-                        new InstantCommand(() -> intake.setSpeed(1)),
-                        // new WaitCommand(5),
-                        new SwerveControllerFollower(driveBase,
-                                TrajectoryGenerator.generateTrajectory(new Pose2d(), List.of(),
-                                        new Pose2d(1.5, 0, new Rotation2d(0)),
-                                        Constants.DriveBaseConstants.SLOW_SPEED_CONFIG)),
-                        new ShootCargo(driveBase, shooter, conveyor, limelight)),
+public class TwoBallAuto extends SequentialCommandGroup {
+
+    public TwoBallAuto(DriveBase driveBase, Intake intake, Shooter shooter, Conveyor conveyor,
+            Limelight limelight) {
+
+        addCommands(
+                new ParallelDeadlineGroup(
+                        new SequentialCommandGroup(new InstantCommand(
+                                () -> driveBase.resetOdometry(new Pose2d())),
+                                new InstantCommand(() -> intake.deploy()),
+                                new InstantCommand(() -> intake.setSpeed(1)),
+                                // new WaitCommand(5),
+                                new SwerveControllerFollower(driveBase,
+                                        TrajectoryGenerator.generateTrajectory(
+                                                new Pose2d(), List.of(),
+                                                new Pose2d(1.5, 0,
+                                                        new Rotation2d(0)),
+                                                Constants.DriveBaseConstants.SLOW_SPEED_CONFIG)),
+                                new ShootCargo(driveBase, shooter, conveyor,
+                                        limelight))),
                 new ConveyorDefault(conveyor, () -> false));
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
     }
