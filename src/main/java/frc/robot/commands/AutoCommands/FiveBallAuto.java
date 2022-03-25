@@ -25,17 +25,6 @@ import frc.robot.subsystems.Shooter;
 
 public class FiveBallAuto extends SequentialCommandGroup {
 
-    final static PathPlannerTrajectory fiveBallTrajectory2 = PathPlanner.loadPath("5ballpath2",
-            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
-
-    final static PathPlannerTrajectory fiveBallTrajectory3 = PathPlanner.loadPath("5ballpath3",
-            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
-
-    final static PathPlannerTrajectory fiveBallTrajectory4 = PathPlanner.loadPath("5ballpath4",
-            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
     public FiveBallAuto(DriveBase driveBase, Intake intake, Shooter shooter, Conveyor conveyor,
             Limelight limelight) {
@@ -51,17 +40,17 @@ public class FiveBallAuto extends SequentialCommandGroup {
                                 new ShootCargoNoHoodReset(driveBase, shooter, conveyor,
                                         limelight),
                                 new InstantCommand(() -> intake.setSpeed(1)),
-                                new SwerveControllerFollower(driveBase, "5Ballpath2",
+                                new SwerveControllerFollower(driveBase, "5ballpath2",
                                 Constants.DriveBaseConstants.AUTO_SPEED_CONFIG, false, false),
                                 new InstantCommand(() -> intake.setSpeed(0)),
                                 new ShootCargoNoHoodReset(driveBase, shooter, conveyor,
                                         limelight),
                                 new InstantCommand(() -> intake.setSpeed(1)),
-                                new SwerveControllerFollower(driveBase,
-                                        fiveBallTrajectory3),
+                                new SwerveControllerFollower(driveBase, "5ballpath3",
+                                Constants.DriveBaseConstants.AUTO_SPEED_CONFIG, false, false),
                                 new WaitCommand(1),
-                                new SwerveControllerFollower(driveBase,
-                                        fiveBallTrajectory4),
+                                new SwerveControllerFollower(driveBase, "5ballpath4",
+                                Constants.DriveBaseConstants.AUTO_SPEED_CONFIG, false, false),
                                 new InstantCommand(() -> intake.setSpeed(0)),
                                 new InstantCommand(() -> intake.unDeploy()),
                                 new ShootCargo(driveBase, shooter, conveyor, limelight),
