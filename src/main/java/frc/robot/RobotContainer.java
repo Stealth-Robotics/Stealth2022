@@ -134,14 +134,17 @@ public class RobotContainer {
                                                 new InstantCommand(() -> shooter.setVelocity(0)),
                                                 new InstantCommand(() -> shooter.hoodToPos(0))));
 
+                autoChooser = new SendableChooser<>();
+                autoChooser.setDefaultOption("Two Ball Auto",
+                                new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
+                autoChooser.addOption("Five Ball Auto",
+                                new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
+                autoChooser.addOption("TwoBall_MinusOne",
+                                new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
+                autoChooser.addOption("TwoBall_MinusTwo",
+                                new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
 
-                                                autoChooser = new SendableChooser<>();
-                                                autoChooser.setDefaultOption("Two Ball Auto", new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
-                                                autoChooser.addOption("Five Ball Auto", new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
-                                                autoChooser.addOption("TwoBall_MinusOne", new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
-                                                autoChooser.addOption("TwoBall_MinusTwo", new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
-
-                                                SmartDashboard.putData("Selected Autonomous", autoChooser);
+                SmartDashboard.putData("Selected Autonomous", autoChooser);
         }
 
         /**
@@ -155,7 +158,7 @@ public class RobotContainer {
 
                 // return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight);
 
-                //return new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight);
+                // return new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight);
                 return autoChooser.getSelected();
         }
 }
