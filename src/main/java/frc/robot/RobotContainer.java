@@ -13,13 +13,19 @@ import org.ejml.dense.row.CovarianceOps_DDRM;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommands.FiveBallAuto;
+import frc.robot.commands.AutoCommands.TwoBallAuto;
+import frc.robot.commands.AutoCommands.TwoMinusOneBallAuto;
+import frc.robot.commands.AutoCommands.TwoMinusTwoBallAuto;
 import frc.robot.commands.ClimberCommands.AutoClimb;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ClimberCommands.MoveClimber;
@@ -62,6 +68,8 @@ public class RobotContainer {
         private final XboxController mechGamepad = new XboxController(Constants.IOConstants.MECH_GAMEPAD_PORT);
         // private final Joystick driverStation = new
         // Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
+
+        SendableChooser<Command> autoChooser;
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -125,6 +133,15 @@ public class RobotContainer {
                                                 new InstantCommand(() -> driveBase.drive(0, 0, 0)),
                                                 new InstantCommand(() -> shooter.setVelocity(0)),
                                                 new InstantCommand(() -> shooter.hoodToPos(0))));
+
+
+                                                autoChooser = new SendableChooser<>();
+                                                autoChooser.setDefaultOption("Two Ball Auto", new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
+                                                autoChooser.addOption("Five Ball Auto", new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
+                                                autoChooser.addOption("TwoBall_MinusOne", new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
+                                                autoChooser.addOption("TwoBall_MinusTwo", new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
+
+                                                SmartDashboard.putData("Selected Autonomous", autoChooser);
         }
 
         /**
@@ -138,6 +155,7 @@ public class RobotContainer {
 
                 // return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight);
 
-                return new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight);
+                //return new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight);
+                return autoChooser.getSelected();
         }
 }
