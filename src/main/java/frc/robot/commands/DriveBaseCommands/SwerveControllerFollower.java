@@ -4,13 +4,17 @@
 
 package frc.robot.commands.DriveBaseCommands;
 
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveBase;
 
 /**
@@ -32,12 +36,32 @@ public class SwerveControllerFollower extends CommandBase {
         addRequirements(drivetrain);
     }
 
+    public SwerveControllerFollower(DriveBase drivetrain, String pathFilename, TrajectoryConfig config, boolean isReversed, boolean isInitial) {
+        this.drivetrain = drivetrain;
+        addRequirements(drivetrain);
+
+        PathPlannerTrajectory ppTrajectory = PathPlanner.loadPath(pathFilename,
+                config.getMaxVelocity(),
+               config.getMaxAcceleration(), isReversed);
+        this.trajectory = ppTrajectory;
+
+        if (isInitial) {
+
+            final Pose2d initial = new Pose2d(
+                    ppTrajectory.getInitialPose().getTranslation(),
+                    ppTrajectory.getInitialState().holonomicRotation);
+            drivetrain.resetOdometry(initial);
+
+        }
+    }
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         timer.reset();
         timer.start();
-        //drivetrain.resetPathController(); // reset theta setpoint between different trajectories
+        // drivetrain.resetPathController(); // reset theta setpoint between different
+        // trajectories
     }
 
     // Called every time the scheduler runs while the command is scheduled.

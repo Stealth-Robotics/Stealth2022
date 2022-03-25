@@ -13,8 +13,7 @@ public class CANdleSystem extends SubsystemBase {
     private final CANdle leftCANdle;
     private final CANdle rightCANdle;
 
-    public CANdleSystem()
-    {
+    public CANdleSystem() {
         leftCANdle = new CANdle(RobotMap.CANdleSystem.LEFT_CANDLE);
         rightCANdle = new CANdle(RobotMap.CANdleSystem.RIGHT_CANDLE);
 
@@ -22,19 +21,17 @@ public class CANdleSystem extends SubsystemBase {
         config.brightnessScalar = 1.0;
         config.statusLedOffWhenActive = true;
         config.disableWhenLOS = true;
-        
+
         leftCANdle.configAllSettings(config, Constants.CANdleSystemConstants.TIMEOUT);
         rightCANdle.configAllSettings(config, Constants.CANdleSystemConstants.TIMEOUT);
     }
 
-    public void blink()
-    {
-        leftCANdle.animate(new StrobeAnimation(0, 255, 0, 0, 98.0/256.0, 0));
-        rightCANdle.animate(new StrobeAnimation(0, 255, 0, 0, 98.0/256.0, 0));
+    public void blink() {
+        leftCANdle.animate(new StrobeAnimation(0, 255, 0, 0, 98.0 / 256.0, 0));
+        rightCANdle.animate(new StrobeAnimation(0, 255, 0, 0, 98.0 / 256.0, 0));
     }
 
-    public void turnOff()
-    {
+    public void turnOff() {
         leftCANdle.setLEDs(0, 0, 0);
         rightCANdle.setLEDs(0, 0, 0);
     }

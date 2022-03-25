@@ -40,7 +40,7 @@ public final class RobotMap {
 
     public static final class ClimberHardware {
         public static final int CLIMBER_MOTOR_1 = 5;
-        public static final int CLIMBER_MOTOR_2= 6;
+        public static final int CLIMBER_MOTOR_2 = 6;
 
     }
 
@@ -50,8 +50,7 @@ public final class RobotMap {
         public static final int BEAM_BREAK = 0;
     }
 
-    public static final class CANdleSystem
-    {
+    public static final class CANdleSystem {
         public static final int LEFT_CANDLE = 45;
         public static final int RIGHT_CANDLE = 46;
     }

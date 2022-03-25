@@ -13,14 +13,22 @@ import org.ejml.dense.row.CovarianceOps_DDRM;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommands.FiveBallAuto;
+import frc.robot.commands.AutoCommands.TwoBallAuto;
+import frc.robot.commands.AutoCommands.TwoMinusOneBallAuto;
+import frc.robot.commands.AutoCommands.TwoMinusTwoBallAuto;
+import frc.robot.commands.ClimberCommands.AutoClimb;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
+import frc.robot.commands.ClimberCommands.MoveClimber;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
@@ -58,7 +66,10 @@ public class RobotContainer {
 
         private final XboxController driveGamepad = new XboxController(Constants.IOConstants.DRIVE_JOYSTICK_PORT);
         private final XboxController mechGamepad = new XboxController(Constants.IOConstants.MECH_GAMEPAD_PORT);
-        //private final Joystick driverStation = new Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
+        // private final Joystick driverStation = new
+        // Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
+
+        SendableChooser<Command> autoChooser;
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -103,7 +114,11 @@ public class RobotContainer {
                 // TODO: Check Button Numbers
                 new JoystickButton(mechGamepad, 4).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
                 new JoystickButton(mechGamepad, 2).whenPressed(new EjectTopCargo(shooter, conveyor));
-                new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.togglePivotPistons()));
+                new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.movePisitons(true)));
+                new JoystickButton(mechGamepad, 6).whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
+
+                new JoystickButton(mechGamepad, 10).whenPressed(new MoveClimber(climber, 80000));
+                // new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
 
                 // new JoystickButton(driveGamepad, 2).whenPressed(() ->
                 // driveBase.resetOdometry(new Pose2d()));
@@ -118,6 +133,18 @@ public class RobotContainer {
                                                 new InstantCommand(() -> driveBase.drive(0, 0, 0)),
                                                 new InstantCommand(() -> shooter.setVelocity(0)),
                                                 new InstantCommand(() -> shooter.hoodToPos(0))));
+
+                autoChooser = new SendableChooser<>();
+                autoChooser.setDefaultOption("Two Ball Auto",
+                                new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
+                autoChooser.addOption("Five Ball Auto",
+                                new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
+                autoChooser.addOption("TwoBall_MinusOne",
+                                new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
+                autoChooser.addOption("TwoBall_MinusTwo",
+                                new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
+
+                SmartDashboard.putData("Selected Autonomous", autoChooser);
         }
 
         /**
@@ -127,47 +154,6 @@ public class RobotContainer {
          */
         public Command getAutonomousCommand() {
 
-                // return new InstantCommand();
-
-                //return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight);
-
-                return new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight);
-                //return autoFollowTrajectory(driveBase, "TestPath", Constants.DriveBaseConstants.SLOW_SPEED_CONFIG, true);
-        }
-
-        /**
-         * @param trajectories Any number of trajectories to perform in sequence
-         * @return A command suitable for following a sequence of trajectories in
-         *         autonomous.
-         *         The robot pose is reset to the start of the trajectory and
-         *         {@link OCSwerveFollower} is used to follow it.
-         */
-        private Command autoFollowTrajectory(DriveBase drivetrain, Trajectory trajectory, boolean firstTrajectory) {
-                final Pose2d initial = (trajectory instanceof PathPlannerTrajectory) ? new Pose2d(
-                                trajectory.getInitialPose().getTranslation(),
-                                ((PathPlannerState) ((PathPlannerTrajectory) trajectory).sample(0)).holonomicRotation)
-                                : trajectory.getInitialPose();
-                Command followCommand = new SwerveControllerFollower(drivetrain, trajectory);
-                if (firstTrajectory) {
-                        followCommand = followCommand.beforeStarting(() -> drivetrain.resetOdometry(initial));
-                }
-                return followCommand;
-        }
-
-        /**
-         * @param config          The config for this trajectory defining max velocity
-         *                        and acceleration
-         * @param storedPathNames The names of the PathPlanner paths saved to this
-         *                        project for use in this trajectory
-         * @return A command suitable for following a sequence of trajectories in
-         *         autonomous.
-         *         The robot pose is reset to the start of the trajectory and
-         *         {@link OCSwerveFollower} is used to follow it.
-         */
-        private Command autoFollowTrajectory(DriveBase drivetrain, String storedPathName, TrajectoryConfig config,
-                        boolean firstTrajectory) {
-                Trajectory trajectory = PathPlanner.loadPath(storedPathName, config.getMaxVelocity(),
-                                config.getMaxAcceleration(), config.isReversed());
-                return autoFollowTrajectory(drivetrain, trajectory, firstTrajectory);
+                return autoChooser.getSelected();
         }
 }

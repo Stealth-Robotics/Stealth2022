@@ -34,7 +34,6 @@ public class ShootCargo extends SequentialCommandGroup {
 
         if (limelight.hasValidTarget()) {
             addCommands(
-                    new InstantCommand(() -> System.out.println("shoot")),
                     new ParallelCommandGroup(
                             new AlignWithTarget(driveBase, this.limelight),
                             new MoveConveyor(conveyor, -500)),
