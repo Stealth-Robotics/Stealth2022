@@ -48,8 +48,6 @@ public class DriveBase extends SubsystemBase {
             yController,
             thetaController);
 
-    private Rotation2d lastGivenRotation;
-
     public DriveBase() {
         ShuffleboardTab tab = Shuffleboard.getTab("DriveBase");
 
@@ -182,9 +180,6 @@ public class DriveBase extends SubsystemBase {
     }
 
     public void drive(Trajectory.State targetState, Rotation2d targetRotation) {
-        // determine ChassisSpeeds from path state and positional feedback control from
-        // HolonomicDriveController
-        lastGivenRotation = targetRotation;
         ChassisSpeeds targetChassisSpeeds = pathController.calculate(
                 getPose(),
                 targetState,
@@ -229,11 +224,6 @@ public class DriveBase extends SubsystemBase {
         m_odometry.resetPosition(pose, getGyroscopeRotation());
 
     }
-    
- public void resetOdometryWithLastHeading()
- {
-      resetOdometry(new Pose2d(0,0,lastGivenRotation));
- }
 
     /**
      * Gets the current odometry reading of the drivebase.

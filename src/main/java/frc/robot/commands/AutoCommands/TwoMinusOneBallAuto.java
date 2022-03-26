@@ -22,40 +22,31 @@ import frc.robot.subsystems.Shooter;
 
 public class TwoMinusOneBallAuto extends SequentialCommandGroup {
 
-    final static PathPlannerTrajectory twoMinusOneBallTrajectory1 = PathPlanner.loadPath("2m1path1",
-            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-            0.1 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
-
-    final static PathPlannerTrajectory twoMinusOneBallTrajectory2 = PathPlanner.loadPath("2m1path2",
-            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-            0.1 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
-
     final static PathPlannerTrajectory twoMinusOneBallTrajectory3 = PathPlanner.loadPath("2m1path3",
             0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
             0.1 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
-
-    final static Pose2d initial = new Pose2d(
-            twoMinusOneBallTrajectory1.getInitialPose().getTranslation(),
-            ((PathPlannerState) twoMinusOneBallTrajectory1.sample(0)).holonomicRotation);
 
     public TwoMinusOneBallAuto(DriveBase driveBase, Intake intake, Shooter shooter, Conveyor conveyor,
             Limelight limelight) {
 
         addCommands(
                 new ParallelDeadlineGroup(
-                        new SequentialCommandGroup(new InstantCommand(
-                                () -> driveBase.resetOdometry(new Pose2d())),
+                        new SequentialCommandGroup(
                                 new InstantCommand(() -> intake.deploy()),
                                 new InstantCommand(() -> intake.setSpeed(1)),
                                 new SwerveControllerFollower(driveBase,
-                                        twoMinusOneBallTrajectory1)
-                                                .beforeStarting(() -> driveBase
-                                                        .resetOdometry(initial)),
+                                        "2m1path1",
+                                        Constants.DriveBaseConstants.AUTO_SPEED_CONFIG,
+                                        false,
+                                        true),
                                 new InstantCommand(() -> intake.setSpeed(0)),
-                                new ShootCargo(driveBase, shooter, conveyor, limelight),
+                                new ShootCargo(driveBase, shooter, conveyor, limelight, false),
                                 new InstantCommand(() -> intake.setSpeed(1)),
                                 new SwerveControllerFollower(driveBase,
-                                        twoMinusOneBallTrajectory2),
+                                        "2m1path2",
+                                        Constants.DriveBaseConstants.AUTO_SPEED_CONFIG,
+                                        false,
+                                        false),
                                 new InstantCommand(() -> intake.setSpeed(-.5)),
                                 new InstantCommand(() -> conveyor.setSpeed(-.4)),
                                 new WaitCommand(2),
@@ -63,9 +54,10 @@ public class TwoMinusOneBallAuto extends SequentialCommandGroup {
                                 new InstantCommand(() -> intake.setSpeed(0)),
                                 new InstantCommand(() -> intake.unDeploy()),
                                 new SwerveControllerFollower(driveBase,
-                                        twoMinusOneBallTrajectory3),
-                                new InstantCommand(() -> driveBase
-                                        .resetOdometryWithLastHeading())),
+                                        "2m1path3",
+                                        Constants.DriveBaseConstants.AUTO_SPEED_CONFIG,
+                                        false,
+                                        false)),
                         new ConveyorDefault(conveyor, () -> false)));
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);

@@ -19,14 +19,17 @@ public class ShootCargo extends SequentialCommandGroup {
     private final Shooter shooter;
     private final Conveyor conveyor;
     private final Limelight limelight;
-    // private double distance;
 
-    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight) {
+    private final boolean resetHood;
+
+    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight, boolean resetHood) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;
         this.conveyor = conveyor;
         this.limelight = limelight;
+
+        this.resetHood = resetHood;
 
         // distance = this.limelight.getTargetDistance();
 
@@ -56,6 +59,9 @@ public class ShootCargo extends SequentialCommandGroup {
     public void end(boolean interrupted) {
         driveBase.drive(0, 0, 0);
         shooter.setSpeed(0);
-        shooter.hoodToPos(0);
+
+        if (resetHood) {
+            shooter.hoodToPos(0);
+        }
     }
 }

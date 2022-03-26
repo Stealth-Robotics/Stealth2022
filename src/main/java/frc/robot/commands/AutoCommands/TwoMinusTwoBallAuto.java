@@ -46,29 +46,32 @@ public class TwoMinusTwoBallAuto extends SequentialCommandGroup {
         addCommands(
                 new ParallelDeadlineGroup(
                         new SequentialCommandGroup(
-                                new InstantCommand(
-                                        () -> driveBase.resetOdometry(
-                                                new Pose2d())),
                                 new InstantCommand(() -> intake.deploy()),
                                 new InstantCommand(() -> intake.setSpeed(1)),
                                 new SwerveControllerFollower(driveBase,
-                                        twoMinusTwoBallTrajectory1)
-                                                .beforeStarting(() -> driveBase
-                                                        .resetOdometry(initial)),
+                                        "2m2path1",
+                                        Constants.DriveBaseConstants.AUTO_SPEED_CONFIG,
+                                        false,
+                                        true),
                                 new InstantCommand(() -> intake.setSpeed(0)),
-                                new ShootCargo(driveBase, shooter, conveyor, limelight),
+                                new ShootCargo(driveBase, shooter, conveyor, limelight, false),
                                 new InstantCommand(() -> intake.setSpeed(1)),
                                 new SwerveControllerFollower(driveBase,
-                                        twoMinusTwoBallTrajectory2),
-                                new InstantCommand(() -> intake.setSpeed(-.5)),
-                                new InstantCommand(() -> conveyor.setSpeed(-.4)),
+                                        "2m2path2",
+                                        Constants.DriveBaseConstants.AUTO_SPEED_CONFIG,
+                                        false,
+                                        false),
+                                new InstantCommand(() -> intake.setSpeed(-0.5)),
+                                new InstantCommand(() -> conveyor.setSpeed(-0.4)),
                                 new WaitCommand(2),
                                 new InstantCommand(() -> conveyor.setSpeed(0)),
                                 new InstantCommand(() -> intake.setSpeed(0)),
                                 new InstantCommand(() -> intake.unDeploy()),
                                 new SwerveControllerFollower(driveBase,
-                                        twoMinusTwoBallTrajectory3),
-                                new InstantCommand(() -> driveBase.resetOdometryWithLastHeading())),
+                                        "2m2path3",
+                                        Constants.DriveBaseConstants.AUTO_SPEED_CONFIG,
+                                        false,
+                                        false)),
                         new ConveyorDefault(conveyor, () -> false)));
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);

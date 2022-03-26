@@ -25,8 +25,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
 
         addCommands(
                 new ParallelDeadlineGroup(
-                        new SequentialCommandGroup(new InstantCommand(
-                                () -> driveBase.resetOdometry(new Pose2d())),
+                        new SequentialCommandGroup(
                                 new InstantCommand(() -> intake.deploy()),
                                 new InstantCommand(() -> intake.setSpeed(1)),
                                 // new WaitCommand(5),
@@ -37,7 +36,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
                                                         new Rotation2d(0)),
                                                 Constants.DriveBaseConstants.SLOW_SPEED_CONFIG)),
                                 new ShootCargo(driveBase, shooter, conveyor,
-                                        limelight))),
+                                        limelight, true))),
                 new ConveyorDefault(conveyor, () -> false));
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
