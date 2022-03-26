@@ -58,12 +58,26 @@ public class RobotContainer {
     // private final Joystick driverStation = new
     // Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
 
-    SendableChooser<Command> autoChooser;
+    SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        autoChooser.setDefaultOption("Five Ball Auto",
+                new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight)
+                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)));
+        autoChooser.addOption("Two Ball Auto",
+                new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight)
+                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)));
+        autoChooser.addOption("TwoBall_MinusOne",
+                new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight)
+                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)));
+        autoChooser.addOption("TwoBall_MinusTwo",
+                new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight)
+                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)));
+
+        SmartDashboard.putData("Selected Autonomous", autoChooser);
 
         driveBase.setDefaultCommand(new DriveDefault(
                 driveBase,
@@ -120,18 +134,6 @@ public class RobotContainer {
                         new InstantCommand(() -> driveBase.drive(0, 0, 0)),
                         new InstantCommand(() -> shooter.setVelocity(0)),
                         new InstantCommand(() -> shooter.hoodToPos(0))));
-
-        autoChooser = new SendableChooser<>();
-        autoChooser.setDefaultOption("Five Ball Auto",
-                new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
-        autoChooser.addOption("Two Ball Auto",
-                new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
-        autoChooser.addOption("TwoBall_MinusOne",
-                new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
-        autoChooser.addOption("TwoBall_MinusTwo",
-                new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
-
-        SmartDashboard.putData("Selected Autonomous", autoChooser);
     }
 
     /**
