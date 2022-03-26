@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import javax.swing.plaf.synth.SynthStyle;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
