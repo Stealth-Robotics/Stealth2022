@@ -31,83 +31,83 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
-        // The robot's subsystems and commands are defined here...
-        private final DriveBase driveBase = new DriveBase();
-        private final Intake intake = new Intake();
-        private final Shooter shooter = new Shooter();
-        private final Conveyor conveyor = new Conveyor();
-        private final Limelight limelight = new Limelight();
-        private final Climber climber = new Climber();
-        // private final CANdleSystem candle = new CANdleSystem();
+    // The robot's subsystems and commands are defined here...
+    private final DriveBase driveBase = new DriveBase();
+    private final Intake intake = new Intake();
+    private final Shooter shooter = new Shooter();
+    private final Conveyor conveyor = new Conveyor();
+    private final Limelight limelight = new Limelight();
+    private final Climber climber = new Climber();
+    // private final CANdleSystem candle = new CANdleSystem();
 
-        private final XboxController driveGamepad = new XboxController(Constants.IOConstants.DRIVE_JOYSTICK_PORT);
-        private final XboxController mechGamepad = new XboxController(Constants.IOConstants.MECH_GAMEPAD_PORT);
-        // private final Joystick driverStation = new
-        // Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
+    private final XboxController driveGamepad = new XboxController(Constants.IOConstants.DRIVE_JOYSTICK_PORT);
+    private final XboxController mechGamepad = new XboxController(Constants.IOConstants.MECH_GAMEPAD_PORT);
+    // private final Joystick driverStation = new
+    // Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
 
-        SendableChooser<Command> autoChooser;
+    SendableChooser<Command> autoChooser;
 
-        /**
-         * The container for the robot. Contains subsystems, OI devices, and commands.
-         */
-        public RobotContainer() {
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
 
-                driveBase.setDefaultCommand(new DriveDefault(
-                                driveBase,
-                                () -> -driveGamepad.getLeftY(),
-                                () -> -driveGamepad.getLeftX(),
-                                () -> -driveGamepad.getRightX(),
-                                () -> driveGamepad.getRightBumper()));
+        driveBase.setDefaultCommand(new DriveDefault(
+                driveBase,
+                () -> -driveGamepad.getLeftY(),
+                () -> -driveGamepad.getLeftX(),
+                () -> -driveGamepad.getRightX(),
+                () -> driveGamepad.getRightBumper()));
 
-                intake.setDefaultCommand(new IntakeDefault(intake,
-                                driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
+        intake.setDefaultCommand(new IntakeDefault(intake,
+                driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
 
-                // TODO: Check And Set Override Button
-                conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
-                climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRawAxis(3),
-                                () -> mechGamepad.getRawAxis(4), () -> mechGamepad.getRawButton(6)));
+        // TODO: Check And Set Override Button
+        conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
+        climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRawAxis(3),
+                () -> mechGamepad.getRawAxis(4), () -> mechGamepad.getRawButton(6)));
 
-                // Configure the button bindings
-                configureButtonBindings();
-        }
+        // Configure the button bindings
+        configureButtonBindings();
+    }
 
-        private void configureButtonBindings() {
-                // drive gamepad controls
-                new JoystickButton(driveGamepad, 1)
-                                .whenPressed(() -> driveBase.zeroGyroscope());
+    private void configureButtonBindings() {
+        // drive gamepad controls
+        new JoystickButton(driveGamepad, 1)
+                .whenPressed(() -> driveBase.zeroGyroscope());
 
-                new JoystickButton(driveGamepad, 6)
-                                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight, true));
+        new JoystickButton(driveGamepad, 6)
+                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight, true));
 
-                // TODO: Check Button Numbers
-                new JoystickButton(mechGamepad, 4).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
-                new JoystickButton(mechGamepad, 2).whenPressed(new EjectTopCargo(shooter, conveyor));
-                new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.movePisitons(true)));
-                new JoystickButton(mechGamepad, 6).whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
+        // TODO: Check Button Numbers
+        new JoystickButton(mechGamepad, 4).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
+        new JoystickButton(mechGamepad, 2).whenPressed(new EjectTopCargo(shooter, conveyor));
+        new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.movePisitons(true)));
+        new JoystickButton(mechGamepad, 6).whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
 
-                new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 80000));
-                new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
+        new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 80000));
+        new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
 
-                autoChooser = new SendableChooser<>();
-                autoChooser.setDefaultOption("Two Ball Auto",
-                                new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
-                autoChooser.addOption("Five Ball Auto",
-                                new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
-                autoChooser.addOption("TwoBall_MinusOne",
-                                new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
-                autoChooser.addOption("TwoBall_MinusTwo",
-                                new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
+        autoChooser = new SendableChooser<>();
+        autoChooser.setDefaultOption("Two Ball Auto",
+                new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
+        autoChooser.addOption("Five Ball Auto",
+                new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
+        autoChooser.addOption("TwoBall_MinusOne",
+                new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
+        autoChooser.addOption("TwoBall_MinusTwo",
+                new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
 
-                SmartDashboard.putData("Selected Autonomous", autoChooser);
-        }
+        SmartDashboard.putData("Selected Autonomous", autoChooser);
+    }
 
-        /**
-         * Use this to pass the autonomous command to the main {@link Robot} class.
-         *
-         * @return the command to run in autonomous
-         */
-        public Command getAutonomousCommand() {
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
 
-                return autoChooser.getSelected();
-        }
+        return autoChooser.getSelected();
+    }
 }

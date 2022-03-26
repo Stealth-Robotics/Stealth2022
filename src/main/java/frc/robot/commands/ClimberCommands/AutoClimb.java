@@ -8,8 +8,8 @@ import frc.robot.subsystems.Climber;
 public class AutoClimb extends SequentialCommandGroup {
     private final Climber climber;
 
-    public AutoClimb(Climber c) {
-        this.climber = c;
+    public AutoClimb(Climber climber) {
+        this.climber = climber;
         addRequirements(climber);
 
         addCommands(
@@ -17,7 +17,7 @@ public class AutoClimb extends SequentialCommandGroup {
                 new InstantCommand(() -> climber.movePisitons(false)),
                 new MoveClimber(climber, 0),
 
-               // climb to high
+                // climb to high
                 new InstantCommand(() -> climber.movePisitons(true)),
                 new WaitCommand(.25),
                 new MoveClimber(climber, 65000),
@@ -35,9 +35,7 @@ public class AutoClimb extends SequentialCommandGroup {
                 new MoveClimber(climber, 97000),
                 new InstantCommand(() -> climber.movePisitons(false)),
                 new WaitCommand(.5),
-                new MoveClimber(climber, 65000)                
-                );
-                
+                new MoveClimber(climber, 65000));
 
     }
 
