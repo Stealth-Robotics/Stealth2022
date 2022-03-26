@@ -1,6 +1,5 @@
 package frc.robot.commands.MultiSubsystemCommands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
@@ -28,11 +27,9 @@ public class ShootCargo extends SequentialCommandGroup {
         this.conveyor = conveyor;
         this.limelight = limelight;
 
-        // distance = this.limelight.getTargetDistance();
 
         addRequirements(shooter, conveyor, driveBase, limelight);
 
-        // if (this.limelight.getTargetDistance() != 0) {
         addCommands(
                 new ParallelCommandGroup(
                         new AlignWithTarget(driveBase, this.limelight),
@@ -40,17 +37,7 @@ public class ShootCargo extends SequentialCommandGroup {
                 new ReadyShooter(shooter, this.limelight),
                 new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
                 new ResetShooter(shooter));
-        // }
-
-        // else {
-        // addCommands(new InstantCommand());
-        // }
     }
-
-    // @Override
-    // public void execute() {
-    // System.out.println(limelight.getTargetDistance());
-    // }
 
     @Override
     public void end(boolean interrupted) {

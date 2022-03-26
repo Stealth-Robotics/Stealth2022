@@ -21,7 +21,7 @@ public class EjectTopCargo extends SequentialCommandGroup {
 
         addCommands(
                 new ParallelCommandGroup(
-                        new InstantCommand(() -> shooter.setVelocity(1000)),
+                        new InstantCommand(() -> shooter.setVelocity(.3)),
                         new InstantCommand(() -> shooter.hoodToDegree(70))),
                 new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP),
                 new ResetShooter(shooter));
