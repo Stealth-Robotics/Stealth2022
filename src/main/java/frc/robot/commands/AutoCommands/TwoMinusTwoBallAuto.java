@@ -46,11 +46,10 @@ public class TwoMinusTwoBallAuto extends SequentialCommandGroup {
                                 new InstantCommand(() -> intake.setSpeed(0)),
                                 new InstantCommand(() -> intake.unDeploy()),
                                 new SwerveControllerFollower(driveBase,
-                                        "2m2path3",
-                                        Constants.DriveBaseConstants.AUTO_SPEED_CONFIG,
-                                        false,
-                                        false)),
-                        new ConveyorDefault(conveyor, () -> false)));
+                                        twoMinusTwoBallTrajectory3),
+                                new InstantCommand(() -> driveBase.resetOdometryWithLastHeading()))
+                // new ConveyorDefault(conveyor, () -> false)
+                ));
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
     }

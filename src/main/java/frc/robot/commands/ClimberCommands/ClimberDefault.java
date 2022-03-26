@@ -24,7 +24,7 @@ public class ClimberDefault extends CommandBase {
 
     @Override
     public void initialize() {
-        climber.resetClimberEncoder();
+        //climber.resetClimberEncoder();
     }
 
     @Override

@@ -22,7 +22,7 @@ public class MoveClimber extends CommandBase {
     @Override
     public void execute (){
         climb.updateVelo();
-        System.out.println("here");
+        //System.out.println("here");
     }
 
     @Override

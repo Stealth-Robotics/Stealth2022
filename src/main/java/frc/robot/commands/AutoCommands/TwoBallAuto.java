@@ -36,8 +36,9 @@ public class TwoBallAuto extends SequentialCommandGroup {
                                                         new Rotation2d(0)),
                                                 Constants.DriveBaseConstants.SLOW_SPEED_CONFIG)),
                                 new ShootCargo(driveBase, shooter, conveyor,
-                                        limelight, true))),
-                new ConveyorDefault(conveyor, () -> false));
+                                        limelight)))
+               // new ConveyorDefault(conveyor, () -> false)
+               );
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
     }

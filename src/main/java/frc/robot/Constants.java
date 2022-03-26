@@ -64,9 +64,9 @@ public final class Constants {
                 0.3 * MAX_VELOCITY_METERS_PER_SECOND,
                 0.3 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
 
-        public static final TrajectoryConfig AUTO_SPEED_CONFIG = new TrajectoryConfig(
-                0.8 * MAX_VELOCITY_METERS_PER_SECOND,
-                1.0 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+                                public static final TrajectoryConfig AUTO_SPEED_CONFIG = new TrajectoryConfig(
+                                    0.5 * MAX_VELOCITY_METERS_PER_SECOND,
+                                    1.0 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
 
         public static final double SLOWMODE_MULTIPLIER = 1 / 4;
 
@@ -112,10 +112,11 @@ public final class Constants {
         public static final double HOOD_I_COEFF = 0.00001;
         public static final double HOOD_D_COEFF = 0.0;
 
-        public static final double HOOD_TOLERANCE = 500;
+                public static final double HOOD_P_COEFF = 0.00005;
+                public static final double HOOD_I_COEFF = 0.00002;
+                public static final double HOOD_D_COEFF = 0.0;
 
-        public static final double HOOD_INTEGRAL_MIN = -0.2;
-        public static final double HOOD_INTEGRAL_MAX = 0.2;
+                public static final double HOOD_TOLERANCE = 750;
 
         public static final double HOOD_LOWER_BOUND = 82;
         public static final double HOOD_UPPER_BOUND = 58;
@@ -151,10 +152,13 @@ public final class Constants {
         public static final int TIMEOUT = 30;
     }
 
-    public static final class Climber {
-        public static final double MAX_THRESHOLD = 140000;
-        public static final double MIN_THRESHOLD = -10000;
-        public static final double MAX_SPEED = 0.6;
+        public static final class CANdleSystemConstants {
+                public static final int TIMEOUT = 30;
+        }
+        public static final class Climber {
+                public static final double MAX_THRESHOLD = 140000;
+                public static final double MIN_THRESHOLD = -1000000;
+                public static final double MAX_SPEED = 0.6;
 
         public static final int TIMEOUT = 30; // In Milliseconds
 
@@ -166,8 +170,7 @@ public final class Constants {
 
         public static final double CLIMB_TOLERANCE = 5000;
 
-        public static final double CLIMB_INTEGRAL_MIN = -0.2;
-        public static final double CLIMB_INTEGRAL_MAX = 0.2;
+                public static final double CLIMB_TOLERANCE = 500;
 
     }
 }
