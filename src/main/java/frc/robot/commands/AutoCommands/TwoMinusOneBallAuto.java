@@ -65,8 +65,9 @@ public class TwoMinusOneBallAuto extends SequentialCommandGroup {
                                 new SwerveControllerFollower(driveBase,
                                         twoMinusOneBallTrajectory3),
                                 new InstantCommand(() -> driveBase
-                                        .resetOdometryWithLastHeading())),
-                        new ConveyorDefault(conveyor, () -> false)));
+                                        .resetOdometryWithLastHeading()))
+                        //new ConveyorDefault(conveyor, () -> false)
+                        ));
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
 
