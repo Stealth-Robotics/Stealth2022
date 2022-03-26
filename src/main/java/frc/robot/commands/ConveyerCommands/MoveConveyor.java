@@ -8,7 +8,6 @@ public class MoveConveyor extends CommandBase {
 
     private final double distance;
 
-
     public MoveConveyor(Conveyor conveyor, double distance) {
         this.conveyor = conveyor;
         this.distance = distance;
@@ -25,7 +24,5 @@ public class MoveConveyor extends CommandBase {
     public boolean isFinished() {
         return conveyor.atPosition();
     }
-
- 
 
 }

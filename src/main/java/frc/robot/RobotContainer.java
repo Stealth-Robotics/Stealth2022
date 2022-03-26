@@ -4,11 +4,23 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+
+import org.ejml.dense.row.CovarianceOps_DDRM;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommands.FiveBallAuto;
 import frc.robot.commands.AutoCommands.TwoBallAuto;
@@ -18,11 +30,14 @@ import frc.robot.commands.ClimberCommands.AutoClimb;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ClimberCommands.MoveClimber;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
+import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
+import frc.robot.commands.DriveBaseCommands.SwerveControllerFollower;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
 import frc.robot.commands.MultiSubsystemCommands.EjectTopCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootTopCargo;
+import frc.robot.commands.ShooterCommands.ResetShooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
@@ -30,6 +45,15 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
+/**
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
+ * subsystems, commands, and button mappings) should be declared here.
+ */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DriveBase driveBase = new DriveBase();

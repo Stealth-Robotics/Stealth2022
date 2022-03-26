@@ -19,35 +19,32 @@ public class ShootCargo extends SequentialCommandGroup {
     private final Shooter shooter;
     private final Conveyor conveyor;
     private final Limelight limelight;
+    // private double distance;
 
-    private final boolean resetHood;
-
-    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight, boolean resetHood) {
+    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;
         this.conveyor = conveyor;
         this.limelight = limelight;
 
-        this.resetHood = resetHood;
-
         // distance = this.limelight.getTargetDistance();
 
         addRequirements(shooter, conveyor, driveBase, limelight);
 
-       // if (this.limelight.getTargetDistance() != 0) {
-            addCommands(
-                    new ParallelCommandGroup(
-                            new AlignWithTarget(driveBase, this.limelight),
-                            new MoveConveyor(conveyor, -500)),
-                    new ReadyShooter(shooter, this.limelight),
-                    new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
-                    new ResetShooter(shooter));
-       // }
+        // if (this.limelight.getTargetDistance() != 0) {
+        addCommands(
+                new ParallelCommandGroup(
+                        new AlignWithTarget(driveBase, this.limelight),
+                        new MoveConveyor(conveyor, -500)),
+                new ReadyShooter(shooter, this.limelight),
+                new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
+                new ResetShooter(shooter));
+        // }
 
-       // else {
-       //     addCommands(new InstantCommand());
-      //  }
+        // else {
+        // addCommands(new InstantCommand());
+        // }
     }
 
     // @Override
@@ -59,9 +56,6 @@ public class ShootCargo extends SequentialCommandGroup {
     public void end(boolean interrupted) {
         driveBase.drive(0, 0, 0);
         shooter.setSpeed(0);
-
-        if (resetHood) {
-            shooter.hoodToPos(0);
-        }
+        shooter.hoodToPos(0);
     }
 }

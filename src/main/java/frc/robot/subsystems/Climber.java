@@ -102,7 +102,6 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
     }
-    
 
     public void climberToPos(double pos) {
         climbController.reset();

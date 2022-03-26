@@ -24,13 +24,13 @@ public class ClimberDefault extends CommandBase {
 
     @Override
     public void initialize() {
-        //climber.resetClimberEncoder();
+        // climber.resetClimberEncoder();
     }
 
     @Override
     public void execute() {
 
-//climber bound enforcement
+        // climber bound enforcement
 
         if (downSpeed.getAsDouble() > 0.05
                 && climber.getClimberPosition() > Constants.Climber.MIN_THRESHOLD) {
@@ -46,7 +46,7 @@ public class ClimberDefault extends CommandBase {
             climber.setSpeed(0);
         }
 
-//semi auto piston movements
+        // semi auto piston movements
 
         if (downSpeed.getAsDouble() > 0.05
                 && !override.getAsBoolean()

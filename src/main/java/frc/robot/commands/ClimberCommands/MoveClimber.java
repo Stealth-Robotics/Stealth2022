@@ -16,13 +16,13 @@ public class MoveClimber extends CommandBase {
     @Override
     public void initialize() {
         climb.climberToPos(newPos);
-        
+
     }
 
     @Override
-    public void execute (){
+    public void execute() {
         climb.updateVelo();
-        //System.out.println("here");
+        // System.out.println("here");
     }
 
     @Override

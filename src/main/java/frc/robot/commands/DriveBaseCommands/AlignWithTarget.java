@@ -34,14 +34,16 @@ public class AlignWithTarget extends CommandBase {
 
     public void execute() {
         newpower = alignController.calculate(limelight.getTargetHorizontalOffset());
-        if (newpower > 1.75) newpower = 1.75;
-        if (newpower < -1.75) newpower = -1.75;
+        if (newpower > 1.75)
+            newpower = 1.75;
+        if (newpower < -1.75)
+            newpower = -1.75;
         driveBase.drive(0, 0, newpower);
     }
 
     @Override
     public void end(boolean interrupted) {
-        driveBase.drive(0,0,0);
+        driveBase.drive(0, 0, 0);
     }
 
     @Override
