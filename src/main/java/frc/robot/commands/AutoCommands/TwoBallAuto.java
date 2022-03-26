@@ -24,20 +24,20 @@ public class TwoBallAuto extends SequentialCommandGroup {
             Limelight limelight) {
 
         addCommands(
-                new SequentialCommandGroup(new InstantCommand(
+                new InstantCommand(
                         () -> driveBase.resetOdometry(new Pose2d())),
-                        new WaitCommand(3),
-                        new InstantCommand(() -> intake.deploy()),
-                        new InstantCommand(() -> intake.setSpeed(1)),
-                        new SwerveControllerFollower(driveBase,
-                                TrajectoryGenerator.generateTrajectory(
-                                        new Pose2d(), List.of(),
-                                        new Pose2d(1.5, 0,
-                                                new Rotation2d(0)),
-                                        Constants.DriveBaseConstants.SLOW_SPEED_CONFIG))
-                                                .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
-                        new ShootCargo(driveBase, shooter, conveyor,
-                                limelight)));
+                new WaitCommand(3),
+                new InstantCommand(() -> intake.deploy()),
+                new InstantCommand(() -> intake.setSpeed(1)),
+                new SwerveControllerFollower(driveBase,
+                        TrajectoryGenerator.generateTrajectory(
+                                new Pose2d(), List.of(),
+                                new Pose2d(1.5, 0,
+                                        new Rotation2d(0)),
+                                Constants.DriveBaseConstants.SLOW_SPEED_CONFIG))
+                                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
+                new ShootCargo(driveBase, shooter, conveyor,
+                        limelight));
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
     }

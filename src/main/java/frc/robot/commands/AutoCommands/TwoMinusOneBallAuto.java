@@ -4,7 +4,6 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -41,25 +40,24 @@ public class TwoMinusOneBallAuto extends SequentialCommandGroup {
             Limelight limelight) {
 
         addCommands(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> driveBase.resetOdometry(initial)),
-                        new InstantCommand(() -> intake.deploy()),
-                        new InstantCommand(() -> intake.setSpeed(1)),
-                        new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectory1)
-                                .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
-                        new InstantCommand(() -> intake.setSpeed(0)),
-                        new ShootCargo(driveBase, shooter, conveyor, limelight),
-                        new InstantCommand(() -> intake.setSpeed(1)),
-                        new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectory2)
-                                .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
-                        new InstantCommand(() -> intake.setSpeed(-.5)),
-                        new InstantCommand(() -> conveyor.setSpeed(-.4)),
-                        new WaitCommand(2),
-                        new InstantCommand(() -> conveyor.setSpeed(0)),
-                        new InstantCommand(() -> intake.setSpeed(0)),
-                        new InstantCommand(() -> intake.unDeploy()),
-                        new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectory3),
-                        new InstantCommand(() -> driveBase.resetOdometryWithLastHeading())));
+                new InstantCommand(() -> driveBase.resetOdometry(initial)),
+                new InstantCommand(() -> intake.deploy()),
+                new InstantCommand(() -> intake.setSpeed(1)),
+                new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectory1)
+                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
+                new InstantCommand(() -> intake.setSpeed(0)),
+                new ShootCargo(driveBase, shooter, conveyor, limelight),
+                new InstantCommand(() -> intake.setSpeed(1)),
+                new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectory2)
+                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
+                new InstantCommand(() -> intake.setSpeed(-.5)),
+                new InstantCommand(() -> conveyor.setSpeed(-.4)),
+                new WaitCommand(2),
+                new InstantCommand(() -> conveyor.setSpeed(0)),
+                new InstantCommand(() -> intake.setSpeed(0)),
+                new InstantCommand(() -> intake.unDeploy()),
+                new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectory3),
+                new InstantCommand(() -> driveBase.resetOdometryWithLastHeading()));
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
 
