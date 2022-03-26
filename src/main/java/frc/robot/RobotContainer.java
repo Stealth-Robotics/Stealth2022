@@ -65,17 +65,13 @@ public class RobotContainer {
      */
     public RobotContainer() {
         autoChooser.setDefaultOption("Five Ball Auto",
-                new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight)
-                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)));
+                new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
         autoChooser.addOption("Two Ball Auto",
-                new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight)
-                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)));
+                new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
         autoChooser.addOption("TwoBall_MinusOne",
-                new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight)
-                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)));
+                new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
         autoChooser.addOption("TwoBall_MinusTwo",
-                new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight)
-                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)));
+                new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
 
         SmartDashboard.putData("Selected Autonomous", autoChooser);
 
