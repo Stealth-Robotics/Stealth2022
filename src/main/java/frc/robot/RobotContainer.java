@@ -120,8 +120,6 @@ public class RobotContainer {
         new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 96500));
         new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
 
-        // new JoystickButton(driveGamepad, 2).whenPressed(() ->
-        // driveBase.resetOdometry(new Pose2d()));
         new JoystickButton(driveGamepad, 2).whenPressed(
                 new SequentialCommandGroup(
                         new MoveConveyor(conveyor, -500),

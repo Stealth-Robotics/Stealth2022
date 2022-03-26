@@ -5,9 +5,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -44,33 +42,25 @@ public class TwoMinusTwoBallAuto extends SequentialCommandGroup {
             Limelight limelight) {
 
         addCommands(
-                new ParallelDeadlineGroup(
-                        new SequentialCommandGroup(
-                                new InstantCommand(
-                                        () -> driveBase.resetOdometry(
-                                                new Pose2d())),
-                                new InstantCommand(() -> intake.deploy()),
-                                new InstantCommand(() -> intake.setSpeed(1)),
-                                new SwerveControllerFollower(driveBase,
-                                        twoMinusTwoBallTrajectory1)
-                                                .beforeStarting(() -> driveBase
-                                                        .resetOdometry(initial)),
-                                new InstantCommand(() -> intake.setSpeed(0)),
-                                new ShootCargo(driveBase, shooter, conveyor, limelight),
-                                new InstantCommand(() -> intake.setSpeed(1)),
-                                new SwerveControllerFollower(driveBase,
-                                        twoMinusTwoBallTrajectory2),
-                                new InstantCommand(() -> intake.setSpeed(-.5)),
-                                new InstantCommand(() -> conveyor.setSpeed(-.4)),
-                                new WaitCommand(2),
-                                new InstantCommand(() -> conveyor.setSpeed(0)),
-                                new InstantCommand(() -> intake.setSpeed(0)),
-                                new InstantCommand(() -> intake.unDeploy()),
-                                new SwerveControllerFollower(driveBase,
-                                        twoMinusTwoBallTrajectory3),
-                                new InstantCommand(() -> driveBase.resetOdometryWithLastHeading()))
-                // new ConveyorDefault(conveyor, () -> false)
-                ));
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> driveBase.resetOdometry(initial)),
+                        new InstantCommand(() -> intake.deploy()),
+                        new InstantCommand(() -> intake.setSpeed(1)),
+                        new SwerveControllerFollower(driveBase, twoMinusTwoBallTrajectory1)
+                                .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
+                        new InstantCommand(() -> intake.setSpeed(0)),
+                        new ShootCargo(driveBase, shooter, conveyor, limelight),
+                        new InstantCommand(() -> intake.setSpeed(1)),
+                        new SwerveControllerFollower(driveBase, twoMinusTwoBallTrajectory2)
+                                .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
+                        new InstantCommand(() -> intake.setSpeed(-.5)),
+                        new InstantCommand(() -> conveyor.setSpeed(-.4)),
+                        new WaitCommand(2),
+                        new InstantCommand(() -> conveyor.setSpeed(0)),
+                        new InstantCommand(() -> intake.setSpeed(0)),
+                        new InstantCommand(() -> intake.unDeploy()),
+                        new SwerveControllerFollower(driveBase, twoMinusTwoBallTrajectory3),
+                        new InstantCommand(() -> driveBase.resetOdometryWithLastHeading())));
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
     }
