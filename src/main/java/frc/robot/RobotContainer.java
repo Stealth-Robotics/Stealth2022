@@ -117,8 +117,8 @@ public class RobotContainer {
                 new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.movePisitons(true)));
                 new JoystickButton(mechGamepad, 6).whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
 
-                new JoystickButton(mechGamepad, 10).whenPressed(new MoveClimber(climber, 80000));
-                // new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
+                new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 80000));
+                 new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
 
                 // new JoystickButton(driveGamepad, 2).whenPressed(() ->
                 // driveBase.resetOdometry(new Pose2d()));
