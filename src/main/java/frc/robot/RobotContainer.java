@@ -4,13 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommands.FiveBallAuto;
 import frc.robot.commands.AutoCommands.TwoBallAuto;
@@ -20,13 +21,11 @@ import frc.robot.commands.ClimberCommands.AutoClimb;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ClimberCommands.MoveClimber;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
-import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
 import frc.robot.commands.MultiSubsystemCommands.EjectTopCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootTopCargo;
-import frc.robot.commands.ShooterCommands.ResetShooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
@@ -59,6 +58,7 @@ public class RobotContainer {
     // Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
 
     SendableChooser<Command> autoChooser = new SendableChooser<>();
+    UsbCamera camera = CameraServer.startAutomaticCapture();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -68,12 +68,15 @@ public class RobotContainer {
                 new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
         autoChooser.addOption("Two Ball Auto",
                 new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
-        autoChooser.addOption("TwoBall_MinusOne",
+        autoChooser.addOption("Two Ball Minus One",
                 new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
-        autoChooser.addOption("TwoBall_MinusTwo",
+        autoChooser.addOption("Two Ball Minus Two",
                 new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
 
         SmartDashboard.putData("Selected Autonomous", autoChooser);
+
+        camera.setResolution(160, 120);
+        camera.setFPS(30);
 
         driveBase.setDefaultCommand(new DriveDefault(
                 driveBase,
@@ -118,18 +121,6 @@ public class RobotContainer {
 
         new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 96500));
         new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
-
-        new JoystickButton(driveGamepad, 2).whenPressed(
-                new SequentialCommandGroup(
-                        new MoveConveyor(conveyor, -500),
-                        new InstantCommand(() -> shooter.setSpeed(.3)),
-                        new InstantCommand(() -> shooter.hoodToDegree(72)),
-                        new MoveConveyor(conveyor,
-                                Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
-                        new ResetShooter(shooter),
-                        new InstantCommand(() -> driveBase.drive(0, 0, 0)),
-                        new InstantCommand(() -> shooter.setVelocity(0)),
-                        new InstantCommand(() -> shooter.hoodToPos(0))));
     }
 
     /**

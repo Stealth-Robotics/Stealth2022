@@ -33,10 +33,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        UsbCamera camera = CameraServer.startAutomaticCapture();
-        camera.setResolution(160, 120);
-        camera.setFPS(30);
-        // climber.resetClimberEncoder();
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our
         // autonomous chooser on the dashboard.
