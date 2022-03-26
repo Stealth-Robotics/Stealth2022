@@ -27,6 +27,7 @@ public class SwerveControllerFollower extends CommandBase {
     private final DriveBase drivetrain;
     private final Trajectory trajectory;
     private Timer timer = new Timer();
+    private Pose2d initialPathPlannerPose = null;
 
     public SwerveControllerFollower(DriveBase drivetrain, Trajectory trajectory) {
         this.drivetrain = drivetrain;
@@ -35,28 +36,29 @@ public class SwerveControllerFollower extends CommandBase {
         addRequirements(drivetrain);
     }
 
-    public SwerveControllerFollower(DriveBase drivetrain, String pathFilename, TrajectoryConfig config, boolean isReversed, boolean isInitial) {
+    public SwerveControllerFollower(DriveBase drivetrain, String pathFilename, TrajectoryConfig config,
+            boolean isReversed, boolean isInitial) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
 
-        PathPlannerTrajectory ppTrajectory = PathPlanner.loadPath(pathFilename,
-                config.getMaxVelocity(),
-               config.getMaxAcceleration(), isReversed);
+        PathPlannerTrajectory ppTrajectory = PathPlanner.loadPath(pathFilename, config.getMaxVelocity(),
+                config.getMaxAcceleration(), isReversed);
         this.trajectory = ppTrajectory;
 
         if (isInitial) {
-
-            final Pose2d initial = new Pose2d(
+            initialPathPlannerPose = new Pose2d(
                     ppTrajectory.getInitialPose().getTranslation(),
                     ppTrajectory.getInitialState().holonomicRotation);
-            drivetrain.resetOdometry(initial);
-
         }
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        if (initialPathPlannerPose != null) {
+            drivetrain.resetOdometry(initialPathPlannerPose);
+        }
+
         timer.reset();
         timer.start();
         // drivetrain.resetPathController(); // reset theta setpoint between different
