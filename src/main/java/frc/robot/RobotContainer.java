@@ -93,8 +93,10 @@ public class RobotContainer {
 
         // TODO: Check And Set Override Button
         conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
-        climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRawAxis(3),
-                () -> mechGamepad.getRawAxis(4), () -> mechGamepad.getRawButton(6)));
+        climber.setDefaultCommand(new ClimberDefault(climber,
+                () -> mechGamepad.getRightTriggerAxis(),
+                () -> mechGamepad.getRightX(),
+                () -> mechGamepad.getRightBumper()));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -110,23 +112,25 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // drive gamepad controls
-        new JoystickButton(driveGamepad, 1)
+        new JoystickButton(driveGamepad, XboxController.Button.kA.value)
                 .whenPressed(() -> driveBase.zeroGyroscope());
 
-        new JoystickButton(driveGamepad, 6)
+        new JoystickButton(driveGamepad, XboxController.Button.kRightBumper.value)
                 .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));
 
-                
+        new JoystickButton(mechGamepad, XboxController.Button.kY.value)
+                .whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
+        new JoystickButton(mechGamepad, XboxController.Button.kB.value)
+                .whenPressed(new EjectTopCargo(shooter, conveyor));
+        new JoystickButton(mechGamepad, XboxController.Button.kLeftBumper.value)
+                .whenPressed(new InstantCommand(() -> climber.movePisitons(true)));
+        new JoystickButton(mechGamepad, XboxController.Button.kRightBumper.value)
+                .whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
 
-        // TODO: Check Button Numbers
-        new JoystickButton(mechGamepad, 4).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
-        new JoystickButton(mechGamepad, 2).whenPressed(new EjectTopCargo(shooter, conveyor));
-        new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.movePisitons(true)));
-        new JoystickButton(mechGamepad, 6).whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
-
-        new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 96500));
-        new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
-        new JoystickButton(driveGamepad, 2).whenPressed(
+        new JoystickButton(mechGamepad, XboxController.Button.kLeftStick.value)
+                .whenPressed(new MoveClimber(climber, 96500));
+        new JoystickButton(mechGamepad, XboxController.Button.kRightStick.value).whenPressed(new AutoClimb(climber));
+        new JoystickButton(driveGamepad, XboxController.Button.kB.value).whenPressed(
                 new SequentialCommandGroup(
                         new MoveConveyor(conveyor, -500),
                         new InstantCommand(() -> shooter.setSpeed(.3)),
