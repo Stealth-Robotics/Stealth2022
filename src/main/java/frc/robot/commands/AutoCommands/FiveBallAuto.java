@@ -50,8 +50,8 @@ public class FiveBallAuto extends SequentialCommandGroup {
                 new InstantCommand(() -> intake.deploy()),
                 new InstantCommand(() -> intake.setSpeed(1)),
                 new SwerveControllerFollower(driveBase, fiveBallTrajectory1)
-                        .beforeStarting(() -> driveBase
-                                .resetOdometry(initial))
+                        .beforeStarting(new InstantCommand(() -> driveBase
+                                .resetOdometry(initial)))
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new ShootCargo(driveBase, shooter, conveyor,

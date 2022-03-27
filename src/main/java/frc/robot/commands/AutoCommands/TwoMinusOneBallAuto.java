@@ -40,10 +40,11 @@ public class TwoMinusOneBallAuto extends SequentialCommandGroup {
             Limelight limelight) {
 
         addCommands(
-                new InstantCommand(() -> driveBase.resetOdometry(initial)),
                 new InstantCommand(() -> intake.deploy()),
                 new InstantCommand(() -> intake.setSpeed(1)),
                 new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectory1)
+                        .beforeStarting(new InstantCommand(() -> driveBase
+                                .resetOdometry(initial)))
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new ShootCargo(driveBase, shooter, conveyor, limelight),
