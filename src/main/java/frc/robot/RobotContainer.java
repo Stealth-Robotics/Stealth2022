@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -91,7 +92,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // drive gamepad controls
         new JoystickButton(driveGamepad, 1)
-                .whenPressed(() -> driveBase.zeroGyroscope());
+                .whenPressed(() -> driveBase.resetOdometry(new Pose2d()));
 
         new JoystickButton(driveGamepad, 6)
                 .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));

@@ -69,7 +69,7 @@ public class DriveDefault extends CommandBase {
                                                 : rotationSupplier
                                                         .getAsDouble()
                                                         * Constants.DriveBaseConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND),
-                        driveBase.getGyroscopeRotation()));
+                        driveBase.getPose().getRotation()));
     }
 
     @Override
