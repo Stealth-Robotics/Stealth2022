@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
+import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.SwerveControllerFollower;
 import frc.robot.commands.IntakeCommands.DelayedIntakeOn;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
@@ -47,27 +48,33 @@ public class FiveBallAuto extends SequentialCommandGroup {
             Limelight limelight) {
 
         addCommands(
-                new InstantCommand(() -> intake.deploy()),
+                // new InstantCommand(() -> driveBase.resetOdometry(new Pose2d())),
+                new InstantCommand(() -> intake.deploy()).beforeStarting(new InstantCommand(() -> driveBase
+                        .resetOdometry(initial))),
                 new InstantCommand(() -> intake.setSpeed(1)),
                 new SwerveControllerFollower(driveBase, fiveBallTrajectory1)
                         .beforeStarting(new InstantCommand(() -> driveBase
                                 .resetOdometry(initial)))
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
-                new InstantCommand(() -> intake.setSpeed(0)),
+                // new WaitCommand(.5),
                 new ShootCargo(driveBase, shooter, conveyor,
                         limelight),
+                new InstantCommand(() -> intake.setSpeed(0)),
                 new SwerveControllerFollower(driveBase, fiveBallTrajectory2).deadlineWith(
                         new ConveyorDefault(conveyor, () -> false),
-                        new DelayedIntakeOn(intake, 1)),
-                new InstantCommand(() -> intake.setSpeed(0)),
+                        new DelayedIntakeOn(intake, .25)),
+                // new WaitCommand(.5),
                 new ShootCargo(driveBase, shooter, conveyor,
                         limelight),
+                new InstantCommand(() -> intake.setSpeed(0)),
                 new SwerveControllerFollower(driveBase, fiveBallTrajectory3).deadlineWith(
                         new ConveyorDefault(conveyor, () -> false),
-                        new DelayedIntakeOn(intake, 2)),
-                new WaitCommand(1),
+                        new DelayedIntakeOn(intake, 1)),
+                new WaitCommand(1).deadlineWith(
+                        new ConveyorDefault(conveyor, () -> false)),
                 new SwerveControllerFollower(driveBase, fiveBallTrajectory4)
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
+                // new WaitCommand(.5),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new InstantCommand(() -> intake.unDeploy()),
                 new ShootCargo(driveBase, shooter, conveyor, limelight),

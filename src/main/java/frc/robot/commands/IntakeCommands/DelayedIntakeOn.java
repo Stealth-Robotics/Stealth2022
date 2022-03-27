@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Intake;
 
 public class DelayedIntakeOn extends SequentialCommandGroup {
-    public DelayedIntakeOn(Intake intake, int delay) {
+    public DelayedIntakeOn(Intake intake, double delay) {
         addCommands(
                 new WaitCommand(delay),
                 new InstantCommand(() -> intake.setSpeed(1)));

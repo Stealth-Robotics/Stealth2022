@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -76,7 +77,8 @@ public class RobotContainer {
                 () -> driveGamepad.getRightBumper()));
 
         intake.setDefaultCommand(new IntakeDefault(intake,
-                driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis));
+                driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis,
+                () -> DriverStation.isAutonomous()));
 
         // TODO: Check And Set Override Button
         conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));

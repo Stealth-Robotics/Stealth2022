@@ -20,12 +20,20 @@ public class ConveyorDefault extends CommandBase {
     @Override
     public void execute() {
 
-        if (reverseIntake.getAsBoolean()) {
-            conveyor.setSpeed(-0.4);
-        } else if (conveyor.getBreak() && conveyor.getSpeed() != 0.3) {
+        // if (reverseIntake.getAsBoolean()) {
+        //     conveyor.setSpeed(-0.4);
+        // } else 
+        if (conveyor.getBreak() && conveyor.getSpeed() != 0.3) {
             conveyor.setSpeed(0.3);
         } else if (conveyor.getSpeed() != 0.0) {
             conveyor.setSpeed(0);
         }
+
+        System.out.println("Conveyor Defualt");
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }
