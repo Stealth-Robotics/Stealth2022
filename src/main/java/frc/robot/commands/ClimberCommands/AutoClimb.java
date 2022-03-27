@@ -20,7 +20,7 @@ public class AutoClimb extends SequentialCommandGroup {
                 new WaitCommand(.125),
                 //new MoveClimber(climber, 65000),
                 //new WaitCommand(.25),
-                new MoveClimber(climber, 98000)
+                new MoveClimber(climber, 99000)
                 //new WaitCommand(.75),
                // new InstantCommand(() -> climber.movePisitons(false))
                 /*new WaitCommand(.5),
