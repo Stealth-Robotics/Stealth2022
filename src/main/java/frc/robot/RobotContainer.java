@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AutoCommands.DoNothingAuto;
 import frc.robot.commands.AutoCommands.FiveBallAuto;
 import frc.robot.commands.AutoCommands.TwoBallAuto;
 import frc.robot.commands.AutoCommands.TwoMinusOneBallAuto;
@@ -72,6 +73,8 @@ public class RobotContainer {
                 new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
         autoChooser.addOption("Two Ball Minus Two",
                 new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
+        autoChooser.addOption("Do nothing",
+                new DoNothingAuto());
 
         SmartDashboard.putData("Selected Autonomous", autoChooser);
 
@@ -113,8 +116,6 @@ public class RobotContainer {
         new JoystickButton(driveGamepad, 6)
                 .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));
 
-                
-
         // TODO: Check Button Numbers
         new JoystickButton(mechGamepad, 4).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
         new JoystickButton(mechGamepad, 2).whenPressed(new EjectTopCargo(shooter, conveyor));
@@ -124,7 +125,7 @@ public class RobotContainer {
         new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 96500));
         new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
         new JoystickButton(driveGamepad, 2).whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));
-           
+
     }
 
     /**
