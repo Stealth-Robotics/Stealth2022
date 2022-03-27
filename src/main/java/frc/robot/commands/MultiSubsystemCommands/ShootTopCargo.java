@@ -31,5 +31,6 @@ public class ShootTopCargo extends SequentialCommandGroup {
     public void end(boolean interrupted) {
         shooter.setVelocity(0);
         shooter.hoodToPos(0);
+        super.end(false);
     }
 }

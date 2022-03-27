@@ -44,5 +44,6 @@ public class ShootCargo extends SequentialCommandGroup {
         driveBase.drive(0, 0, 0);
         shooter.setSpeed(0);
         shooter.hoodToPos(0);
+        super.end(false);
     }
 }
