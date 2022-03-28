@@ -135,7 +135,7 @@ public final class Constants {
 
         public static final int PID_LOOP_IDX = 0;
 
-        public static final double SHOOT_CONVEYOR_STEP = 22000;
+        public static final double SHOOT_CONVEYOR_STEP = 20000;
         public static final double INDEXING_STEP = 5000;
     }
 

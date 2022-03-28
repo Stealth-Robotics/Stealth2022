@@ -27,6 +27,7 @@ import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
 import frc.robot.commands.MultiSubsystemCommands.EjectTopCargo;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
+import frc.robot.commands.MultiSubsystemCommands.ShootCargoLow;
 import frc.robot.commands.MultiSubsystemCommands.ShootTopCargo;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
@@ -95,7 +96,7 @@ public class RobotContainer {
                 .whenPressed(() -> driveBase.resetOdometry(new Pose2d()));
 
         new JoystickButton(driveGamepad, 6)
-                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));
+                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight, false));
 
         // TODO: Check Button Numbers
         new JoystickButton(mechGamepad, 4).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
@@ -105,7 +106,7 @@ public class RobotContainer {
 
         new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 97500));
         new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
-        new JoystickButton(driveGamepad, 2).whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight));
+        new JoystickButton(driveGamepad, 2).whenPressed(new ShootCargoLow(driveBase, shooter, conveyor, limelight));
 
     }
 

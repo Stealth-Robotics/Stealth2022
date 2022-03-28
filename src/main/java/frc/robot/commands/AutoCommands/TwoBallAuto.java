@@ -37,7 +37,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
                                 Constants.DriveBaseConstants.SLOW_SPEED_CONFIG))
                                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new ShootCargo(driveBase, shooter, conveyor,
-                        limelight));
+                        limelight, true));
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);
     }

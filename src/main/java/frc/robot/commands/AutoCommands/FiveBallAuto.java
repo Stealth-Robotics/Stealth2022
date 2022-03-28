@@ -56,16 +56,14 @@ public class FiveBallAuto extends SequentialCommandGroup {
                         .beforeStarting(new InstantCommand(() -> driveBase
                                 .resetOdometry(initial)))
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
-                // new WaitCommand(.5),
                 new ShootCargo(driveBase, shooter, conveyor,
-                        limelight),
+                        limelight, true),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new SwerveControllerFollower(driveBase, fiveBallTrajectory2).deadlineWith(
                         new ConveyorDefault(conveyor, () -> false),
                         new DelayedIntakeOn(intake, .25)),
-                // new WaitCommand(.5),
                 new ShootCargo(driveBase, shooter, conveyor,
-                        limelight),
+                        limelight, true),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new SwerveControllerFollower(driveBase, fiveBallTrajectory3).deadlineWith(
                         new ConveyorDefault(conveyor, () -> false),
@@ -74,10 +72,9 @@ public class FiveBallAuto extends SequentialCommandGroup {
                         new ConveyorDefault(conveyor, () -> false)),
                 new SwerveControllerFollower(driveBase, fiveBallTrajectory4)
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
-                // new WaitCommand(.5),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new InstantCommand(() -> intake.unDeploy()),
-                new ShootCargo(driveBase, shooter, conveyor, limelight),
+                new ShootCargo(driveBase, shooter, conveyor, limelight, true),
                 new InstantCommand(() -> driveBase.resetOdometryWithLastHeading()));
 
         addRequirements(driveBase, intake, shooter, conveyor, limelight);

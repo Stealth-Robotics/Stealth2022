@@ -20,7 +20,7 @@ public class ShootCargo extends SequentialCommandGroup {
     private final Limelight limelight;
     // private double distance;
 
-    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight) {
+    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight, boolean conveylonger) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;
@@ -33,9 +33,9 @@ public class ShootCargo extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                         new AlignWithTarget(driveBase, this.limelight),
-                        new MoveConveyor(conveyor, -200)),
-                new ReadyShooter(shooter, this.limelight),
-                new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
+                        new MoveConveyor(conveyor, -300)),
+                new ReadyShooter(shooter, this.limelight), 
+                new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 4000), 
                 new ResetShooter(shooter));
     }
 
