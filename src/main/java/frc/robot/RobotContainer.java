@@ -76,7 +76,7 @@ public class RobotContainer {
                 () -> -driveGamepad.getLeftY(),
                 () -> -driveGamepad.getLeftX(),
                 () -> -driveGamepad.getRightX(),
-                () -> driveGamepad.getRightBumper()));
+                () -> driveGamepad.getLeftBumper()));
 
         intake.setDefaultCommand(new IntakeDefault(intake,
                 driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis,
