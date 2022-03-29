@@ -154,17 +154,17 @@ public final class Constants {
     public static final class Climber {
         public static final double MAX_THRESHOLD = 110000;
         public static final double MIN_THRESHOLD = -1000000;
-        public static final double MAX_SPEED = 1.0;
+        public static final double MAX_SPEED = 0.6;
 
         public static final int TIMEOUT = 30; // In Milliseconds
 
         public static final int PID_LOOP_IDX = 0;
 
-        public static final double CLIMB_P_COEFF = 0.00004;
-        public static final double CLIMB_I_COEFF = 0.00001;
+        public static final double CLIMB_P_COEFF = 0.00002;
+        public static final double CLIMB_I_COEFF = 0.00006;
         public static final double CLIMB_D_COEFF = 0.0;
 
-        public static final double CLIMB_TOLERANCE = 500;
+        public static final double CLIMB_TOLERANCE = 750;
 
         public static final double CLIMB_INTEGRAL_MIN = -0.2;
         public static final double CLIMB_INTEGRAL_MAX = 0.2;

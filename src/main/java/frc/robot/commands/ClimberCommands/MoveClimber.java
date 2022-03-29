@@ -6,10 +6,12 @@ import frc.robot.subsystems.Climber;
 public class MoveClimber extends CommandBase {
     private final Climber climb;
     private final int newPos;
+    private final double outputVeloMax;
 
-    public MoveClimber(Climber c, int newpos) {
+    public MoveClimber(Climber c, int newpos, double maxVelo) {
         this.climb = c;
         this.newPos = newpos;
+        this.outputVeloMax = maxVelo;
         addRequirements(climb);
     }
 
@@ -21,8 +23,7 @@ public class MoveClimber extends CommandBase {
 
     @Override
     public void execute() {
-        climb.updateVelo();
-        // System.out.println("here");
+        climb.updateVelo(outputVeloMax);
     }
 
     @Override

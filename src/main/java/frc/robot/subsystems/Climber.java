@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.lang.model.util.ElementScanner6;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -65,8 +67,8 @@ public class Climber extends SubsystemBase {
 
         climberMotor1.configNominalOutputForward(0, Constants.ShooterConstants.TIMEOUT);
         climberMotor1.configNominalOutputReverse(0, Constants.ShooterConstants.TIMEOUT);
-        climberMotor1.configPeakOutputForward(0.5, Constants.ShooterConstants.TIMEOUT);
-        climberMotor1.configPeakOutputReverse(-0.5, Constants.ShooterConstants.TIMEOUT);
+        climberMotor1.configPeakOutputForward(1, Constants.ShooterConstants.TIMEOUT);
+        climberMotor1.configPeakOutputReverse(-1, Constants.ShooterConstants.TIMEOUT);
         // */
     }
 
@@ -94,8 +96,18 @@ public class Climber extends SubsystemBase {
         climberMotor1.setSelectedSensorPosition(0);
     }
 
-    public void updateVelo() {
-        setSpeed(climbController.calculate(getClimberPosition()));
+    public void updateVelo(double maxVelo) {
+        double newOutput = climbController.calculate(getClimberPosition());
+        if (newOutput > maxVelo) {
+            setSpeed(maxVelo);
+        }
+        else if (newOutput < -maxVelo) {
+            setSpeed(-maxVelo);
+        }
+        else {
+            setSpeed(newOutput);
+        }
+
     }
 
     /// *
@@ -111,6 +123,7 @@ public class Climber extends SubsystemBase {
     public boolean climberAtPos() {
         return climbController.atSetpoint();
     }
+
     // */
 
 }

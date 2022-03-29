@@ -76,14 +76,14 @@ public class RobotContainer {
                 () -> -driveGamepad.getLeftY(),
                 () -> -driveGamepad.getLeftX(),
                 () -> -driveGamepad.getRightX(),
-                () -> driveGamepad.getLeftBumper()));
+                () -> driveGamepad.getStartButton()));
 
         intake.setDefaultCommand(new IntakeDefault(intake,
                 driveGamepad::getRightTriggerAxis, driveGamepad::getLeftTriggerAxis,
                 () -> DriverStation.isAutonomous()));
 
         // TODO: Check And Set Override Button
-        conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getStartButton()));
+        conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getLeftBumper()));
         climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRawAxis(3),
                 () -> mechGamepad.getRawAxis(4), () -> mechGamepad.getRawButton(6)));
 
@@ -104,7 +104,7 @@ public class RobotContainer {
         new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.movePisitons(true)));
         new JoystickButton(mechGamepad, 6).whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
 
-        new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 97500));
+        new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 97500, 1.0));
         new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
         new JoystickButton(driveGamepad, 2).whenPressed(new ShootCargoLow(driveBase, shooter, conveyor, limelight));
 
