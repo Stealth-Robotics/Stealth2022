@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import javax.lang.model.util.ElementScanner6;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -50,7 +48,6 @@ public class Climber extends SubsystemBase {
         climberMotor1.setSelectedSensorPosition(0);
 
         // automated climb PID
-        /// *
         climbController = new HoodPIDController(
                 Constants.Climber.CLIMB_P_COEFF,
                 Constants.Climber.CLIMB_I_COEFF,
@@ -69,7 +66,6 @@ public class Climber extends SubsystemBase {
         climberMotor1.configNominalOutputReverse(0, Constants.ShooterConstants.TIMEOUT);
         climberMotor1.configPeakOutputForward(1, Constants.ShooterConstants.TIMEOUT);
         climberMotor1.configPeakOutputReverse(-1, Constants.ShooterConstants.TIMEOUT);
-        // */
     }
 
     public void setSpeed(double speed) {
