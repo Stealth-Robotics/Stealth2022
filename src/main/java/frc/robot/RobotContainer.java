@@ -17,8 +17,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommands.DoNothingAuto;
 import frc.robot.commands.AutoCommands.FiveBallAuto;
 import frc.robot.commands.AutoCommands.TwoBallAuto;
-import frc.robot.commands.AutoCommands.TwoMinusOneBallAuto;
-import frc.robot.commands.AutoCommands.TwoMinusTwoBallAuto;
 import frc.robot.commands.ClimberCommands.AutoClimb;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ClimberCommands.MoveClimber;
@@ -59,10 +57,10 @@ public class RobotContainer {
                 new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
         autoChooser.addOption("Two Ball Auto",
                 new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
-        autoChooser.addOption("Two Ball Minus One",
-                new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
-        autoChooser.addOption("Two Ball Minus Two",
-                new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
+        // autoChooser.addOption("Two Ball Minus One",
+        // new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
+        // autoChooser.addOption("Two Ball Minus Two",
+        // new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
         autoChooser.addOption("Do nothing",
                 new DoNothingAuto());
 
@@ -105,6 +103,7 @@ public class RobotContainer {
         new JoystickButton(mechGamepad, 6).whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
 
         new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 97500, 1.0));
+        // this auto climb should not be removed, this for auto transfer
         new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
         new JoystickButton(driveGamepad, 2).whenPressed(new ShootCargoLow(driveBase, shooter, conveyor, limelight));
 
