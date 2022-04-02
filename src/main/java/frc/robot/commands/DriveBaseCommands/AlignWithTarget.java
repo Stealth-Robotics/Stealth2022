@@ -5,19 +5,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Limelight;
+import frc.robot.utils.HoodPIDController;
 
 public class AlignWithTarget extends CommandBase {
 
     // TODO: PID Controller Needs to be Tuned
     private final DriveBase driveBase;
     private final Limelight limelight;
-    private final PIDController alignController;
+    private final HoodPIDController alignController;
     private double newpower;
 
     public AlignWithTarget(DriveBase driveBase, Limelight limelight) {
         this.driveBase = driveBase;
         this.limelight = limelight;
-        alignController = new PIDController(
+        alignController = new HoodPIDController(
                 Constants.DriveBaseConstants.ALIGN_P_COEFF,
                 Constants.DriveBaseConstants.ALIGN_I_COEFF,
                 Constants.DriveBaseConstants.ALIGN_D_COEFF);
@@ -34,10 +35,10 @@ public class AlignWithTarget extends CommandBase {
 
     public void execute() {
         newpower = alignController.calculate(limelight.getTargetHorizontalOffset());
-        if (newpower > 1.75)
-            newpower = 1.75;
-        if (newpower < -1.75)
-            newpower = -1.75;
+        if (newpower > 5.75)
+            newpower = 5.75;
+        if (newpower < -5.75)
+            newpower = -5.75;
         driveBase.drive(0, 0, newpower);
     }
 

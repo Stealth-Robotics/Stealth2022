@@ -80,8 +80,8 @@ public final class Constants {
                 // Back right
                 new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
 
-        public static final double ALIGN_P_COEFF = 0.2;
-        public static final double ALIGN_I_COEFF = 0.3;
+        public static final double ALIGN_P_COEFF = 0.1;
+        public static final double ALIGN_I_COEFF = 0.8;
         public static final double ALIGN_D_COEFF = 0.000;
 
         public static final double ALIGN_TOLERANCE = .5;
