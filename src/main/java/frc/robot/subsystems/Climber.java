@@ -7,9 +7,9 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+// import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -25,7 +25,7 @@ public class Climber extends SubsystemBase {
     private final HoodPIDController climbController;
 
     public Climber() {
-        ShuffleboardTab tab = Shuffleboard.getTab("Climber");
+        //ShuffleboardTab tab = Shuffleboard.getTab("Climber");
 
         climberMotor1 = new WPI_TalonFX(RobotMap.ClimberHardware.CLIMBER_MOTOR_1);
         climberMotor2 = new WPI_TalonFX(RobotMap.ClimberHardware.CLIMBER_MOTOR_2);
@@ -40,10 +40,10 @@ public class Climber extends SubsystemBase {
         pivotPistons = new Solenoid(RobotMap.Pneumatics.PCM, RobotMap.Pneumatics.PCM_TYPE,
                 RobotMap.Pneumatics.CLIMBER_DEPLOY_PCM_CHANNEL);
 
-        tab.getLayout("Climber Position", BuiltInLayouts.kList)
-                .withPosition(0, 0)
-                .withSize(2, 1)
-                .addNumber("Current Position", () -> getClimberPosition());
+        // tab.getLayout("Climber Position", BuiltInLayouts.kList)
+        //         .withPosition(0, 0)
+        //         .withSize(2, 1)
+        //         .addNumber("Current Position", () -> getClimberPosition());
 
         climberMotor1.setSelectedSensorPosition(0);
 

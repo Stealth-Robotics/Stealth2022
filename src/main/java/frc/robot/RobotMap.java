@@ -57,7 +57,7 @@ public final class RobotMap {
 
     public static final class Pneumatics {
         public static final int PCM = 41;
-        public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.REVPH;
+        public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
         public static final int INTAKE_DEPLOY_PCM_CHANNEL = 0;
         public static final int CLIMBER_DEPLOY_PCM_CHANNEL = 1;
     }

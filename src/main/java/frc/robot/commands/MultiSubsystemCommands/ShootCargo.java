@@ -33,9 +33,9 @@ public class ShootCargo extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                         new AlignWithTarget(driveBase, this.limelight),
-                        new MoveConveyor(conveyor, -300)),
+                        new MoveConveyor(conveyor, -500)),
                 new ReadyShooter(shooter, this.limelight), 
-                new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 4000), 
+                new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 6000), 
                 new ResetShooter(shooter));
     }
 
