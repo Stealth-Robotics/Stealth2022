@@ -1,5 +1,7 @@
 package frc.robot.commands.MultiSubsystemCommands;
 
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
@@ -34,7 +36,7 @@ public class ShootCargo extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new AlignWithTarget(driveBase, this.limelight),
                         new MoveConveyor(conveyor, -500)),
-                new ReadyShooter(shooter, this.limelight),
+                new ReadyShooter(shooter, this.limelight, 0),
                 new MoveConveyor(conveyor,
                         Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 6000),
                 new ResetShooter(shooter));
@@ -52,7 +54,7 @@ public class ShootCargo extends SequentialCommandGroup {
 
         addCommands(
                 new MoveConveyor(conveyor, -500),
-                new ReadyShooter(shooter, this.limelight),
+                new ReadyShooter(shooter, this.limelight, distance),
                 new MoveConveyor(conveyor,
                         Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 6000),
                 new ResetShooter(shooter));

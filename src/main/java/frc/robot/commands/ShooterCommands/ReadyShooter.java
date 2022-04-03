@@ -8,19 +8,26 @@ import frc.robot.subsystems.Shooter;
 public class ReadyShooter extends CommandBase {
     private final Shooter shooter;
     private final Limelight limelight;
+    private final double overrideDistance;
 
-    public ReadyShooter(Shooter shooter, Limelight limelight) {
+    public ReadyShooter(Shooter shooter, Limelight limelight, double distance) {
         this.shooter = shooter;
         this.limelight = limelight;
+        this.overrideDistance = distance; // override limelight distance in auto
         addRequirements(shooter, limelight);
     }
 
     @Override
     public void initialize() {
-        shooter.hoodToDegree(distanceToDegree(limelight.getTargetDistance() / 12.0));
-        shooter.setVelocity(distanceToRpm(limelight.getTargetDistance() / 12.0));
-       // shooter.hoodToDegree(58.5);
-        //shooter.setVelocity(4900);
+        if (overrideDistance == 0) {
+            shooter.hoodToDegree(distanceToDegree(limelight.getTargetDistance() / 12.0));
+            shooter.setVelocity(distanceToRpm(limelight.getTargetDistance() / 12.0));
+        } else {
+            shooter.hoodToDegree(overrideDistance / 12.0);
+            shooter.setVelocity(overrideDistance / 12.0);
+        }
+        // shooter.hoodToDegree(58.5);
+        // shooter.setVelocity(4900);
 
     }
 
@@ -31,9 +38,7 @@ public class ReadyShooter extends CommandBase {
 
     private double distanceToDegree(double adistance) {
         return Math.min(Constants.ShooterConstants.HOOD_LOWER_BOUND,
-               // Math.max(Constants.ShooterConstants.HOOD_UPPER_BOUND,
-                     //   ((0.065053 * Math.pow(adistance, 2)) - (3.1419 * adistance) + 96.0155)));
-                        Math.max(Constants.ShooterConstants.HOOD_UPPER_BOUND,
+                Math.max(Constants.ShooterConstants.HOOD_UPPER_BOUND,
                         ((0.0458333 * Math.pow(adistance, 2)) - (2.71417 * adistance) + 94.0217)));
 
     }
