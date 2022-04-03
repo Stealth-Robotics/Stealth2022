@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
-import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.SwerveControllerFollower;
 import frc.robot.commands.IntakeCommands.DelayedIntakeOn;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
@@ -33,11 +32,15 @@ public class FiveBallAuto extends SequentialCommandGroup {
             1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
     final static PathPlannerTrajectory fiveBallTrajectory3 = PathPlanner.loadPath("5ballpath3",
-            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            1.0 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
             1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
     final static PathPlannerTrajectory fiveBallTrajectory4 = PathPlanner.loadPath("5ballpath4",
-            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            0.4 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+
+    final static PathPlannerTrajectory fiveBallTrajectory5 = PathPlanner.loadPath("5ballpath5",
+            1.0 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
             1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
     final Pose2d initial = new Pose2d(
@@ -48,7 +51,6 @@ public class FiveBallAuto extends SequentialCommandGroup {
             Limelight limelight) {
 
         addCommands(
-                // new InstantCommand(() -> driveBase.resetOdometry(new Pose2d())),
                 new InstantCommand(() -> intake.deploy()).beforeStarting(new InstantCommand(() -> driveBase
                         .resetOdometry(initial))),
                 new InstantCommand(() -> intake.setSpeed(1)),
@@ -66,11 +68,13 @@ public class FiveBallAuto extends SequentialCommandGroup {
                         limelight, true),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new SwerveControllerFollower(driveBase, fiveBallTrajectory3).deadlineWith(
-                        new ConveyorDefault(conveyor, () -> false),
-                        new DelayedIntakeOn(intake, 1)),
+                        new ConveyorDefault(conveyor, () -> false)),
+                new InstantCommand(() -> intake.setSpeed(1)),
+                new SwerveControllerFollower(driveBase, fiveBallTrajectory4).deadlineWith(
+                        new ConveyorDefault(conveyor, () -> false)),
                 new WaitCommand(1).deadlineWith(
                         new ConveyorDefault(conveyor, () -> false)),
-                new SwerveControllerFollower(driveBase, fiveBallTrajectory4)
+                new SwerveControllerFollower(driveBase, fiveBallTrajectory5)
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new InstantCommand(() -> intake.unDeploy()),

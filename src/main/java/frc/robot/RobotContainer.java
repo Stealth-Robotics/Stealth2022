@@ -81,7 +81,7 @@ public class RobotContainer {
                 () -> DriverStation.isAutonomous()));
 
         // TODO: Check And Set Override Button
-        conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getLeftBumper()));
+        conveyor.setDefaultCommand(new ConveyorDefault(conveyor, () -> driveGamepad.getBackButton()));
         climber.setDefaultCommand(new ClimberDefault(climber, () -> mechGamepad.getRawAxis(3),
                 () -> mechGamepad.getRawAxis(4), () -> mechGamepad.getRawButton(6)));
 

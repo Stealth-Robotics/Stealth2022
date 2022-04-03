@@ -20,13 +20,13 @@ public class ShootCargo extends SequentialCommandGroup {
     private final Limelight limelight;
     // private double distance;
 
-    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight, boolean conveylonger) {
+    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight,
+            boolean conveylonger) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;
         this.conveyor = conveyor;
         this.limelight = limelight;
-
 
         addRequirements(shooter, conveyor, driveBase, limelight);
 
@@ -34,8 +34,27 @@ public class ShootCargo extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new AlignWithTarget(driveBase, this.limelight),
                         new MoveConveyor(conveyor, -500)),
-                new ReadyShooter(shooter, this.limelight), 
-                new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 6000), 
+                new ReadyShooter(shooter, this.limelight),
+                new MoveConveyor(conveyor,
+                        Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 6000),
+                new ResetShooter(shooter));
+    }
+
+    public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight,
+            boolean conveylonger, double distance) {
+
+        this.driveBase = driveBase;
+        this.shooter = shooter;
+        this.conveyor = conveyor;
+        this.limelight = limelight;
+
+        addRequirements(shooter, conveyor, driveBase, limelight);
+
+        addCommands(
+                new MoveConveyor(conveyor, -500),
+                new ReadyShooter(shooter, this.limelight),
+                new MoveConveyor(conveyor,
+                        Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 6000),
                 new ResetShooter(shooter));
     }
 
