@@ -42,6 +42,7 @@ public class Limelight extends SubsystemBase {
     private void intializeLimelight() {
         setLedMode(3);
         setCamMode(0);
+        setPiPMode(2);
     }
 
     /**
@@ -136,5 +137,9 @@ public class Limelight extends SubsystemBase {
      */
     public void setLedMode(double ledMode) {
         limelightTableEntry.getEntry("ledMode").setNumber(ledMode);
+    }
+
+    public void setPiPMode(double pipMode) {
+        limelightTableEntry.getEntry("stream").setNumber(pipMode);
     }
 }
