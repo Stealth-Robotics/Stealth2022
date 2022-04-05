@@ -42,7 +42,7 @@ public class Limelight extends SubsystemBase {
     private void intializeLimelight() {
         setLedMode(3);
         setCamMode(0);
-        setPiPMode(2);
+        //setPiPMode(2);
     }
 
     /**
