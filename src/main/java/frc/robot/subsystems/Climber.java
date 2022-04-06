@@ -36,6 +36,9 @@ public class Climber extends SubsystemBase {
         climberMotor1.setInverted(TalonFXInvertType.CounterClockwise);
         climberMotor2.follow(climberMotor1);
         climberMotor2.setInverted(TalonFXInvertType.FollowMaster);
+        climberMotor2.setStatusFramePeriod(1, 251);
+        climberMotor2.setStatusFramePeriod(2, 251);
+
 
         pivotPistons = new Solenoid(RobotMap.Pneumatics.PCM, RobotMap.Pneumatics.PCM_TYPE,
                 RobotMap.Pneumatics.CLIMBER_DEPLOY_PCM_CHANNEL);

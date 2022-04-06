@@ -154,8 +154,8 @@ public final class Constants {
     public static final class Climber {
         public static final double MAX_THRESHOLD = 110000;
         public static final double MIN_THRESHOLD = -100000;
-        public static final double UP_SPEED = 0.7;
-        public static final double DOWN_SPEED = 1.0;
+        public static final double UP_SPEED = 0.5;
+        public static final double DOWN_SPEED = 0.7;
 
         public static final int TIMEOUT = 30; // In Milliseconds
 

@@ -51,12 +51,12 @@ public class ClimberDefault extends CommandBase {
         if (downSpeed.getAsDouble() > 0.05
                 && !override.getAsBoolean()
                 && climber.getClimberPosition() < Constants.Climber.MAX_THRESHOLD * 1 / 4) {
-            climber.movePisitons(false);
+           // climber.movePisitons(false);
         } else if (upSpeed.getAsDouble() > 0.05
                 && climber.getClimberPosition() > Constants.Climber.MAX_THRESHOLD / 4
                 && climber.getClimberPosition() < Constants.Climber.MAX_THRESHOLD / 2
                 && !override.getAsBoolean()) {
-            climber.movePisitons(true);
+           // climber.movePisitons(true);
         }
 
     }
