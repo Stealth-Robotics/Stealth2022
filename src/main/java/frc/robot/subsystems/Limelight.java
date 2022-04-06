@@ -9,40 +9,45 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Limelight extends SubsystemBase {
-    NetworkTable limelightTableEntry;
+    private NetworkTable limelightTable;
+
+    private boolean isConnected;
+    private long lastUpdatedTime;
+    private long lastTimeChecked;
 
     public Limelight() {
-        //ShuffleboardTab tab = Shuffleboard.getTab("Limelight");
+        // ShuffleboardTab tab = Shuffleboard.getTab("Limelight");
 
-        limelightTableEntry = NetworkTableInstance.getDefault().getTable("limelight");
+        limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
         intializeLimelight();
 
         // tab.getLayout("Valid Target", BuiltInLayouts.kList)
-        //         .withPosition(0, 0)
-        //         .withSize(2, 1)
-        //         .addBoolean("Valid Target Value", () -> hasValidTarget());
+        // .withPosition(0, 0)
+        // .withSize(2, 1)
+        // .addBoolean("Valid Target Value", () -> hasValidTarget());
 
         // tab.getLayout("Offset Values", BuiltInLayouts.kList)
-        //         .withPosition(2, 0)
-        //         .withSize(2, 3)
-        //         .addNumber("Horizontal Offset", () -> getTargetHorizontalOffset());
+        // .withPosition(2, 0)
+        // .withSize(2, 3)
+        // .addNumber("Horizontal Offset", () -> getTargetHorizontalOffset());
 
         // tab.getLayout("Offset Values", BuiltInLayouts.kList)
-        //         .withPosition(2, 0)
-        //         .withSize(2, 3)
-        //         .addNumber("Vertical Offset", () -> getTargetVerticalOffset());
+        // .withPosition(2, 0)
+        // .withSize(2, 3)
+        // .addNumber("Vertical Offset", () -> getTargetVerticalOffset());
 
         // tab.getLayout("Target Distance", BuiltInLayouts.kList)
-        //         .withPosition(0, 1)
-        //         .withSize(2, 2)
-        //         .addNumber("Distance", () -> getTargetDistance());
+        // .withPosition(0, 1)
+        // .withSize(2, 2)
+        // .addNumber("Distance", () -> getTargetDistance());
+        isConnected = true;
     }
 
     private void intializeLimelight() {
         setLedMode(3);
         setCamMode(0);
-        //setPiPMode(2);
+        // setPiPMode(2);
     }
 
     /**
@@ -51,7 +56,7 @@ public class Limelight extends SubsystemBase {
      * @return A boolean that is true when the Limelight has a valid target.
      */
     public boolean hasValidTarget() {
-        return limelightTableEntry.getEntry("tv").getDouble(0) == 1;
+        return limelightTable.getEntry("tv").getDouble(0) == 1;
     }
 
     /**
@@ -60,7 +65,7 @@ public class Limelight extends SubsystemBase {
      * @return The horizontal offset of the Limelight's crosshair.
      */
     public double getTargetHorizontalOffset() {
-        return limelightTableEntry.getEntry("tx").getDouble(0.0);
+        return limelightTable.getEntry("tx").getDouble(0.0);
     }
 
     /**
@@ -69,7 +74,7 @@ public class Limelight extends SubsystemBase {
      * @return The vertical offset of the Limelight's crosshair.
      */
     public double getTargetVerticalOffset() {
-        return limelightTableEntry.getEntry("ty").getDouble(0.0);
+        return limelightTable.getEntry("ty").getDouble(0.0);
     }
 
     /**
@@ -78,7 +83,7 @@ public class Limelight extends SubsystemBase {
      * @return The area of the target in relationship to the image size.
      */
     public double getTargetArea() {
-        return limelightTableEntry.getEntry("ta").getDouble(0.0);
+        return limelightTable.getEntry("ta").getDouble(0.0);
     }
 
     /**
@@ -107,7 +112,7 @@ public class Limelight extends SubsystemBase {
      * @return The current camera mode of the Limelight.
      */
     public double getCamMode(double defaultValue) {
-        return limelightTableEntry.getEntry("camMode").getDouble(defaultValue);
+        return limelightTable.getEntry("camMode").getDouble(defaultValue);
     }
 
     /**
@@ -118,7 +123,11 @@ public class Limelight extends SubsystemBase {
      * @return The current LED mode of the Limelight.
      */
     public double getLedMode(double defaultValue) {
-        return limelightTableEntry.getEntry("ledMode").getDouble(defaultValue);
+        return limelightTable.getEntry("ledMode").getDouble(defaultValue);
+    }
+
+    public boolean getConnected() {
+        return isConnected;
     }
 
     /**
@@ -127,7 +136,7 @@ public class Limelight extends SubsystemBase {
      * @param camMode The given camera mode to set the LimeLight to.
      */
     public void setCamMode(double camMode) {
-        limelightTableEntry.getEntry("camMode").setNumber(camMode);
+        limelightTable.getEntry("camMode").setNumber(camMode);
     }
 
     /**
@@ -136,10 +145,33 @@ public class Limelight extends SubsystemBase {
      * @param ledMode The given LED mode to set the Limelight to.
      */
     public void setLedMode(double ledMode) {
-        limelightTableEntry.getEntry("ledMode").setNumber(ledMode);
+        limelightTable.getEntry("ledMode").setNumber(ledMode);
     }
 
     public void setPiPMode(double pipMode) {
-        limelightTableEntry.getEntry("stream").setNumber(pipMode);
+        limelightTable.getEntry("stream").setNumber(pipMode);
+    }
+
+    @Override
+    public void periodic() {
+
+        isConnected = true;
+
+        long anyLastUpdated = limelightTable.getEntry("ta").getLastChange();
+        long current = System.nanoTime();
+
+        if (anyLastUpdated == lastUpdatedTime) {
+            if (current - lastTimeChecked > 1_000_000_000) {
+                isConnected = false;
+            }
+        }
+
+        else {
+            lastUpdatedTime = anyLastUpdated;
+            lastTimeChecked = current;
+        }
+
+        //System.out.println(getConnected() + " - " + anyLastUpdated + " - " + current);
+
     }
 }

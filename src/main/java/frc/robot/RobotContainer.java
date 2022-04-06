@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommands.DoNothingAuto;
@@ -20,6 +21,7 @@ import frc.robot.commands.AutoCommands.TwoBallAuto;
 import frc.robot.commands.ClimberCommands.AutoClimb;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ClimberCommands.MoveClimber;
+import frc.robot.commands.ClimberCommands.TraversalTransfer;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
 import frc.robot.commands.DriveBaseCommands.DriveDefault;
 import frc.robot.commands.IntakeCommands.IntakeDefault;
@@ -73,7 +75,8 @@ public class RobotContainer {
                 driveBase,
                 () -> -driveGamepad.getLeftY(),
                 () -> -driveGamepad.getLeftX(),
-                () -> driveGamepad.getRightX() >= 0 ? -Math.pow(driveGamepad.getRightX(), 2) : Math.pow(driveGamepad.getRightX(), 2),
+                () -> driveGamepad.getRightX() >= 0 ? -Math.pow(driveGamepad.getRightX(), 2)
+                        : Math.pow(driveGamepad.getRightX(), 2),
                 () -> driveGamepad.getStartButton(),
                 () -> driveGamepad.getLeftBumper()));
 
@@ -95,7 +98,9 @@ public class RobotContainer {
                 .whenPressed(() -> driveBase.resetOdometry(new Pose2d()));
 
         new JoystickButton(driveGamepad, 6)
-                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight, false));
+                .whenPressed(new ConditionalCommand(new ShootCargo(driveBase, shooter, conveyor, limelight, false),
+                        new InstantCommand(() -> System.out.println("NO TARGET FOUND" + limelight.getConnected())),
+                        () -> limelight.hasValidTarget() && limelight.getConnected()));
 
         // TODO: Check Button Numbers
         new JoystickButton(mechGamepad, 4).whenPressed(new ShootTopCargo(shooter, conveyor, limelight));
@@ -103,15 +108,15 @@ public class RobotContainer {
         new JoystickButton(mechGamepad, 5).whenPressed(new InstantCommand(() -> climber.movePisitons(true)));
         new JoystickButton(mechGamepad, 6).whenPressed(new InstantCommand(() -> climber.movePisitons(false)));
 
-        new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 97500, 1.0));
+        new JoystickButton(mechGamepad, 9).whenPressed(new MoveClimber(climber, 96500, 1.0));
         // this auto climb should not be removed, this for auto transfer
         new JoystickButton(mechGamepad, 10).whenPressed(new AutoClimb(climber));
+        new JoystickButton(mechGamepad, 3).whenPressed(new TraversalTransfer(climber));
         new JoystickButton(driveGamepad, 2).whenPressed(new ShootCargoLow(driveBase, shooter, conveyor, limelight));
 
     }
 
     public Command getAutonomousCommand() {
-
         return autoChooser.getSelected()
                 .beforeStarting(new InstantCommand(() -> climber.resetClimberEncoder()));
     }

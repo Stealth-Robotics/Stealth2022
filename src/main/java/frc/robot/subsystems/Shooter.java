@@ -48,6 +48,8 @@ public class Shooter extends SubsystemBase {
 
         shooterMotor2.follow(shooterMotor1);
         shooterMotor2.setInverted(TalonFXInvertType.OpposeMaster);
+        shooterMotor2.setStatusFramePeriod(1, 241);
+        shooterMotor2.setStatusFramePeriod(2, 241);
 
         hoodController = new HoodPIDController(
                 Constants.ShooterConstants.HOOD_P_COEFF,
