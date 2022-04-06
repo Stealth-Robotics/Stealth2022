@@ -14,9 +14,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -51,12 +48,9 @@ public class DriveBase extends SubsystemBase {
     private Rotation2d lastGivenRotation;
 
     public DriveBase() {
-        ShuffleboardTab tab = Shuffleboard.getTab("DriveBase");
+        //ShuffleboardTab tab = Shuffleboard.getTab("DriveBase");
 
         frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
-                tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(0, 0),
                 Mk4SwerveModuleHelper.GearRatio.L2,
                 RobotMap.DriveBaseHardware.FRONT_LEFT_MODULE_DRIVE,
                 RobotMap.DriveBaseHardware.FRONT_LEFT_MODULE_STEERING,
@@ -64,9 +58,6 @@ public class DriveBase extends SubsystemBase {
                 Constants.DriveBaseConstants.FRONT_LEFT_MODULE_STEER_OFFSET);
 
         frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
-                tab.getLayout("Front Right Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(2, 0),
                 Mk4SwerveModuleHelper.GearRatio.L2,
                 RobotMap.DriveBaseHardware.FRONT_RIGHT_MODULE_DRIVE,
                 RobotMap.DriveBaseHardware.FRONT_RIGHT_MODULE_STEERING,
@@ -74,9 +65,6 @@ public class DriveBase extends SubsystemBase {
                 Constants.DriveBaseConstants.FRONT_RIGHT_MODULE_STEER_OFFSET);
 
         backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
-                tab.getLayout("Back Left Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(4, 0),
                 Mk4SwerveModuleHelper.GearRatio.L2,
                 RobotMap.DriveBaseHardware.BACK_LEFT_MODULE_DRIVE,
                 RobotMap.DriveBaseHardware.BACK_LEFT_MODULE_STEERING,
@@ -84,9 +72,6 @@ public class DriveBase extends SubsystemBase {
                 Constants.DriveBaseConstants.BACK_LEFT_MODULE_STEER_OFFSET);
 
         backRightModule = Mk4SwerveModuleHelper.createFalcon500(
-                tab.getLayout("Back Right Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(6, 0),
                 Mk4SwerveModuleHelper.GearRatio.L2,
                 RobotMap.DriveBaseHardware.BACK_RIGHT_MODULE_DRIVE,
                 RobotMap.DriveBaseHardware.BACK_RIGHT_MODULE_STEERING,
@@ -97,31 +82,6 @@ public class DriveBase extends SubsystemBase {
 
         thetaController.enableContinuousInput(Math.PI, -Math.PI);
         pathController.setEnabled(true);
-
-        tab.getLayout("Pigeon IMU", BuiltInLayouts.kList)
-                .withSize(2, 2)
-                .withPosition(8, 0)
-                .addNumber("Current Heading (Degree)", () -> getGyroscopeRotation().getDegrees());
-
-        tab.getLayout("Pigeon IMU", BuiltInLayouts.kList)
-                .withSize(2, 2)
-                .withPosition(8, 0)
-                .addNumber("Current Heading (Radian)", () -> getGyroscopeRotation().getRadians());
-
-        tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
-                .withSize(2, 2)
-                .withPosition(8, 2)
-                .addNumber("X", () -> getPose().getX());
-
-        tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
-                .withSize(2, 2)
-                .withPosition(8, 2)
-                .addNumber("Y", () -> getPose().getY());
-
-        tab.getLayout("Odometry (Meters)", BuiltInLayouts.kList)
-                .withSize(2, 2)
-                .withPosition(8, 2)
-                .addNumber("Theta", () -> getPose().getRotation().getDegrees());
 
     }
 

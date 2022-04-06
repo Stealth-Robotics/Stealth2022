@@ -18,6 +18,8 @@ public class Intake extends SubsystemBase {
         intake.setInverted(true);
         deployPistons = new Solenoid(RobotMap.Pneumatics.PCM, RobotMap.Pneumatics.PCM_TYPE,
                 RobotMap.Pneumatics.INTAKE_DEPLOY_PCM_CHANNEL);
+        intake.setStatusFramePeriod(1, 233);
+        intake.setStatusFramePeriod(2, 233);
     }
 
     /**
