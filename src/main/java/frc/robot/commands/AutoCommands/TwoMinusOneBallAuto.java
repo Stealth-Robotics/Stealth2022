@@ -47,7 +47,7 @@ public class TwoMinusOneBallAuto extends SequentialCommandGroup {
                                 .resetOdometry(initial)))
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new InstantCommand(() -> intake.setSpeed(0)),
-                new ShootCargo(driveBase, shooter, conveyor, limelight, true),
+                new ShootCargo(driveBase, shooter, conveyor, limelight, true, 106.0),
                 new InstantCommand(() -> intake.setSpeed(1)),
                 new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectory2)
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),

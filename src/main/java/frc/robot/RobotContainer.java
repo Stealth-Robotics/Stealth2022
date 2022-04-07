@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommands.DoNothingAuto;
 import frc.robot.commands.AutoCommands.FiveBallAuto;
 import frc.robot.commands.AutoCommands.TwoBallAuto;
+import frc.robot.commands.AutoCommands.TwoMinusOneBallAuto;
 import frc.robot.commands.ClimberCommands.AutoClimb;
 import frc.robot.commands.ClimberCommands.ClimberDefault;
 import frc.robot.commands.ClimberCommands.MoveClimber;
@@ -59,8 +60,8 @@ public class RobotContainer {
                 new FiveBallAuto(driveBase, intake, shooter, conveyor, limelight));
         autoChooser.addOption("Two Ball Auto",
                 new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
-        // autoChooser.addOption("Two Ball Minus One",
-        // new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
+        autoChooser.addOption("Two Ball Minus One",
+                new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight));
         // autoChooser.addOption("Two Ball Minus Two",
         // new TwoMinusTwoBallAuto(driveBase, intake, shooter, conveyor, limelight));
         autoChooser.addOption("Do nothing",
@@ -114,6 +115,9 @@ public class RobotContainer {
         new JoystickButton(mechGamepad, 3).whenPressed(new TraversalTransfer(climber));
         new JoystickButton(driveGamepad, 2).whenPressed(new ShootCargoLow(driveBase, shooter, conveyor, limelight));
 
+        // TODO: Need to check the number for the y button
+        new JoystickButton(driveGamepad, 4)
+                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight, false, 138));
     }
 
     public Command getAutonomousCommand() {
