@@ -54,7 +54,7 @@ public class ShootCargo extends SequentialCommandGroup {
                 new MoveConveyor(conveyor, -500),
                 new ReadyShooter(shooter, this.limelight, distance),
                 new MoveConveyor(conveyor,
-                        Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 6000),
+                        Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 10000),
                 new ResetShooter(shooter));
     }
 

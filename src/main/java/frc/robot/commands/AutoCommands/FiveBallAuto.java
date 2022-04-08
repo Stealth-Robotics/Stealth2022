@@ -36,7 +36,7 @@ public class FiveBallAuto extends SequentialCommandGroup {
             1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
     final static PathPlannerTrajectory fiveBallTrajectory4 = PathPlanner.loadPath("5ballpath4",
-            0.4 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            0.6 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
             1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
     final static PathPlannerTrajectory fiveBallTrajectory5 = PathPlanner.loadPath("5ballpath5",

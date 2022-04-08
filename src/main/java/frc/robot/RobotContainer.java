@@ -76,8 +76,7 @@ public class RobotContainer {
                 driveBase,
                 () -> -driveGamepad.getLeftY(),
                 () -> -driveGamepad.getLeftX(),
-                () -> driveGamepad.getRightX() >= 0 ? -Math.pow(driveGamepad.getRightX(), 2)
-                        : Math.pow(driveGamepad.getRightX(), 2),
+                () -> -driveGamepad.getRightX(),
                 () -> driveGamepad.getStartButton(),
                 () -> driveGamepad.getLeftBumper()));
 
@@ -117,7 +116,7 @@ public class RobotContainer {
 
         // TODO: Need to check the number for the y button
         new JoystickButton(driveGamepad, 4)
-                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight, false, 138));
+                .whenPressed(new ShootCargo(driveBase, shooter, conveyor, limelight, false, 150));
     }
 
     public Command getAutonomousCommand() {

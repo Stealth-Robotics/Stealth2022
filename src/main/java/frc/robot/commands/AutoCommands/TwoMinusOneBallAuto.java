@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.ConveyerCommands.ConveyorDefault;
+import frc.robot.commands.ConveyerCommands.MoveConveyor;
 import frc.robot.commands.DriveBaseCommands.SwerveControllerFollower;
 import frc.robot.commands.MultiSubsystemCommands.ShootCargo;
 import frc.robot.subsystems.Conveyor;
@@ -21,16 +22,21 @@ import frc.robot.subsystems.Shooter;
 public class TwoMinusOneBallAuto extends SequentialCommandGroup {
 
     final static PathPlannerTrajectory twoMinusOneBallTrajectory1 = PathPlanner.loadPath("2m1path1",
-            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-            0.1 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+            0.5 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+
+            final static PathPlannerTrajectory twoMinusOneBallTrajectoryfix = PathPlanner.loadPath("2m1fix",
+            0.5 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+
 
     final static PathPlannerTrajectory twoMinusOneBallTrajectory2 = PathPlanner.loadPath("2m1path2",
-            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-            0.1 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+            0.5 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
     final static PathPlannerTrajectory twoMinusOneBallTrajectory3 = PathPlanner.loadPath("2m1path3",
-            0.8 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
-            0.1 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
+            0.5 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
+            1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
     final static Pose2d initial = new Pose2d(
             twoMinusOneBallTrajectory1.getInitialPose().getTranslation(),
@@ -47,12 +53,15 @@ public class TwoMinusOneBallAuto extends SequentialCommandGroup {
                                 .resetOdometry(initial)))
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new InstantCommand(() -> intake.setSpeed(0)),
+                new WaitCommand(1).deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new ShootCargo(driveBase, shooter, conveyor, limelight, true, 106.0),
                 new InstantCommand(() -> intake.setSpeed(1)),
+                new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectoryfix)
+                        .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectory2)
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
-                new InstantCommand(() -> intake.setSpeed(-.5)),
-                new InstantCommand(() -> conveyor.setSpeed(-.4)),
+                new InstantCommand(() -> intake.setSpeed(-0.3)),
+                new MoveConveyor(conveyor, -20000),
                 new WaitCommand(2),
                 new InstantCommand(() -> conveyor.setSpeed(0)),
                 new InstantCommand(() -> intake.setSpeed(0)),
