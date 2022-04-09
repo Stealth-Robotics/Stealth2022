@@ -59,7 +59,7 @@ public class FiveBallAuto extends SequentialCommandGroup {
                                 .resetOdometry(initial)))
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new ShootCargo(driveBase, shooter, conveyor,
-                        limelight, true, 106.0), //TODO: validate distance
+                        limelight, true, 112.0), //TODO: validate distance
                 new InstantCommand(() -> intake.setSpeed(0)),
                 new SwerveControllerFollower(driveBase, fiveBallTrajectory2).deadlineWith(
                         new ConveyorDefault(conveyor, () -> false),
