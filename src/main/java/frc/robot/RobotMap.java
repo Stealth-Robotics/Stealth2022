@@ -47,7 +47,7 @@ public final class RobotMap {
     public static final class ConveyorHardware {
 
         public static final int CONVEYER_MOTOR = 2;
-        public static final int BEAM_BREAK = 0;
+        public static final int BEAM_BREAK = 1;
     }
 
     public static final class CANdleSystem {
