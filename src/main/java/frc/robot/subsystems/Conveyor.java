@@ -16,8 +16,8 @@ public class Conveyor extends SubsystemBase {
     private double startingPosition = 0;
 
     public Conveyor() {
-        conveyorMotor = new WPI_TalonFX(RobotMap.Conveyor.CONVEYER_MOTOR);
-        beamBreak = new DigitalInput(RobotMap.Conveyor.BEAM_BREAK);
+        conveyorMotor = new WPI_TalonFX(RobotMap.ConveyorHardware.CONVEYER_MOTOR);
+        beamBreak = new DigitalInput(RobotMap.ConveyorHardware.BEAM_BREAK);
 
         conveyorMotor.configFactoryDefault();
         conveyorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
