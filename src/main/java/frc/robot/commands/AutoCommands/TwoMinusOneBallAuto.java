@@ -25,10 +25,9 @@ public class TwoMinusOneBallAuto extends SequentialCommandGroup {
             0.5 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
             1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
 
-            final static PathPlannerTrajectory twoMinusOneBallTrajectoryfix = PathPlanner.loadPath("2m1fix",
+    final static PathPlannerTrajectory twoMinusOneBallTrajectoryfix = PathPlanner.loadPath("2m1fix",
             0.5 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
             1.0 * Constants.DriveBaseConstants.MAX_ACCELERATION_METERS_PER_SECOND_SQUARED, false);
-
 
     final static PathPlannerTrajectory twoMinusOneBallTrajectory2 = PathPlanner.loadPath("2m1path2",
             0.5 * Constants.DriveBaseConstants.MAX_VELOCITY_METERS_PER_SECOND,
@@ -52,8 +51,8 @@ public class TwoMinusOneBallAuto extends SequentialCommandGroup {
                         .beforeStarting(new InstantCommand(() -> driveBase
                                 .resetOdometry(initial)))
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
-                new InstantCommand(() -> intake.setSpeed(0)),
                 new WaitCommand(1).deadlineWith(new ConveyorDefault(conveyor, () -> false)),
+                new InstantCommand(() -> intake.setSpeed(0)),
                 new ShootCargo(driveBase, shooter, conveyor, limelight, true, 106.0),
                 new InstantCommand(() -> intake.setSpeed(1)),
                 new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectoryfix)

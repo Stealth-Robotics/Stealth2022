@@ -64,8 +64,8 @@ public class Conveyor extends SubsystemBase {
     @Override
     public void periodic() {
 
-        if (!atPosition() && (target > startingPosition) && getSpeed() != 0.4) {
-            setSpeed(0.4);
+        if (!atPosition() && (target > startingPosition) && getSpeed() != 0.35) {
+            setSpeed(0.35);
         }
 
         else if (!atPosition() && (target < startingPosition) && getSpeed() != -0.4) {
