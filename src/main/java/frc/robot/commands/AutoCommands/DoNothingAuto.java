@@ -8,4 +8,3 @@ public class DoNothingAuto extends SequentialCommandGroup{
         addCommands(new InstantCommand(() -> System.out.println("I lied, this does something")));
     }
 }
-//ur mom - <3 Alanna

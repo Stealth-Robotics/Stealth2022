@@ -120,7 +120,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected()
+        return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight)
                 .beforeStarting(new InstantCommand(() -> climber.resetClimberEncoder()));
     }
 }

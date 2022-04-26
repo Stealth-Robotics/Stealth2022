@@ -53,7 +53,7 @@ public class TwoMinusOneBallAuto extends SequentialCommandGroup {
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new WaitCommand(1).deadlineWith(new ConveyorDefault(conveyor, () -> false)),
                 new InstantCommand(() -> intake.setSpeed(0)),
-                new ShootCargo(driveBase, shooter, conveyor, limelight, true, 106.0),
+                new ShootCargo(driveBase, shooter, conveyor, limelight, true),
                 new InstantCommand(() -> intake.setSpeed(1)),
                 new SwerveControllerFollower(driveBase, twoMinusOneBallTrajectoryfix)
                         .deadlineWith(new ConveyorDefault(conveyor, () -> false)),
