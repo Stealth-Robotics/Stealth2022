@@ -11,21 +11,11 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
     public static final class DriveBaseConstants {
-        /**
-         * TODO: Fix TRACKWIDTH & WHEELBASE Based On Production Robot
-         * (In Meters)
-         */
 
         public static final double TRACKWIDTH = Units.inchesToMeters(18.5); // Distance From Left Wheel
                                                                             // Middle To Right Wheel Middle
         public static final double WHEELBASE = Units.inchesToMeters(25.5); // Distance From Front Wheel
                                                                            // Middle To Back Wheel Middle
-
-        /**
-         * TODO: Fix Module Steer Offsets Based On Production Robot
-         * (In Degrees)
-         */
-
         public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(340.6585693359375);
         public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(350.244140625);
         public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(196.435546875);
@@ -68,7 +58,7 @@ public final class Constants {
                 0.5 * MAX_VELOCITY_METERS_PER_SECOND,
                 1.0 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
 
-        public static final double SLOWMODE_MULTIPLIER = 1 / 4;
+        public static final double SLOWMODE_MULTIPLIER = 1.0 / 4.0;
 
         public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
                 // Front left
@@ -84,7 +74,7 @@ public final class Constants {
         public static final double ALIGN_I_COEFF = 0.8;
         public static final double ALIGN_D_COEFF = 0.000;
 
-        public static final double ALIGN_TOLERANCE = .5;
+        public static final double ALIGN_TOLERANCE = 0.5;
     }
 
     public static final class LimelightConstants {
