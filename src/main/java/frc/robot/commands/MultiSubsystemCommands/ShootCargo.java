@@ -20,15 +20,17 @@ public class ShootCargo extends SequentialCommandGroup {
     private final Shooter shooter;
     private final Conveyor conveyor;
     private final Limelight limelight;
+    private double adjust = 0;
     // private double distance;
 
     public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight,
-            boolean conveylonger) {
+            boolean conveylonger, double adjust) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;
         this.conveyor = conveyor;
         this.limelight = limelight;
+        this.adjust = adjust;
 
         addRequirements(shooter, conveyor, driveBase, limelight);
 
@@ -36,14 +38,14 @@ public class ShootCargo extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new AlignWithTarget(driveBase, this.limelight).withTimeout(2),
                         new MoveConveyor(conveyor, -500)),
-                new ReadyShooter(shooter, this.limelight, 0),
+                new ReadyShooter(shooter, this.limelight, 0, adjust),
                 new MoveConveyor(conveyor,
                         Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 6000),
                 new ResetShooter(shooter));
     }
 
     public ShootCargo(DriveBase driveBase, Shooter shooter, Conveyor conveyor, Limelight limelight,
-            boolean conveylonger, double distance) {
+            boolean conveylonger, double distance, double adjust) {
 
         this.driveBase = driveBase;
         this.shooter = shooter;
@@ -55,10 +57,11 @@ public class ShootCargo extends SequentialCommandGroup {
         addCommands(
                 // new InstantCommand(() -> shooter.setSpeed(-.2)),
                 new MoveConveyor(conveyor, -500),
-                new ReadyShooter(shooter, this.limelight, distance),
+                new ReadyShooter(shooter, this.limelight, distance, adjust),
                 new MoveConveyor(conveyor,
                         Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2 + (conveylonger ? 1 : 0) * 12000),
                 new ResetShooter(shooter));
+        
     }
 
     @Override

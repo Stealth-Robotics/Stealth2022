@@ -6,14 +6,17 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 // import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 // import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 // import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import frc.robot.utils.HoodPIDController;
 
 public class Shooter extends SubsystemBase {
 
@@ -24,10 +27,10 @@ public class Shooter extends SubsystemBase {
 
     private final DigitalInput hoodSwitch;
 
-    private final HoodPIDController hoodController;
+    private final PIDController hoodController;
 
     public Shooter() {
-        //ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
+        ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
 
         shooterMotor1 = new WPI_TalonFX(RobotMap.ShooterHardware.SHOOTER_MOTOR_1);
         shooterMotor2 = new WPI_TalonFX(RobotMap.ShooterHardware.SHOOTER_MOTOR_2);
@@ -51,7 +54,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor2.setStatusFramePeriod(1, 241);
         shooterMotor2.setStatusFramePeriod(2, 241);
 
-        hoodController = new HoodPIDController(
+        hoodController = new PIDController(
                 Constants.ShooterConstants.HOOD_P_COEFF,
                 Constants.ShooterConstants.HOOD_I_COEFF,
                 Constants.ShooterConstants.HOOD_D_COEFF);
@@ -62,30 +65,30 @@ public class Shooter extends SubsystemBase {
                 Constants.ShooterConstants.HOOD_INTEGRAL_MIN,
                 Constants.ShooterConstants.HOOD_INTEGRAL_MAX);
 
-        // tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
-        //         .withSize(2, 2)
-        //         .withPosition(0, 0)
-        //         .addNumber("Left Shooter Velocity", () -> shooterMotor1.getSelectedSensorVelocity());
+        tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
+                .withSize(2, 2)
+                .withPosition(0, 0)
+                .addNumber("Left Shooter Velocity", () -> shooterMotor1.getSelectedSensorVelocity());
 
-        // tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
-        //         .withSize(2, 2)
-        //         .withPosition(0, 0)
-        //         .addNumber("Right Shooter Velocity", () -> shooterMotor2.getSelectedSensorVelocity());
+        tab.getLayout("Shooter Wheel", BuiltInLayouts.kList)
+                .withSize(2, 2)
+                .withPosition(0, 0)
+                .addNumber("Right Shooter Velocity", () -> shooterMotor2.getSelectedSensorVelocity());
 
-        // tab.getLayout("Hood", BuiltInLayouts.kList)
-        //         .withSize(2, 2)
-        //         .withPosition(2, 0)
-        //         .addNumber("Position Target", () -> hoodController.getSetpoint());
+        tab.getLayout("Hood", BuiltInLayouts.kList)
+                .withSize(2, 2)
+                .withPosition(2, 0)
+                .addNumber("Position Target", () -> hoodController.getSetpoint());
 
-        // tab.getLayout("Hood", BuiltInLayouts.kList)
-        //         .withSize(2, 2)
-        //         .withPosition(2, 0)
-        //         .addNumber("Current Position", () -> hoodMotor.getSelectedSensorPosition());
+        tab.getLayout("Hood", BuiltInLayouts.kList)
+                .withSize(2, 2)
+                .withPosition(2, 0)
+                .addNumber("Current Position", () -> hoodMotor.getSelectedSensorPosition());
 
-        // tab.getLayout("Hood", BuiltInLayouts.kList)
-        //         .withSize(2, 2)
-        //         .withPosition(2, 0)
-        //         .addNumber("Current Error", () -> hoodController.getPositionError());
+        tab.getLayout("Hood", BuiltInLayouts.kList)
+                .withSize(2, 2)
+                .withPosition(2, 0)
+                .addNumber("Current Error", () -> hoodController.getPositionError());
     }
 
     public void setSpeed(double speed) {

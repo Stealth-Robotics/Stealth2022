@@ -49,6 +49,7 @@ public class RobotContainer {
 
     private final XboxController driveGamepad = new XboxController(Constants.IOConstants.DRIVE_JOYSTICK_PORT);
     private final XboxController mechGamepad = new XboxController(Constants.IOConstants.MECH_GAMEPAD_PORT);
+    private final XboxController adjustGamepad = new XboxController(Constants.IOConstants.DRIVER_STATION_PORT);
     // private final Joystick driverStation = new
     // Joystick(Constants.IOConstants.DRIVER_STATION_PORT);
 
@@ -98,7 +99,7 @@ public class RobotContainer {
                 .whenPressed(() -> driveBase.resetOdometry(new Pose2d()));
 
         new JoystickButton(driveGamepad, 6)
-                .whenPressed(new ConditionalCommand(new ShootCargo(driveBase, shooter, conveyor, limelight, false),
+                .whenPressed(new ConditionalCommand(new ShootCargo(driveBase, shooter, conveyor, limelight, false, (adjustGamepad.getRawAxis(2)*-8.0)),
                         new InstantCommand(() -> System.out.println("NO TARGET FOUND" + limelight.getConnected())),
                         () -> limelight.hasValidTarget() && limelight.getConnected()));
 
