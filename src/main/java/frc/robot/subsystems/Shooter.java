@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.utils.HoodPIDController;
 
 public class Shooter extends SubsystemBase {
 
@@ -27,7 +28,7 @@ public class Shooter extends SubsystemBase {
 
     private final DigitalInput hoodSwitch;
 
-    private final PIDController hoodController;
+    private final HoodPIDController hoodController;
 
     public Shooter() {
         ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
@@ -54,7 +55,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor2.setStatusFramePeriod(1, 241);
         shooterMotor2.setStatusFramePeriod(2, 241);
 
-        hoodController = new PIDController(
+        hoodController = new HoodPIDController(
                 Constants.ShooterConstants.HOOD_P_COEFF,
                 Constants.ShooterConstants.HOOD_I_COEFF,
                 Constants.ShooterConstants.HOOD_D_COEFF);

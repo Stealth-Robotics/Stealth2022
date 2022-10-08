@@ -121,7 +121,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return new TwoBallAuto(driveBase, intake, shooter, conveyor, limelight)
+        return new TwoMinusOneBallAuto(driveBase, intake, shooter, conveyor, limelight)
                 .beforeStarting(new InstantCommand(() -> climber.resetClimberEncoder()));
     }
 }
