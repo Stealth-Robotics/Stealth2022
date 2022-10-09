@@ -41,7 +41,7 @@ public class ReadyShooter extends CommandBase {
     private double distanceToDegree(double adistance) {
         return Math.min(Constants.ShooterConstants.HOOD_LOWER_BOUND,
                 Math.max(Constants.ShooterConstants.HOOD_UPPER_BOUND,
-                (((0.0458333 * Math.pow(adistance, 2)) - (2.71417 * adistance) + 94.0217)))+3.5);
+                ((0.0458333 * Math.pow(adistance, 2)) - (2.71417 * adistance) + 94.0217)+3.5));
 
     }
 

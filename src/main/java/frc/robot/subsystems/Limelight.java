@@ -103,7 +103,7 @@ public class Limelight extends SubsystemBase {
         double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
 
         return ((Constants.LimelightConstants.TARGET_HEIGHT - Constants.LimelightConstants.LENS_HEIGHT)
-                / Math.tan(angleToGoalRadians));
+                / Math.tan(angleToGoalRadians)) + 12.0;
 
     }
 
