@@ -27,8 +27,8 @@ public class TwoBallAuto extends SequentialCommandGroup {
                 new InstantCommand(
                         () -> driveBase.resetOdometry(new Pose2d())),
                 new WaitCommand(3),
-                // new InstantCommand(() -> intake.deploy()),
-                // new InstantCommand(() -> intake.setSpeed(1)),
+                new InstantCommand(() -> intake.deploy()),
+                new InstantCommand(() -> intake.setSpeed(1)),
                 new SwerveControllerFollower(driveBase,
                         TrajectoryGenerator.generateTrajectory(
                                 new Pose2d(), List.of(),

@@ -32,7 +32,7 @@ public class ShootCargoLow extends SequentialCommandGroup {
 
         addCommands(
                 new MoveConveyor(conveyor, -500),
-                new InstantCommand(() -> shooter.setSpeed(.2)),
+                new InstantCommand(() -> shooter.setSpeed(.15)),
                 new InstantCommand(() -> shooter.hoodToDegree(60)),
                 new WaitUntilCommand(() -> shooter.hoodAtPos()),
                 new MoveConveyor(conveyor, Constants.ConveyorConstants.SHOOT_CONVEYOR_STEP * 2),
